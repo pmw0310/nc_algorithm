@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Checkbox from '@mui/material/Checkbox';
 import _ from 'lodash';
+import { dolls } from './data/dolls';
+import ImageCheckbox from './components/imageCheckbox';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
    position: 'relative',
@@ -16,7 +18,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
       height: 100,
    },
    '.MuiTouchRipple-child': {
-      backgroundColor: theme.palette.info.main,
+      backgroundColor: `${theme.palette.info.main} !important`,
    },
    '&:hover, &.Mui-focusVisible': {
       zIndex: 1,
@@ -27,7 +29,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
          opacity: 0,
       },
       '& .MuiTypography-root': {
-         border: '4px solid currentColor',
+         border: `4px solid ${theme.palette.info.main}`,
       },
    },
    '.MuiCheckbox-root': {
@@ -37,6 +39,8 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 
 function App() {
    const imgUrl = `${process.env.PUBLIC_URL}/persicaria.webp`;
+
+   const data = _.toPairs(dolls).map(([, doll]) => doll);
 
    return (
       <div className="App">
@@ -62,31 +66,38 @@ function App() {
                   width: '100%',
                }}
             >
-               {_.fill(
-                  Array(20),
-                  <ImageButton focusRipple>
-                     <Checkbox
-                        disableRipple
-                        icon={
-                           <img
-                              src={imgUrl}
-                              alt="checkbox"
-                              style={{ opacity: 0.2 }}
-                              width={48}
-                              height={48}
-                           />
-                        }
-                        checkedIcon={
-                           <img
-                              src={imgUrl}
-                              alt="checkbox"
-                              width={48}
-                              height={48}
-                           />
-                        }
-                     />
-                  </ImageButton>
-               )}
+               {data.map(({ iconPng, iconWebp }) => (
+                  <ImageCheckbox imgUrl={iconPng} webpUrl={iconWebp} />
+
+                  // <ImageButton focusRipple>
+                  //    <Checkbox
+                  //       disableRipple
+                  //       icon={
+                  //          <picture>
+                  //             <source srcSet={iconWebp} type="image/webp" />
+                  //             <img
+                  //                src={iconPng}
+                  //                alt="checkbox"
+                  //                style={{ filter: 'grayscale(100%)' }}
+                  //                width={48}
+                  //                height={48}
+                  //             />
+                  //          </picture>
+                  //       }
+                  //       checkedIcon={
+                  //          <picture>
+                  //             <source srcSet={iconWebp} type="image/webp" />
+                  //             <img
+                  //                src={iconPng}
+                  //                alt="checkbox"
+                  //                width={48}
+                  //                height={48}
+                  //             />
+                  //          </picture>
+                  //       }
+                  //    />
+                  // </ImageButton>
+               ))}
             </Box>
          </header>
       </div>
