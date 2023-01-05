@@ -1,11 +1,45 @@
-export const DOLL_CLASS = [
+export const DOLL_CLASSES = [
    'guard',
    'warrior',
    'specialist',
    'medic',
    'sniper',
 ] as const;
-export type DollClass = typeof DOLL_CLASS[number];
+export type DollClass = typeof DOLL_CLASSES[number];
+
+export interface DollClassData {
+   name: string;
+   iconPng: string;
+   iconWebp: string;
+}
+
+export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {
+   guard: {
+      name: '수위',
+      iconPng: 'https://i.ibb.co/jzWvGsW/class-icon-career-1.png',
+      iconWebp: 'https://i.ibb.co/N6GCCj7/class-icon-career-1.webp',
+   },
+   warrior: {
+      name: '전사',
+      iconPng: 'https://i.ibb.co/QPv5SnV/class-icon-career-3.png',
+      iconWebp: 'https://i.ibb.co/r3m2qjD/class-icon-career-3.webp',
+   },
+   specialist: {
+      name: '해결사',
+      iconPng: 'https://i.ibb.co/LggVpXQ/class-icon-career-4.png',
+      iconWebp: 'https://i.ibb.co/0qmRWHF/class-icon-career-4.webp',
+   },
+   medic: {
+      name: '치료사',
+      iconPng: 'https://i.ibb.co/kQgDgjL/class-icon-career-5.png',
+      iconWebp: 'https://i.ibb.co/n3DKsMv/class-icon-career-5.webp',
+   },
+   sniper: {
+      name: '사수',
+      iconPng: 'https://i.ibb.co/DpC15y5/class-icon-career-2.png',
+      iconWebp: 'https://i.ibb.co/6DkLgnR/class-icon-career-2.webp',
+   },
+};
 
 export interface Doll {
    name: string;

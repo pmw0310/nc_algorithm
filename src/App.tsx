@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import './App.css';
 import _ from 'lodash';
-import { dolls, DOLL_CLASS, rarityColors } from './data/dolls';
+import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
 import ImageCheckbox from './components/imageCheckbox';
+import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
 
 function App() {
    const data = useMemo(
@@ -11,8 +13,8 @@ function App() {
    );
 
    return (
-      <div>
-         {DOLL_CLASS.map(className => {
+      <Container fixed>
+         {DOLL_CLASSES.map(className => {
             const classDollList = data
                .filter(({ dollClass }) => className === dollClass)
                .sort(
@@ -38,31 +40,63 @@ function App() {
                );
 
             return (
-               <React.Fragment key={className}>
-                  <div>{className}</div>
-                  <div
+               <Grid container key={className}>
+                  <Grid
+                     xs={1}
                      style={{
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        width: '100%',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                      }}
                   >
-                     {classDollList.map(
-                        ({ key, iconPng, iconWebp, rarity }) => (
-                           <ImageCheckbox
-                              key={key}
-                              imgUrl={iconPng}
-                              webpUrl={iconWebp}
-                              size={64}
-                              color={rarityColors[rarity]}
-                           />
-                        )
-                     )}
-                  </div>
-               </React.Fragment>
+                     <div
+                        style={{
+                           background: '#333',
+                           display: 'flex',
+                           justifyContent: 'center',
+                           alignItems: 'center',
+                           width: '24px',
+                           height: '24px',
+                           borderRadius: 8,
+                           margin: '4px',
+                        }}
+                     >
+                        <img
+                           src={DollClasses[className].iconPng}
+                           style={{
+                              objectFit: 'cover',
+                              height: '18px',
+                           }}
+                        />
+                     </div>
+                     <div>{DollClasses[className].name}</div>
+                  </Grid>
+                  <Grid>
+                     <div
+                        style={{
+                           display: 'flex',
+                           flexWrap: 'wrap',
+                           width: '100%',
+                        }}
+                     >
+                        {classDollList.map(
+                           ({ key, iconPng, iconWebp, rarity }) => (
+                              <ImageCheckbox
+                                 key={key}
+                                 imgUrl={iconPng}
+                                 webpUrl={iconWebp}
+                                 size={64}
+                                 color={rarityColors[rarity]}
+                              />
+                           )
+                        )}
+                     </div>
+                  </Grid>
+               </Grid>
             );
          })}
-      </div>
+      </Container>
    );
 }
 

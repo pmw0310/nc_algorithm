@@ -44,7 +44,7 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
          '.MuiCheckbox-root': {
             padding: 0,
             img: {
-               filter: 'grayscale(100%)',
+               filter: 'grayscale(75%)',
                opacity: 0.75,
             },
             '.rarity-border': {
@@ -52,7 +52,7 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
                width: size,
                height: size,
                boxSizing: 'border-box',
-               border: `${mainColor} solid 2.5px`,
+               border: `${mainColor} solid 3px`,
                borderRadius: 6,
                filter: 'grayscale(75%)',
             },
