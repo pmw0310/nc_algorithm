@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { cloneElement, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import Checkbox from '@mui/material/Checkbox';
+import colorMix from '../utils/blendColors';
 
 interface ImageButtonProps {
    size: number;
@@ -11,10 +12,7 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(({ theme, size }) => ({
    position: 'relative',
    width: size,
    height: size,
-   [theme.breakpoints.down('sm')]: {
-      width: '100% !important', // Overrides inline-style
-      height: 100,
-   },
+   margin: 4,
    '.MuiTouchRipple-child': {
       backgroundColor: `${theme.palette.info.main} !important`,
    },
@@ -35,6 +33,26 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(({ theme, size }) => ({
    },
    '.image-checkbox-not-checked': {
       filter: 'grayscale(100%)',
+      opacity: 0.75,
+   },
+   picture: {
+      width: size,
+      height: size,
+   },
+   '.rarity-box': {
+      position: 'absolute',
+      width: size,
+      height: size,
+      boxSizing: 'border-box',
+      border: `${theme.palette.info.main} solid 3px`,
+      borderRadius: 6,
+   },
+   '.rarity-background': {
+      position: 'absolute',
+      width: size,
+      height: size,
+      backgroundColor: colorMix(theme.palette.info.main, '#333', 0.75),
+      borderRadius: 6,
    },
 }));
 
@@ -49,35 +67,34 @@ const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
    imgUrl,
    webpUrl,
 }) => {
+   const image = useMemo(() => {
+      const img = (
+         <img src={imgUrl} alt="checkbox" width={size} height={size} />
+      );
+
+      return webpUrl ? (
+         <picture>
+            <source srcSet={webpUrl} type="image/webp" />
+            {img}
+         </picture>
+      ) : (
+         img
+      );
+   }, [size, imgUrl, webpUrl]);
+
    return (
       <ImageButton focusRipple size={size}>
+         <div className="rarity-background" />
          <Checkbox
             disableRipple
-            icon={
-               <picture>
-                  {webpUrl && <source srcSet={webpUrl} type="image/webp" />}
-                  <img
-                     src={imgUrl}
-                     alt="checkbox"
-                     className="image-checkbox-not-checked"
-                     width={48}
-                     height={48}
-                  />
-               </picture>
-            }
-            checkedIcon={
-               <picture>
-                  {webpUrl && <source srcSet={webpUrl} type="image/webp" />}
-                  <img
-                     src={imgUrl}
-                     alt="checkbox"
-                     className="image-checkbox-checked"
-                     width={48}
-                     height={48}
-                  />
-               </picture>
-            }
+            icon={cloneElement(image, {
+               className: 'image-checkbox-not-checked',
+            })}
+            checkedIcon={cloneElement(image, {
+               className: 'image-checkbox-checked',
+            })}
          />
+         <div className="rarity-box" />
       </ImageButton>
    );
 };
