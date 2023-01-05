@@ -15,6 +15,13 @@ export interface Doll {
    dollClass: DollClass;
 }
 
+export const rarityColors: Readonly<Record<0 | 1 | 2 | 3, string>> = {
+   0: '#7F7F7F',
+   1: '#51BAF5',
+   2: '#BD74F9',
+   3: '#FC8A00',
+} as const;
+
 export const dolls: Readonly<Record<string, Doll>> = {
    persicaria: {
       name: '페르시카',

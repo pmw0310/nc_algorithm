@@ -6,95 +6,117 @@ import colorMix from '../utils/blendColors';
 
 interface ImageButtonProps {
    size: number;
+   color?: string;
 }
 
-const ImageButton = styled(ButtonBase)<ImageButtonProps>(({ theme, size }) => ({
-   position: 'relative',
-   width: size,
-   height: size,
-   margin: 4,
-   '.MuiTouchRipple-child': {
-      backgroundColor: `${theme.palette.info.main} !important`,
-   },
-   '&:hover, &.Mui-focusVisible': {
-      zIndex: 1,
-      '& .MuiImageBackdrop-root': {
-         opacity: 0.15,
-      },
-      '& .MuiImageMarked-root': {
-         opacity: 0,
-      },
-      '& .MuiTypography-root': {
-         border: `4px solid ${theme.palette.info.main}`,
-      },
-   },
-   '.MuiCheckbox-root': {
-      padding: 0,
-   },
-   '.image-checkbox-not-checked': {
-      filter: 'grayscale(100%)',
-      opacity: 0.75,
-   },
-   picture: {
-      width: size,
-      height: size,
-   },
-   '.rarity-box': {
-      position: 'absolute',
-      width: size,
-      height: size,
-      boxSizing: 'border-box',
-      border: `${theme.palette.info.main} solid 3px`,
-      borderRadius: 6,
-   },
-   '.rarity-background': {
-      position: 'absolute',
-      width: size,
-      height: size,
-      backgroundColor: colorMix(theme.palette.info.main, '#333', 0.75),
-      borderRadius: 6,
-   },
-}));
+const ImageButton = styled(ButtonBase)<ImageButtonProps>(
+   ({ theme, size, color }) => {
+      const mainColor = color || theme.palette.info.main;
+
+      return {
+         position: 'relative',
+         width: size,
+         height: size,
+         margin: 4,
+         '.MuiTouchRipple-child': {
+            backgroundColor: `${mainColor} !important`,
+         },
+         '&:hover, &.Mui-focusVisible': {
+            zIndex: 1,
+            '& .MuiImageBackdrop-root': {
+               opacity: 0.15,
+            },
+            '& .MuiImageMarked-root': {
+               opacity: 0,
+            },
+            '& .MuiTypography-root': {
+               border: `4px solid ${mainColor}`,
+            },
+         },
+         // '.image-checkbox-not-checked': {
+         //    filter: 'grayscale(100%)',
+         //    opacity: 0.75,
+         // },
+         picture: {
+            width: size,
+            height: size,
+         },
+         '.MuiCheckbox-root': {
+            padding: 0,
+            img: {
+               filter: 'grayscale(100%)',
+               opacity: 0.75,
+            },
+            '.rarity-border': {
+               position: 'absolute',
+               width: size,
+               height: size,
+               boxSizing: 'border-box',
+               border: `${mainColor} solid 2.5px`,
+               borderRadius: 6,
+               filter: 'grayscale(75%)',
+            },
+            '.rarity-background': {
+               position: 'absolute',
+               width: size,
+               height: size,
+               backgroundColor: colorMix(mainColor, '#333', 0.6),
+               borderRadius: 6,
+               filter: 'grayscale(75%)',
+            },
+         },
+         '.MuiCheckbox-root.Mui-checked': {
+            img: {
+               filter: 'grayscale(0%)',
+               opacity: 1,
+            },
+            '.rarity-border,.rarity-background': {
+               filter: 'grayscale(0%)',
+            },
+         },
+      };
+   }
+);
 
 interface ImageCheckboxProps {
    webpUrl?: string;
    imgUrl: string;
    size?: number;
+   color?: string;
 }
 
 const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
    size = 48,
    imgUrl,
    webpUrl,
+   color,
 }) => {
    const image = useMemo(() => {
       const img = (
          <img src={imgUrl} alt="checkbox" width={size} height={size} />
       );
 
-      return webpUrl ? (
-         <picture>
-            <source srcSet={webpUrl} type="image/webp" />
-            {img}
-         </picture>
-      ) : (
-         img
+      return (
+         <>
+            <div className="rarity-background" />
+            {webpUrl ? (
+               <picture>
+                  <source srcSet={webpUrl} type="image/webp" />
+                  {img}
+               </picture>
+            ) : (
+               img
+            )}
+            <div className="rarity-border" />
+         </>
       );
    }, [size, imgUrl, webpUrl]);
 
    return (
-      <ImageButton focusRipple size={size}>
-         <div className="rarity-background" />
-         <Checkbox
-            disableRipple
-            icon={cloneElement(image, {
-               className: 'image-checkbox-not-checked',
-            })}
-            checkedIcon={cloneElement(image, {
-               className: 'image-checkbox-checked',
-            })}
-         />
-         <div className="rarity-box" />
+      <ImageButton focusRipple size={size} color={color}>
+         {/* <div className="rarity-background" /> */}
+         <Checkbox disableRipple icon={image} checkedIcon={image} />
+         {/* <div className="rarity-border" /> */}
       </ImageButton>
    );
 };

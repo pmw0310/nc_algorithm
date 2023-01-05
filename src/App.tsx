@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Box from '@mui/material/Box';
 import _ from 'lodash';
-import { dolls, DOLL_CLASS } from './data/dolls';
+import { dolls, DOLL_CLASS, rarityColors } from './data/dolls';
 import ImageCheckbox from './components/imageCheckbox';
 
 function App() {
@@ -25,14 +23,14 @@ function App() {
                      let sortIndex = 0;
 
                      if (aName < bName) {
-                        sortIndex -= 1;
+                        sortIndex = -1;
                      } else if (aName > bName) {
-                        sortIndex += 1;
+                        sortIndex = 1;
                      }
                      if (aRarity < bRarity) {
-                        sortIndex -= 1;
+                        sortIndex = -1;
                      } else if (aRarity > bRarity) {
-                        sortIndex += 1;
+                        sortIndex = 1;
                      }
 
                      return sortIndex;
@@ -49,14 +47,17 @@ function App() {
                         width: '100%',
                      }}
                   >
-                     {classDollList.map(({ key, iconPng, iconWebp }) => (
-                        <ImageCheckbox
-                           key={key}
-                           imgUrl={iconPng}
-                           webpUrl={iconWebp}
-                           size={64}
-                        />
-                     ))}
+                     {classDollList.map(
+                        ({ key, iconPng, iconWebp, rarity }) => (
+                           <ImageCheckbox
+                              key={key}
+                              imgUrl={iconPng}
+                              webpUrl={iconWebp}
+                              size={64}
+                              color={rarityColors[rarity]}
+                           />
+                        )
+                     )}
                   </div>
                </React.Fragment>
             );
