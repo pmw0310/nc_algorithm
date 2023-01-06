@@ -1,3 +1,5 @@
+import { Algorithm } from './algorithm';
+
 export const DOLL_CLASSES = [
    'guard',
    'warrior',
@@ -47,6 +49,7 @@ export interface Doll {
    iconPng: string;
    iconWebp: string;
    dollClass: DollClass;
+   algorithms: Array<string>;
 }
 
 export const rarityColors: Readonly<Record<0 | 1 | 2 | 3, string>> = {
@@ -63,6 +66,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/Kwc7hHn/char-head-spic-persicaria.png',
       iconWebp: 'https://i.ibb.co/Fs40kDX/char-head-spic-persicaria.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'svm',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    antonina: {
       name: '안토니나',
@@ -91,6 +116,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/ZM8NCtF/char-head-spic-croque.png',
       iconWebp: 'https://i.ibb.co/kBTSpVj/char-head-spic-croque.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['physicalDefPlus', 'skillHaste'],
+            ['bodgeRate', 'skillHaste', 'hashratePlus']
+         ).setPaths(),
+      ],
    },
    fresnel: {
       name: '프레넬',
@@ -112,6 +159,33 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/TkVcXxG/char-head-spic-gin.png',
       iconWebp: 'https://i.ibb.co/gFn7DL9/char-head-spic-gin.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'critRate', 'critDamage']
+         ).setPaths(),
+         ...new Algorithm(
+            'deduction',
+            ['hashratePercent'],
+            ['hashratePercent', 'critRate', 'critDamage']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'critRate', 'critDamage']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'critRate', 'critDamage']
+         ).setPaths(),
+         ...new Algorithm(
+            'loopGain',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'critRate', 'critDamage']
+         ).setPaths(),
+      ],
    },
    mai: {
       name: '마이',
@@ -126,6 +200,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/2dCZXG7/char-head-spic-evelyn.png',
       iconWebp: 'https://i.ibb.co/nnzR2dv/char-head-spic-evelyn.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['physicalDefPlus', 'skillHaste'],
+            ['bodgeRate', 'skillHaste']
+         ).setPaths(),
+      ],
    },
    souchun: {
       name: '수춘',
@@ -133,6 +229,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/hcKjSKf/char-head-spic-camellia.png',
       iconWebp: 'https://i.ibb.co/j3G1fwd/char-head-spic-camellia.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['physicalDefPlus', 'skillHaste'],
+            ['bodgeRate', 'skillHaste', 'hashratePlus']
+         ).setPaths(),
+      ],
    },
    max: {
       name: '멕스',
@@ -154,6 +272,38 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/RvJsVmF/char-head-spic-choco.png',
       iconWebp: 'https://i.ibb.co/0qGHPTt/char-head-spic-choco.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'deduction',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'deltaV',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+         ...new Algorithm(
+            'loopGain',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    panakeia: {
       name: '파나케이아',
@@ -161,6 +311,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/QkFKgYb/char-head-spic-panakeia.png',
       iconWebp: 'https://i.ibb.co/mbM04M9/char-head-spic-panakeia.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'svm',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    banxsy: {
       name: '뱅크시',
@@ -182,6 +354,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/GtJt3XH/char-head-spic-florence.png',
       iconWebp: 'https://i.ibb.co/J2dVQrV/char-head-spic-florence.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'deltaV',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    fern: {
       name: '펜',
@@ -196,6 +390,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/zhFpfQJ/char-head-spic-yanny.png',
       iconWebp: 'https://i.ibb.co/ckrWH3Q/char-head-spic-yanny.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['physicalDefPlus'],
+            ['bodgeRate', 'hashratePlus']
+         ).setPaths(),
+      ],
    },
    groove: {
       name: '그루브',
@@ -217,6 +433,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/DV2RDBq/char-head-spic-bonee.png',
       iconWebp: 'https://i.ibb.co/6sNqnYf/char-head-spic-bonee.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['skillHaste'],
+            ['bodgeRate', 'skillHaste', 'hashratePlus']
+         ).setPaths(),
+      ],
    },
    earhart: {
       name: '에어하트',
@@ -238,6 +476,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/SdQfky4/char-head-spic-nanaka.png',
       iconWebp: 'https://i.ibb.co/RQf2nj1/char-head-spic-nanaka.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'loopGain',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    zion: {
       name: '시온',
@@ -245,6 +505,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/SwRX7vx/char-head-spic-zion.png',
       iconWebp: 'https://i.ibb.co/5Lb7vKc/char-head-spic-zion.webp',
       dollClass: 'guard',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'overflow',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPercent', 'physicalDefPlus'],
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
+         ).setPaths(),
+         ...new Algorithm(
+            'stratagem',
+            ['physicalDefPlus', 'skillHaste'],
+            ['bodgeRate', 'skillHaste', 'hashratePlus']
+         ).setPaths(),
+      ],
    },
    vee: {
       name: '브이',
@@ -273,6 +555,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/SBHfhBT/char-head-spic-imhotep.png',
       iconWebp: 'https://i.ibb.co/rKBK3bW/char-head-spic-imhotep.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'svm',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    octogen: {
       name: '옥토겐',
@@ -301,6 +605,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconPng: 'https://i.ibb.co/5Tt4T7W/char-head-spic-jessie.png',
       iconWebp: 'https://i.ibb.co/bWky2SN/char-head-spic-jessie.webp',
       dollClass: 'medic',
+      algorithms: [
+         ...new Algorithm(
+            'progression',
+            ['hashratePercent'],
+            ['hashratePercent', 'hashratePlus']
+         ).setPaths(),
+         ...new Algorithm(
+            'perception',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'encapsulate',
+            ['maxHpPlus'],
+            ['hashratePlus', 'injuryMitigation']
+         ).setPaths(),
+         ...new Algorithm(
+            'deltaV',
+            ['healingEffect', 'skillHaste'],
+            ['hashratePlus', 'skillHaste', 'healingEffect']
+         ).setPaths(),
+      ],
    },
    lam: {
       name: '람',
