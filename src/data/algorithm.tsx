@@ -41,10 +41,14 @@ export class Algorithm {
                return null;
             }
 
-            return {
-               ...stats[key],
-               key,
-            };
+            try {
+               return {
+                  ...stats[key],
+                  key,
+               };
+            } catch {
+               return null;
+            }
          })
       );
 
@@ -91,17 +95,23 @@ export class Algorithm {
          new Set(splitPaths.map(([a]) => a as AlgorithmType))
       );
 
-      return algorithms.map(algorithm => {
-         const data = splitPaths.filter(([a]) => a === algorithm);
+      return compact(
+         algorithms.map(algorithm => {
+            const data = splitPaths.filter(([a]) => a === algorithm);
 
-         const primary = data.map<statsTypes>(
-            ([, p = FREE_STATS]) => p as statsTypes
-         );
-         const secondary = data.map<statsTypes>(
-            ([, , s = FREE_STATS]) => s as statsTypes
-         );
+            const primary = data.map<statsTypes>(
+               ([, p = FREE_STATS]) => p as statsTypes
+            );
+            const secondary = data.map<statsTypes>(
+               ([, , s = FREE_STATS]) => s as statsTypes
+            );
 
-         return new Algorithm(algorithm, primary, secondary);
-      });
+            try {
+               return new Algorithm(algorithm, primary, secondary);
+            } catch {
+               return null;
+            }
+         })
+      );
    }
 }
