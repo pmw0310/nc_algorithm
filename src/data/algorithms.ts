@@ -1,4 +1,4 @@
-export interface Algorithm {
+export interface AlgorithmData {
    name: string;
    iconPng: string;
    iconWebp: string;
@@ -9,7 +9,7 @@ export const ALGORITHM_SET_TYPE = ['offense', 'stability', 'special'] as const;
 
 export type AlgorithmSetType = typeof ALGORITHM_SET_TYPE[number];
 
-export const ALGORITHM_LIST = [
+export const ALGORITHM_TYPE = [
    'dataRepair',
    'lowerLimit',
    'mlrMatrix',
@@ -32,9 +32,9 @@ export const ALGORITHM_LIST = [
    'stratagem',
 ] as const;
 
-export type AlgorithmList = typeof ALGORITHM_LIST[number];
+export type AlgorithmType = typeof ALGORITHM_TYPE[number];
 
-export const algorithms: Readonly<Record<AlgorithmList, Algorithm>> = {
+export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
    dataRepair: {
       name: '데이터 복원',
       iconPng: 'https://i.ibb.co/NmBPCLx/algorithm-set-icon-suit-06.png',
@@ -176,3 +176,157 @@ export const algorithms: Readonly<Record<AlgorithmList, Algorithm>> = {
       setType: 'special',
    },
 };
+
+export const STATS_TYPE = [
+   'maxHpPlus',
+   'maxHpPercent',
+   'atkPlus',
+   'atkPercent',
+   'hashratePlus',
+   'hashratePercent',
+   'physicalDefPlus',
+   'physicalDefPercent',
+   'operandDefPlus',
+   'operandDefPercent',
+   'attackSpeed',
+   'critRate',
+   'critDamage',
+   'physicalPen',
+   'operandPen',
+   'bodgeRate',
+   'postBattleHpRegen',
+   'skillHaste',
+   'debuffResistance',
+   'backlash',
+   'damageBoost',
+   'injuryMitigation',
+   'healingEffect',
+] as const;
+
+export type statsType = typeof STATS_TYPE[number];
+
+export interface StatsData {
+   name: string;
+   iconPng: string;
+   iconWebp: string;
+}
+
+export const stats: Readonly<Record<statsType, StatsData>> = {
+   maxHpPlus: {
+      name: '최대체력 +',
+      iconPng: '',
+      iconWebp: '',
+   },
+   maxHpPercent: {
+      name: '최대체력 %',
+      iconPng: '',
+      iconWebp: '',
+   },
+   atkPlus: {
+      name: '공격력 +',
+      iconPng: '',
+      iconWebp: '',
+   },
+   atkPercent: {
+      name: '공격력 %',
+      iconPng: '',
+      iconWebp: '',
+   },
+   hashratePlus: {
+      name: '연산력 +',
+      iconPng: '',
+      iconWebp: '',
+   },
+   hashratePercent: {
+      name: '연산력 %',
+      iconPng: '',
+      iconWebp: '',
+   },
+   physicalDefPlus: {
+      name: '물리방어 +',
+      iconPng: '',
+      iconWebp: '',
+   },
+   physicalDefPercent: {
+      name: '물리방어 %',
+      iconPng: '',
+      iconWebp: '',
+   },
+   operandDefPlus: {
+      name: '연산방어 +',
+      iconPng: '',
+      iconWebp: '',
+   },
+   operandDefPercent: {
+      name: '연산방어 %',
+      iconPng: '',
+      iconWebp: '',
+   },
+   attackSpeed: {
+      name: '공격속도',
+      iconPng: '',
+      iconWebp: '',
+   },
+   critRate: {
+      name: '치명율',
+      iconPng: '',
+      iconWebp: '',
+   },
+   critDamage: {
+      name: '치명타 피해',
+      iconPng: '',
+      iconWebp: '',
+   },
+   physicalPen: {
+      name: '물리관통',
+      iconPng: '',
+      iconWebp: '',
+   },
+   operandPen: {
+      name: '연산관통',
+      iconPng: '',
+      iconWebp: '',
+   },
+   bodgeRate: {
+      name: '회피율',
+      iconPng: '',
+      iconWebp: '',
+   },
+   postBattleHpRegen: {
+      name: '전투 후 회복',
+      iconPng: '',
+      iconWebp: '',
+   },
+   skillHaste: {
+      name: '충전속도',
+      iconPng: '',
+      iconWebp: '',
+   },
+   debuffResistance: {
+      name: '효과저항',
+      iconPng: '',
+      iconWebp: '',
+   },
+   backlash: {
+      name: '피해반사',
+      iconPng: '',
+      iconWebp: '',
+   },
+   damageBoost: {
+      name: '주는 피해량 증폭',
+      iconPng: '',
+      iconWebp: '',
+   },
+   injuryMitigation: {
+      name: '피해차감',
+      iconPng: '',
+      iconWebp: '',
+   },
+   healingEffect: {
+      name: '치료효과',
+      iconPng: '',
+      iconWebp: '',
+   },
+} as const;
+
+

@@ -40,7 +40,7 @@ function App() {
                );
 
             return (
-               <Grid container key={className}>
+               <Grid container key={className} style={{ padding: '8px 0' }}>
                   <Grid
                      xs={1}
                      style={{
@@ -72,26 +72,18 @@ function App() {
                      </div>
                      <div>{DollClasses[className].name}</div>
                   </Grid>
-                  <Grid>
-                     <div
-                        style={{
-                           display: 'flex',
-                           flexWrap: 'wrap',
-                           width: '100%',
-                        }}
-                     >
-                        {classDollList.map(
-                           ({ key, iconPng, iconWebp, rarity }) => (
-                              <ImageCheckbox
-                                 key={key}
-                                 imgUrl={iconPng}
-                                 webpUrl={iconWebp}
-                                 size={64}
-                                 color={rarityColors[rarity]}
-                              />
-                           )
-                        )}
-                     </div>
+                  <Grid xs={11}>
+                     {classDollList.map(
+                        ({ key, iconPng, iconWebp, rarity }) => (
+                           <ImageCheckbox
+                              key={key}
+                              imgUrl={iconPng}
+                              webpUrl={iconWebp}
+                              size={64}
+                              color={rarityColors[rarity]}
+                           />
+                        )
+                     )}
                   </Grid>
                </Grid>
             );

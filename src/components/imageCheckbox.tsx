@@ -1,8 +1,10 @@
-import React, { cloneElement, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import Checkbox from '@mui/material/Checkbox';
 import colorMix from '../utils/blendColors';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 
 interface ImageButtonProps {
    size: number;
@@ -33,10 +35,6 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
                border: `4px solid ${mainColor}`,
             },
          },
-         // '.image-checkbox-not-checked': {
-         //    filter: 'grayscale(100%)',
-         //    opacity: 0.75,
-         // },
          picture: {
             width: size,
             height: size,
