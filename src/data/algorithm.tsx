@@ -271,15 +271,16 @@ export class Algorithm {
                         justifyContent: 'center',
                         marginTop: 4,
                         flexWrap: 'wrap',
+                        maxWidth: 100,
                      }}
                   >
                      {usingDoll.map(({ iconPng, iconWebp }) => (
-                        <Avatar sx={{ width: 18, height: 18 }}>
+                        <Avatar sx={{ width: 22, height: 22 }}>
                            <Image
                               src={iconPng}
                               webp={iconWebp}
-                              width={18}
-                              height={18}
+                              width={22}
+                              height={22}
                            />
                         </Avatar>
                      ))}
