@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement
@@ -11,6 +12,14 @@ const root = ReactDOM.createRoot(
 root.render(
    <React.StrictMode>
       <CssBaseline />
+      <GlobalStyles
+         styles={{
+            body: {
+               backgroundColor: '#4d4e4e',
+               fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
+            },
+         }}
+      />
       <App />
    </React.StrictMode>
 );

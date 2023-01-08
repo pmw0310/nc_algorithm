@@ -5,9 +5,36 @@ export interface AlgorithmData {
    dayObtained: 1 | 2 | 3 | 4 | 5;
    setType: AlgorithmSetType;
 }
+
+export interface AlgorithmSetTypeData {
+   name: string;
+   iconPng: string;
+   iconWebp: string;
+}
+
 export const ALGORITHM_SET_TYPE = ['offense', 'stability', 'special'] as const;
 
 export type AlgorithmSetType = typeof ALGORITHM_SET_TYPE[number];
+
+export const algorithmSetTypes: Readonly<
+   Record<AlgorithmSetType, AlgorithmSetTypeData>
+> = {
+   offense: {
+      name: '공격성',
+      iconPng: 'https://i.ibb.co/kysbGYV/algorithm-slot-01-offense.png',
+      iconWebp: 'https://i.ibb.co/fxHNJFb/algorithm-slot-01-offense.webp',
+   },
+   stability: {
+      name: '안정성',
+      iconPng: 'https://i.ibb.co/LJsLX2W/algorithm-slot-02-stability.png',
+      iconWebp: 'https://i.ibb.co/G7XNBKt/algorithm-slot-02-stability.webp',
+   },
+   special: {
+      name: '특이성',
+      iconPng: 'https://i.ibb.co/PQjZfBS/algorithm-slot-03-special.png',
+      iconWebp: 'https://i.ibb.co/WxGPCM3/algorithm-slot-03-special.webp',
+   },
+};
 
 export const ALGORITHM_TYPE = [
    'dataRepair',
@@ -214,119 +241,117 @@ export interface StatsData {
 export const stats: Readonly<Record<statsType, StatsData>> = {
    maxHpPlus: {
       name: '최대체력 +',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/cQh12v3/attr-icon-attri-hp.png',
+      iconWebp: 'https://i.ibb.co/1fjdzj9/attr-icon-attri-hp.webp',
    },
    maxHpPercent: {
       name: '최대체력 %',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/cQh12v3/attr-icon-attri-hp.png',
+      iconWebp: 'https://i.ibb.co/1fjdzj9/attr-icon-attri-hp.webp',
    },
    atkPlus: {
       name: '공격력 +',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/3WMLtg9/attr-icon-attri-pow.png',
+      iconWebp: 'https://i.ibb.co/cL5PR92/attr-icon-attri-pow.webp',
    },
    atkPercent: {
       name: '공격력 %',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/3WMLtg9/attr-icon-attri-pow.png',
+      iconWebp: 'https://i.ibb.co/cL5PR92/attr-icon-attri-pow.webp',
    },
    hashratePlus: {
       name: '연산력 +',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/MGm5Sc2/attr-icon-attri-skill-intensity.png',
+      iconWebp: 'https://i.ibb.co/5nyTJwt/attr-icon-attri-skill-intensity.webp',
    },
    hashratePercent: {
       name: '연산력 %',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/MGm5Sc2/attr-icon-attri-skill-intensity.png',
+      iconWebp: 'https://i.ibb.co/5nyTJwt/attr-icon-attri-skill-intensity.webp',
    },
    physicalDefPlus: {
       name: '물리방어 +',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/QbdBGHf/attr-icon-attri-def.png',
+      iconWebp: 'https://i.ibb.co/vZKG0QQ/attr-icon-attri-def.webp',
    },
    physicalDefPercent: {
       name: '물리방어 %',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/QbdBGHf/attr-icon-attri-def.png',
+      iconWebp: 'https://i.ibb.co/vZKG0QQ/attr-icon-attri-def.webp',
    },
    operandDefPlus: {
       name: '연산방어 +',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/3TxXKdh/attr-icon-attri-magic-res.png',
+      iconWebp: 'https://i.ibb.co/4M1BWdW/attr-icon-attri-magic-res.webp',
    },
    operandDefPercent: {
       name: '연산방어 %',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/3TxXKdh/attr-icon-attri-magic-res.png',
+      iconWebp: 'https://i.ibb.co/4M1BWdW/attr-icon-attri-magic-res.webp',
    },
    attackSpeed: {
       name: '공격속도',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/hBRXkZT/attr-icon-attri-speed.png',
+      iconWebp: 'https://i.ibb.co/jH4VVPy/attr-icon-attri-speed.webp',
    },
    critRate: {
       name: '치명율',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/FYfvBd5/attr-icon-attri.png',
+      iconWebp: 'https://i.ibb.co/b28c7Px/attr-icon-attri.webp',
    },
    critDamage: {
       name: '치명타 피해',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/tc0Mz40/attr-icon-attri-crit-damage.png',
+      iconWebp: 'https://i.ibb.co/M22hp66/attr-icon-attri-crit-damage.webp',
    },
    physicalPen: {
       name: '물리관통',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/3yvWXJL/attr-icon-attri-sunder.png',
+      iconWebp: 'https://i.ibb.co/ZGt67cL/attr-icon-attri-sunder.webp',
    },
    operandPen: {
       name: '연산관통',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/grZHTdB/attr-icon-attri-magic-pen.png',
+      iconWebp: 'https://i.ibb.co/2k013Qz/attr-icon-attri-magic-pen.webp',
    },
    bodgeRate: {
       name: '회피율',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/SNkRKwv/attr-icon-attri-dodge.png',
+      iconWebp: 'https://i.ibb.co/xLmsh3k/attr-icon-attri-dodge.webp',
    },
    postBattleHpRegen: {
       name: '전투 후 회복',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/PwdPVJs/attr-icon-attri-battle-hp-regen.png',
+      iconWebp: 'https://i.ibb.co/xYP4MLd/attr-icon-attri-battle-hp-regen.webp',
    },
    skillHaste: {
       name: '충전속도',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/YZ8MW94/attr-icon-attri-cd-reduce.png',
+      iconWebp: 'https://i.ibb.co/sHfB4QD/attr-icon-attri-cd-reduce.webp',
    },
    debuffResistance: {
       name: '효과저항',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/WcxMLCT/attr-icon-attri-resistance.png',
+      iconWebp: 'https://i.ibb.co/QpVc7n9/attr-icon-attri-resistance.webp',
    },
    backlash: {
       name: '피해반사',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/D1cctps/attr-icon-attri-return-damage.png',
+      iconWebp: 'https://i.ibb.co/RvV2hHM/attr-icon-attri-return-damage.webp',
    },
    damageBoost: {
       name: '주는 피해량 증폭',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/K2kwpCk/attr-icon-attri-damage-increase.png',
+      iconWebp: 'https://i.ibb.co/6tStrzV/attr-icon-attri-damage-increase.webp',
    },
    injuryMitigation: {
       name: '피해차감',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/Tr6H2Vj/attr-icon-attri-injury-reduce.png',
+      iconWebp: 'https://i.ibb.co/Lp186QQ/attr-icon-attri-injury-reduce.webp',
    },
    healingEffect: {
       name: '치료효과',
-      iconPng: '',
-      iconWebp: '',
+      iconPng: 'https://i.ibb.co/yQ6WC07/attr-icon-attri-heal.png',
+      iconWebp: 'https://i.ibb.co/sFzqw6J/attr-icon-attri-heal.webp',
    },
 } as const;
-
-

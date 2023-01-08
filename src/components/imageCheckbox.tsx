@@ -3,8 +3,8 @@ import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import Checkbox from '@mui/material/Checkbox';
 import colorMix from '../utils/blendColors';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
+import Image from 'react-image-webp';
+import { Doll } from '../data/dolls';
 
 interface ImageButtonProps {
    size: number;
@@ -13,7 +13,9 @@ interface ImageButtonProps {
 
 const ImageButton = styled(ButtonBase)<ImageButtonProps>(
    ({ theme, size, color }) => {
-      const mainColor = color || theme.palette.info.main;
+      const mainColor: string = color || theme.palette.info.main;
+      const sideSize = Math.round(size / 4);
+      const sideIconSize = Math.round(size / 4.5);
 
       return {
          position: 'relative',
@@ -41,9 +43,9 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
          },
          '.MuiCheckbox-root': {
             padding: 0,
-            img: {
-               filter: 'grayscale(75%)',
-               opacity: 0.75,
+            '.doll-icon': {
+               filter: 'grayscale(100%)',
+               opacity: 0.5,
             },
             '.rarity-border': {
                position: 'absolute',
@@ -62,9 +64,27 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
                borderRadius: 6,
                filter: 'grayscale(75%)',
             },
+            '.side-background': {
+               position: 'absolute',
+               left: 0,
+               top: 0,
+               WebkitBorderTopLeftRadius: 6,
+               borderBottom: `${sideSize}px solid transparent`,
+               borderTop: `${sideSize}px solid #1c1b20`,
+               borderLeft: `${sideSize}px solid #1c1b20`,
+               borderRight: `${sideSize}px solid transparent`,
+            },
+            '.side-icons': {
+               position: 'absolute',
+               left: 2,
+               top: 2,
+               width: sideIconSize,
+               height: sideIconSize,
+               objectFit: 'contain',
+            },
          },
          '.MuiCheckbox-root.Mui-checked': {
-            img: {
+            '.doll-icon': {
                filter: 'grayscale(0%)',
                opacity: 1,
             },
@@ -78,43 +98,59 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
 
 interface ImageCheckboxProps {
    webpUrl?: string;
-   imgUrl: string;
    size?: number;
    color?: string;
+   checked?: boolean;
+   doll: Doll;
+   onChange?: (
+      event: React.ChangeEvent<HTMLInputElement>,
+      checked: boolean
+   ) => void;
 }
 
 const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
    size = 48,
-   imgUrl,
-   webpUrl,
+   doll,
    color,
+   checked = false,
+   onChange,
 }) => {
-   const image = useMemo(() => {
-      const img = (
-         <img src={imgUrl} alt="checkbox" width={size} height={size} />
-      );
-
-      return (
+   const image = useMemo(
+      () => (
          <>
             <div className="rarity-background" />
-            {webpUrl ? (
-               <picture>
-                  <source srcSet={webpUrl} type="image/webp" />
-                  {img}
-               </picture>
-            ) : (
-               img
-            )}
+            <Image
+               className="doll-icon"
+               src={doll.iconPng}
+               webp={doll.iconWebp}
+               width={size}
+               height={size}
+            />
             <div className="rarity-border" />
+            {doll.sideIcon && (
+               <>
+                  <div className="side-background" />
+                  <Image
+                     className="side-icons"
+                     src={doll.sideIcon.iconPng}
+                     webp={doll.sideIcon.iconWebp}
+                  />
+               </>
+            )}
          </>
-      );
-   }, [size, imgUrl, webpUrl]);
+      ),
+      [size, doll]
+   );
 
    return (
       <ImageButton focusRipple size={size} color={color}>
-         {/* <div className="rarity-background" /> */}
-         <Checkbox disableRipple icon={image} checkedIcon={image} />
-         {/* <div className="rarity-border" /> */}
+         <Checkbox
+            disableRipple
+            icon={image}
+            checkedIcon={image}
+            checked={checked}
+            onChange={onChange}
+         />
       </ImageButton>
    );
 };
