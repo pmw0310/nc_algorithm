@@ -6,12 +6,12 @@ import colorMix from '../utils/blendColors';
 import Image from 'react-image-webp';
 import { Doll } from '../data/dolls';
 
-interface ImageButtonProps {
+interface DollButtonProps {
    size: number;
    color?: string;
 }
 
-const ImageButton = styled(ButtonBase)<ImageButtonProps>(
+const DollButton = styled(ButtonBase)<DollButtonProps>(
    ({ theme, size, color }) => {
       const mainColor: string = color || theme.palette.info.main;
       const sideSize = Math.round(size / 4);
@@ -96,7 +96,7 @@ const ImageButton = styled(ButtonBase)<ImageButtonProps>(
    }
 );
 
-interface ImageCheckboxProps {
+interface DollCheckboxProps {
    webpUrl?: string;
    size?: number;
    color?: string;
@@ -108,7 +108,7 @@ interface ImageCheckboxProps {
    ) => void;
 }
 
-const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
+const DollCheckbox: React.FC<DollCheckboxProps> = ({
    size = 48,
    doll,
    color,
@@ -143,7 +143,7 @@ const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
    );
 
    return (
-      <ImageButton focusRipple size={size} color={color}>
+      <DollButton focusRipple size={size} color={color}>
          <Checkbox
             disableRipple
             icon={image}
@@ -151,8 +151,8 @@ const ImageCheckbox: React.FC<ImageCheckboxProps> = ({
             checked={checked}
             onChange={onChange}
          />
-      </ImageButton>
+      </DollButton>
    );
 };
 
-export default ImageCheckbox;
+export default DollCheckbox;

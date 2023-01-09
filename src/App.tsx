@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { toPairs, range, isNil } from 'lodash';
 import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
 import { Algorithm } from './data/algorithm';
-import ImageCheckbox from './components/imageCheckbox';
+import DollCheckbox from './components/dollCheckbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
@@ -196,7 +196,7 @@ const App: React.FC = () => {
                   </Grid>
                   <Grid xs={11}>
                      {classDollList.map(({ key, ...doll }) => (
-                        <ImageCheckbox
+                        <DollCheckbox
                            key={key}
                            doll={doll}
                            size={64}

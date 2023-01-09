@@ -6,6 +6,7 @@ import { Doll, dolls, rarityColors } from './dolls';
 import { algorithmSetTypes, STATS_TYPE } from './algorithms';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 
 import {
    AlgorithmData,
@@ -67,6 +68,7 @@ const AlgorithmView = styled('span')(() => ({
       },
    },
    '.state-secondary': {
+      marginTop: 4,
       backgroundColor: '#343434',
       '.state-title': {
          color: rarityColors[3],
@@ -95,6 +97,20 @@ const AlgorithmView = styled('span')(() => ({
       '.set-type-title': {
          fontSize: 10,
          color: 'white',
+      },
+   },
+   '.MuiAvatarGroup-root': {
+      marginTop: 4,
+      justifyContent: 'center',
+      '.MuiAvatar-root': {
+         width: 20,
+         height: 20,
+         border: '1px solid #fff',
+         fontSize: 8,
+         img: {
+            width: 20,
+            height: 20,
+         },
       },
    },
 }));
@@ -265,26 +281,17 @@ export class Algorithm {
                   )}
                </div>
                {usingDoll && (
-                  <div
-                     style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        marginTop: 4,
-                        flexWrap: 'wrap',
-                        maxWidth: 100,
-                     }}
-                  >
-                     {usingDoll.map(({ iconPng, iconWebp }) => (
-                        <Avatar sx={{ width: 22, height: 22 }}>
-                           <Image
-                              src={iconPng}
-                              webp={iconWebp}
-                              width={22}
-                              height={22}
-                           />
+                  <AvatarGroup max={5}>
+                     {usingDoll.map(({ iconPng, iconWebp, rarity }) => (
+                        <Avatar
+                           sx={{
+                              bgcolor: rarityColors[rarity],
+                           }}
+                        >
+                           <Image src={iconPng} webp={iconWebp} />
                         </Avatar>
                      ))}
-                  </div>
+                  </AvatarGroup>
                )}
             </div>
          </AlgorithmView>
