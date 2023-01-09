@@ -108,7 +108,7 @@ interface DollCheckboxProps {
    ) => void;
 }
 
-const DollCheckbox: React.FC<DollCheckboxProps> = ({
+const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    size = 48,
    doll,
    color,
@@ -155,4 +155,4 @@ const DollCheckbox: React.FC<DollCheckboxProps> = ({
    );
 };
 
-export default DollCheckbox;
+export default ImageCheckbox;

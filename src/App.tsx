@@ -155,7 +155,7 @@ const App: React.FC = () => {
    }, [dollCheck]);
 
    return (
-      <Container fixed>
+      <Container style={{ minHeight: '100vh' }} fixed>
          {DOLL_CLASSES.map(className => {
             const classDollList = data
                .filter(({ dollClass }) => className === dollClass)
