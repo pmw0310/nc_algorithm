@@ -3,6 +3,7 @@ import { toPairs, range, isNil } from 'lodash';
 import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
 import { Algorithm } from './data/algorithm';
 import DollCheckbox from './components/dollCheckbox';
+import DollIcon from './components/dollIcon';
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
@@ -10,6 +11,38 @@ import Image from 'react-image-webp';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
+interface TabPanelProps {
+   children?: React.ReactNode;
+   index: number;
+   value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+   const { children, value, index, ...other } = props;
+
+   return (
+      <div
+         role="tabpanel"
+         hidden={value !== index}
+         id={`simple-tabpanel-${index}`}
+         aria-labelledby={`simple-tab-${index}`}
+         {...other}
+      >
+         {value === index && children}
+      </div>
+   );
+}
+
+function a11yProps(index: number) {
+   return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+   };
+}
 
 const DollClassList = styled(Grid)(() => ({
    padding: '2px 0',
@@ -42,7 +75,8 @@ const DollClassList = styled(Grid)(() => ({
 const StyledSlider = styled(Slider)(({ theme }) => ({
    '.slick-dots': {
       height: 14,
-      bottom: -14,
+      bottom: 0,
+      position: 'relative',
       '.slick-dot': {
          height: 7,
          backgroundColor: '#252525',
@@ -108,6 +142,21 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    },
 }));
 
+const StyledTabs = styled(Tabs)(() => ({
+   backgroundColor: '#1d1d1e',
+   '.MuiButtonBase-root': {
+      color: '#888888',
+   },
+   '.Mui-selected': {
+      backgroundColor: '#4d4e4e !important',
+      color: '#FC8A00 !important',
+      fontWeight: 'bold',
+   },
+   '.MuiTabs-indicator': {
+      display: 'none',
+   },
+}));
+
 const App: React.FC = () => {
    const [dollCheck, setDollCheck] = useState<Record<string, boolean>>(
       (() => {
@@ -119,6 +168,11 @@ const App: React.FC = () => {
       })()
    );
    const sliderRef = useRef<Slider | null>(null);
+   const [value, setValue] = React.useState(0);
+
+   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+   };
 
    const data = useMemo(
       () => toPairs(dolls).map(([key, doll]) => ({ ...doll, key })),
@@ -217,72 +271,149 @@ const App: React.FC = () => {
                </DollClassList>
             );
          })}
-         <StyledSlider
-            dots
-            centerMode
-            slidesToShow={1}
-            slidesToScroll={1}
-            variableWidth
-            infinite={false}
-            swipeToSlide
-            ref={slider => {
-               sliderRef.current = slider;
+         <Box
+            sx={{
+               width: '100%',
+               height: 'calc(100% + 28px)',
+               border: '#1d1d1e solid 2px',
+               backgroundColor: '#4d4e4e',
             }}
-            onInit={() => {
-               if (nowDay >= 1 && nowDay <= 5) {
-                  sliderRef.current?.slickGoTo(nowDay - 1);
-               }
-            }}
-            customPaging={() => <div className="slick-dot" />}
          >
-            {range(1, 6).map(day => (
-               <div
-                  className={`algorithm-view${
-                     nowDay === day ? ' now-day' : ''
-                  }`}
-                  key={`day_${day}`}
+            <Box>
+               <StyledTabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
                >
-                  <div className="day-title">{`${(() => {
-                     switch (day) {
-                        case 1:
-                           return '월';
-                        case 2:
-                           return '화';
-                        case 3:
-                           return '수';
-                        case 4:
-                           return '목';
-                        case 5:
-                           return '금';
+                  <Tab label="요일별 알고리즘" {...a11yProps(0)} />
+                  <Tab label="개별 알고리즘" {...a11yProps(1)} />
+               </StyledTabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+               <StyledSlider
+                  dots
+                  centerMode
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  variableWidth
+                  infinite={false}
+                  swipeToSlide
+                  arrows={false}
+                  ref={slider => {
+                     sliderRef.current = slider;
+                  }}
+                  onInit={() => {
+                     if (nowDay >= 1 && nowDay <= 5) {
+                        sliderRef.current?.slickGoTo(nowDay - 1);
                      }
-                  })()}요일`}</div>
-                  <div className="algorithm-view-main">
-                     {(() => {
-                        const a = algorithms.filter(
-                           algorithm => algorithm.getDayObtained() === day
-                        );
-                        if (a.length === 0) {
-                           return (
-                              <div style={{ width: 100, height: 100 }}>
-                                 <div className="algorithm-outline none-algorithm">
-                                    <div className="none-algorithm-icon" />
+                  }}
+                  customPaging={() => <div className="slick-dot" />}
+               >
+                  {range(1, 6).map(day => (
+                     <div
+                        className={`algorithm-view${
+                           nowDay === day ? ' now-day' : ''
+                        }`}
+                        key={`day_${day}`}
+                     >
+                        <div className="day-title">{`${(() => {
+                           switch (day) {
+                              case 1:
+                                 return '월';
+                              case 2:
+                                 return '화';
+                              case 3:
+                                 return '수';
+                              case 4:
+                                 return '목';
+                              case 5:
+                                 return '금';
+                           }
+                        })()}요일`}</div>
+                        <div className="algorithm-view-main">
+                           {(() => {
+                              const a = algorithms.filter(
+                                 algorithm => algorithm.getDayObtained() === day
+                              );
+                              if (a.length === 0) {
+                                 return (
+                                    <div style={{ width: 100, height: 100 }}>
+                                       <div className="algorithm-outline none-algorithm">
+                                          <div className="none-algorithm-icon" />
+                                       </div>
+                                    </div>
+                                 );
+                              }
+                              return a.map(algorithm => (
+                                 <div
+                                    key={`day_${day}_${algorithm.getKey()}`}
+                                    className="algorithm-outline"
+                                 >
+                                    {algorithm.toElement(doll)}
                                  </div>
-                              </div>
-                           );
-                        }
-                        return a.map(algorithm => (
+                              ));
+                           })()}
+                        </div>
+                     </div>
+                  ))}
+               </StyledSlider>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+               <StyledSlider
+                  dots
+                  centerMode
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  variableWidth
+                  infinite={false}
+                  swipeToSlide
+                  arrows={false}
+                  customPaging={() => <div className="slick-dot" />}
+                  initialSlide={Math.floor(doll.length / 2)}
+               >
+                  {doll.map(doll => {
+                     const dollData = dolls[doll];
+                     return (
+                        <div className="algorithm-view" key={`doll_${doll}`}>
+                           {<DollIcon doll={dollData} />}
                            <div
-                              key={`day_${day}_${algorithm.getKey()}`}
-                              className="algorithm-outline"
+                              style={{
+                                 color: rarityColors[dollData.rarity],
+                                 fontWeight: 'bold',
+                              }}
                            >
-                              {algorithm.toElement(doll)}
+                              {dollData.name}
                            </div>
-                        ));
-                     })()}
-                  </div>
-               </div>
-            ))}
-         </StyledSlider>
+                           <div className="algorithm-view-main">
+                              {(() => {
+                                 const { algorithms } = dollData;
+                                 const a =
+                                    Algorithm.pathsToAlgorithms(algorithms);
+                                 if (a.length === 0) {
+                                    return (
+                                       <div style={{ width: 100, height: 100 }}>
+                                          <div className="algorithm-outline none-algorithm">
+                                             <div className="none-algorithm-icon" />
+                                          </div>
+                                       </div>
+                                    );
+                                 }
+                                 return a.map(algorithm => (
+                                    <div
+                                       key={`doll_${doll}_${algorithm.getKey()}`}
+                                       className="algorithm-outline"
+                                    >
+                                       {algorithm.toElement()}
+                                    </div>
+                                 ));
+                              })()}
+                           </div>
+                        </div>
+                     );
+                  })}
+               </StyledSlider>
+            </TabPanel>
+         </Box>
       </Container>
    );
 };

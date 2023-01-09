@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import colorMix from '../utils/blendColors';
 import Image from 'react-image-webp';
 import { Doll } from '../data/dolls';
+import Tooltip from '@mui/material/Tooltip';
 
 interface DollButtonProps {
    size: number;
@@ -97,7 +98,6 @@ const DollButton = styled(ButtonBase)<DollButtonProps>(
 );
 
 interface DollCheckboxProps {
-   webpUrl?: string;
    size?: number;
    color?: string;
    checked?: boolean;
@@ -143,15 +143,17 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    );
 
    return (
-      <DollButton focusRipple size={size} color={color}>
-         <Checkbox
-            disableRipple
-            icon={image}
-            checkedIcon={image}
-            checked={checked}
-            onChange={onChange}
-         />
-      </DollButton>
+      <Tooltip arrow title={doll.name}>
+         <DollButton focusRipple size={size} color={color}>
+            <Checkbox
+               disableRipple
+               icon={image}
+               checkedIcon={image}
+               checked={checked}
+               onChange={onChange}
+            />
+         </DollButton>
+      </Tooltip>
    );
 };
 

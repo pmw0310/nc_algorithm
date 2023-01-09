@@ -17,7 +17,7 @@ root.render(
       <GlobalStyles
          styles={{
             body: {
-               backgroundColor: '#4d4e4e',
+               backgroundColor: '#eaeaea',
                fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
             },
          }}
