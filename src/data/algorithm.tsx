@@ -132,23 +132,23 @@ const AlgorithmView = styled('span')(() => ({
    },
 }));
 
-interface AlgorithmMap extends AlgorithmData {
+export interface AlgorithmMap extends AlgorithmData {
    key: string;
 }
 
-interface StatsMap extends StatsData {
+export interface StatsMap extends StatsData {
    key: string;
 }
 
-const FREE_STATS = 'free';
-const freeStats: Readonly<StatsMap> = {
+export const FREE_STATS = 'free';
+export const freeStats: Readonly<StatsMap> = {
    key: FREE_STATS,
    name: '자유',
-   iconPng: 'https://i.ibb.co/3BjDm6g/free-icon.png',
-   iconWebp: 'https://i.ibb.co/Sf86GfB/free-icon.webp',
+   iconPng: 'https://i.ibb.co/wCZgD4J/reload-icon.png',
+   iconWebp: 'https://i.ibb.co/whp5Kf5/reload-icon.webp',
 } as const;
 
-type statsTypes = statsType | typeof FREE_STATS;
+export type statsTypes = statsType | typeof FREE_STATS;
 
 export class Algorithm {
    private algorithm: AlgorithmMap;

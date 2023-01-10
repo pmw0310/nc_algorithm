@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import SvgIcon from '@mui/material/SvgIcon';
 import { ReactComponent as BlackOlfIcon } from './blackolf.svg';
+import { DayProvider } from './context/day';
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement
@@ -22,7 +23,9 @@ root.render(
             },
          }}
       />
-      <App />
+      <DayProvider>
+         <App />
+      </DayProvider>
       <footer
          style={{
             display: 'flex',

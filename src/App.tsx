@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useContext } from 'react';
 import { toPairs, range, isNil } from 'lodash';
 import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
 import { Algorithm } from './data/algorithm';
@@ -8,15 +8,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
-// import Slider from 'react-slick';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
+import { DayContext } from './context/day';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -178,6 +176,7 @@ const StyledTabs = styled(Tabs)(() => ({
 }));
 
 const App: React.FC = () => {
+   const { day: nowDay } = useContext(DayContext);
    const [dollCheck, setDollCheck] = useState<Record<string, boolean>>(
       (() => {
          const data = localStorage.getItem('dollCheck');
@@ -198,13 +197,13 @@ const App: React.FC = () => {
       []
    );
 
-   const nowDay = useMemo(() => {
-      const now = new Date();
-      const utc4 = new Date(
-         now.getTime() + now.getTimezoneOffset() * 60000 + 14400000
-      );
-      return utc4.getDay();
-   }, []);
+   // const nowDay = useMemo(() => {
+   //    const now = new Date();
+   //    const utc4 = new Date(
+   //       now.getTime() + now.getTimezoneOffset() * 60000 + 14400000
+   //    );
+   //    return utc4.getDay();
+   // }, []);
 
    const algorithms = useMemo(() => {
       const algorithmPaths = toPairs(dollCheck)
@@ -308,7 +307,7 @@ const App: React.FC = () => {
                      label="요일별 알고리즘"
                      icon={
                         <Image
-                           src="https://i.ibb.co/zRtS7BD/calendar-icon.png"
+                           src="https://i.ibb.co/GPJJTRt/calendar-icon.png"
                            webp="https://i.ibb.co/XbZvdK1/calendar-icon.webp"
                            width={24}
                            height={24}
@@ -321,7 +320,7 @@ const App: React.FC = () => {
                      label="개별 알고리즘"
                      icon={
                         <Image
-                           src="https://i.ibb.co/WFZwNzh/people-icon.png"
+                           src="https://i.ibb.co/LdHxg9M/people-icon.png"
                            webp="https://i.ibb.co/3pzq46K/people-icon.webp"
                            width={24}
                            height={24}

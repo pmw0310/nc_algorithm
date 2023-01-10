@@ -26,10 +26,12 @@ const StyledIcon = styled('div')<StyledIconProps>(
             ? {
                  filter: 'grayscale(100%)',
                  opacity: 0.5,
+                 borderRadius: 6,
               }
             : {
                  filter: 'grayscale(0%)',
                  opacity: 1,
+                 borderRadius: 6,
               },
          '.rarity-border': {
             position: 'absolute',
