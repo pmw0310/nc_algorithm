@@ -146,11 +146,19 @@ const StyledTabs = styled(Tabs)(() => ({
    backgroundColor: '#1d1d1e',
    '.MuiButtonBase-root': {
       color: '#888888',
+      img: {
+         filter:
+            'invert(45%) sepia(3%) saturate(0%) hue-rotate(61deg) brightness(99%) contrast(92%)',
+      },
    },
    '.Mui-selected': {
       backgroundColor: '#4d4e4e !important',
       color: '#FC8A00 !important',
       fontWeight: 'bold',
+      img: {
+         filter:
+            'invert(48%) sepia(96%) saturate(1271%) hue-rotate(5deg) brightness(103%) contrast(104%)',
+      },
    },
    '.MuiTabs-indicator': {
       display: 'none',
@@ -285,8 +293,32 @@ const App: React.FC = () => {
                   onChange={handleChange}
                   aria-label="basic tabs example"
                >
-                  <Tab label="요일별 알고리즘" {...a11yProps(0)} />
-                  <Tab label="개별 알고리즘" {...a11yProps(1)} />
+                  <Tab
+                     label="요일별 알고리즘"
+                     icon={
+                        <Image
+                           src="https://i.ibb.co/zRtS7BD/calendar-icon.png"
+                           webp="https://i.ibb.co/XbZvdK1/calendar-icon.webp"
+                           width={24}
+                           height={24}
+                        />
+                     }
+                     iconPosition="start"
+                     {...a11yProps(0)}
+                  />
+                  <Tab
+                     label="개별 알고리즘"
+                     icon={
+                        <Image
+                           src="https://i.ibb.co/WFZwNzh/people-icon.png"
+                           webp="https://i.ibb.co/3pzq46K/people-icon.webp"
+                           width={24}
+                           height={24}
+                        />
+                     }
+                     iconPosition="start"
+                     {...a11yProps(1)}
+                  />
                </StyledTabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -403,7 +435,7 @@ const App: React.FC = () => {
                                        key={`doll_${doll}_${algorithm.getKey()}`}
                                        className="algorithm-outline"
                                     >
-                                       {algorithm.toElement()}
+                                       {algorithm.toElement(undefined, true)}
                                     </div>
                                  ));
                               })()}

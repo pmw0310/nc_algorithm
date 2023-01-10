@@ -18,6 +18,7 @@ import {
 } from './algorithms';
 
 const AlgorithmView = styled('span')(() => ({
+   position: 'relative',
    backgroundColor: '#f5f7f7',
    padding: 6,
    '.algorithm-main': {
@@ -113,6 +114,22 @@ const AlgorithmView = styled('span')(() => ({
          },
       },
    },
+   '.algorithm-day': {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      backgroundColor: '#1c1b20',
+      width: 16,
+      height: 16,
+   },
+   '.algorithm-day-title': {
+      position: 'absolute',
+      left: 2.5,
+      top: -0.5,
+      fontSize: 11,
+      fontWeight: 'bold',
+      color: '#f5f7f7',
+   },
 }));
 
 interface AlgorithmMap extends AlgorithmData {
@@ -127,8 +144,8 @@ const FREE_STATS = 'free';
 const freeStats: Readonly<StatsMap> = {
    key: FREE_STATS,
    name: '자유',
-   iconPng: '',
-   iconWebp: '',
+   iconPng: 'https://i.ibb.co/3BjDm6g/free-icon.png',
+   iconWebp: 'https://i.ibb.co/Sf86GfB/free-icon.webp',
 } as const;
 
 type statsTypes = statsType | typeof FREE_STATS;
@@ -224,7 +241,7 @@ export class Algorithm {
       return this.algorithm.key;
    }
 
-   toElement(dollList?: Array<string>) {
+   toElement(dollList?: Array<string>, showDay: boolean = false) {
       const setType = algorithmSetTypes[this.algorithm.setType];
       let usingDoll: Array<Doll> | null = null;
 
@@ -239,6 +256,27 @@ export class Algorithm {
 
       return (
          <AlgorithmView>
+            {showDay && (
+               <>
+                  <div className="algorithm-day"></div>
+                  <div className="algorithm-day-title">
+                     {(() => {
+                        switch (this.algorithm.dayObtained) {
+                           case 1:
+                              return '월';
+                           case 2:
+                              return '화';
+                           case 3:
+                              return '수';
+                           case 4:
+                              return '목';
+                           case 5:
+                              return '금';
+                        }
+                     })()}
+                  </div>
+               </>
+            )}
             <div className="algorithm-main">
                <Image
                   className="algorithm-icon"
