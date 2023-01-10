@@ -89,6 +89,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    },
    '.algorithm-view': {
       minWidth: Math.round(theme.breakpoints.values.sm / 3),
+      maxWidth: '250px',
       display: 'flex !important',
       alignItems: 'center !important',
       flexDirection: 'column',
@@ -103,6 +104,8 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       },
       '.algorithm-view-main': {
          display: 'flex',
+         flexFlow: 'wrap',
+         justifyContent: 'center',
          border: `#585858 solid 2px`,
          background:
             'linear-gradient(135deg, #4f4f50 25%, #252525 0, #252525 50%, #4f4f50 0, #4f4f50 75%, #252525 0)',
@@ -175,7 +178,6 @@ const App: React.FC = () => {
          return JSON.parse(data);
       })()
    );
-   const sliderRef = useRef<Slider | null>(null);
    const [value, setValue] = React.useState(0);
 
    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -331,14 +333,11 @@ const App: React.FC = () => {
                   infinite={false}
                   swipeToSlide
                   arrows={false}
-                  ref={slider => {
-                     sliderRef.current = slider;
-                  }}
-                  onInit={() => {
+                  initialSlide={(() => {
                      if (nowDay >= 1 && nowDay <= 5) {
-                        sliderRef.current?.slickGoTo(nowDay - 1);
+                        return nowDay - 1;
                      }
-                  }}
+                  })()}
                   customPaging={() => <div className="slick-dot" />}
                >
                   {range(1, 6).map(day => (
@@ -394,6 +393,7 @@ const App: React.FC = () => {
                <StyledSlider
                   dots
                   centerMode
+                  rows={1}
                   slidesToShow={1}
                   slidesToScroll={1}
                   variableWidth

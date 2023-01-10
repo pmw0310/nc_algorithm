@@ -320,8 +320,9 @@ export class Algorithm {
                </div>
                {usingDoll && (
                   <AvatarGroup max={5}>
-                     {usingDoll.map(({ iconPng, iconWebp, rarity }) => (
+                     {usingDoll.map(({ iconPng, iconWebp, rarity }, index) => (
                         <Avatar
+                           key={`${this.algorithm.key}_${index}_avatar`}
                            sx={{
                               bgcolor: rarityColors[rarity],
                            }}
