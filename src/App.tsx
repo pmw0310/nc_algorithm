@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { toPairs, range, isNil } from 'lodash';
 import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
 import { Algorithm } from './data/algorithm';
@@ -8,12 +8,15 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import Slider from 'react-slick';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
+import 'swiper/css';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -72,24 +75,30 @@ const DollClassList = styled(Grid)(() => ({
    },
 }));
 
-const StyledSlider = styled(Slider)(({ theme }) => ({
-   '.slick-dots': {
+const StyledSwiper = styled(Swiper)(({ theme }) => ({
+   '.swiper-pagination': {
       height: 14,
-      bottom: 0,
-      position: 'relative',
-      '.slick-dot': {
+      display: 'flex',
+      justifyContent: 'center',
+      '.swiper-pagination-bullet': {
+         width: 18,
          height: 7,
          backgroundColor: '#252525',
          opacity: 0.5,
+         margin: '0 4px',
       },
-      '.slick-active .slick-dot': {
+      '.swiper-pagination-bullet.swiper-pagination-bullet-active': {
          backgroundColor: '#FC8A00',
          opacity: 1,
       },
    },
+   '.swiper-slide': {
+      height: 'auto',
+   },
    '.algorithm-view': {
       minWidth: Math.round(theme.breakpoints.values.sm / 3),
-      maxWidth: '250px',
+      maxWidth: 'calc(100vw - 32px)',
+      width: 'auto',
       display: 'flex !important',
       alignItems: 'center !important',
       flexDirection: 'column',
@@ -119,8 +128,8 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       },
       '.none-algorithm': {
          backgroundColor: 'rgba(0,0,0,0.5)',
-         width: 'calc(100% - 4px)',
-         height: 'calc(100% - 4px)',
+         width: 'calc(100% - 8px)',
+         height: 'calc(100% - 8px)',
          '.none-algorithm-icon': {
             width: '100%',
             height: '100%',
@@ -324,24 +333,20 @@ const App: React.FC = () => {
                </StyledTabs>
             </Box>
             <TabPanel value={value} index={0}>
-               <StyledSlider
-                  dots
-                  centerMode
-                  slidesToShow={1}
-                  slidesToScroll={1}
-                  variableWidth
-                  infinite={false}
-                  swipeToSlide
-                  arrows={false}
-                  initialSlide={(() => {
-                     if (nowDay >= 1 && nowDay <= 5) {
-                        return nowDay - 1;
-                     }
-                  })()}
-                  customPaging={() => <div className="slick-dot" />}
+               <StyledSwiper
+                  slidesPerView={'auto'}
+                  centeredSlides
+                  spaceBetween={30}
+                  pagination={{
+                     clickable: true,
+                     renderBullet: (index, className) => {
+                        return '<span class="' + className + '"></span>';
+                     },
+                  }}
+                  modules={[Pagination]}
                >
                   {range(1, 6).map(day => (
-                     <div
+                     <SwiperSlide
                         className={`algorithm-view${
                            nowDay === day ? ' now-day' : ''
                         }`}
@@ -385,28 +390,27 @@ const App: React.FC = () => {
                               ));
                            })()}
                         </div>
-                     </div>
+                     </SwiperSlide>
                   ))}
-               </StyledSlider>
+               </StyledSwiper>
             </TabPanel>
             <TabPanel value={value} index={1}>
-               <StyledSlider
-                  dots
-                  centerMode
-                  rows={1}
-                  slidesToShow={1}
-                  slidesToScroll={1}
-                  variableWidth
-                  infinite={false}
-                  swipeToSlide
-                  arrows={false}
-                  customPaging={() => <div className="slick-dot" />}
-                  initialSlide={Math.floor(doll.length / 2)}
+               <StyledSwiper
+                  slidesPerView={'auto'}
+                  centeredSlides
+                  spaceBetween={30}
+                  pagination={{
+                     clickable: true,
+                  }}
+                  modules={[Pagination]}
                >
                   {doll.map(doll => {
                      const dollData = dolls[doll];
                      return (
-                        <div className="algorithm-view" key={`doll_${doll}`}>
+                        <SwiperSlide
+                           className="algorithm-view"
+                           key={`doll_${doll}`}
+                        >
                            {<DollIcon doll={dollData} />}
                            <div
                               style={{
@@ -440,10 +444,10 @@ const App: React.FC = () => {
                                  ));
                               })()}
                            </div>
-                        </div>
+                        </SwiperSlide>
                      );
                   })}
-               </StyledSlider>
+               </StyledSwiper>
             </TabPanel>
          </Box>
       </Container>
