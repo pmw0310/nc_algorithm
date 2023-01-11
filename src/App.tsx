@@ -3,7 +3,6 @@ import { toPairs, range, isNil } from 'lodash';
 import { dolls, rarityColors } from './data/dolls';
 import { Algorithm } from './data/algorithm';
 import DollIcon from './components/dollIcon';
-import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
 import Tabs from '@mui/material/Tabs';
@@ -185,14 +184,10 @@ const App: React.FC = () => {
    }, [dollCheck]);
 
    return (
-      <Container style={{ minHeight: '100vh' }} fixed>
+      <>
          <DollClassList
             dollCheck={dollCheck}
-            onChange={(
-               _event: React.ChangeEvent<HTMLInputElement>,
-               checked: boolean,
-               key: string
-            ) => {
+            onChange={(key: string, checked: boolean) => {
                setDollCheck(dollCheck => ({
                   ...dollCheck,
                   [key]: checked,
@@ -359,7 +354,7 @@ const App: React.FC = () => {
                </StyledSwiper>
             </TabPanel>
          </Box>
-      </Container>
+      </>
    );
 };
 

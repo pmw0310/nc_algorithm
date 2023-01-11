@@ -94,9 +94,7 @@ const ImageIcon: React.FC<DollIconProps> = ({
             width: size,
             height: size,
          }}
-         className={`doll-icon-main ${
-            disabled ? ' doll-icon-disabled' : undefined
-         }`}
+         className={`doll-icon-main${disabled ? ' doll-icon-disabled' : ''}`}
       >
          <div
             style={{

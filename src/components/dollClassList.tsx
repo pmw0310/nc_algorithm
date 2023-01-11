@@ -59,11 +59,7 @@ const ClassIcon: React.FC<ClassIconProps> = React.memo(
 );
 
 interface DollClassListProps {
-   onChange: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      checked: boolean,
-      key: string
-   ) => void;
+   onChange: (key: string, checked: boolean) => void;
    dollCheck: Record<string, boolean>;
 }
 
@@ -127,12 +123,8 @@ const DollClassList: React.FC<DollClassListProps> = ({
                            key={key}
                            doll={key}
                            size={64}
-                           color={rarityColors[doll.rarity]}
                            checked={dollCheck[key]}
-                           onChange={(
-                              event: React.ChangeEvent<HTMLInputElement>,
-                              checked: boolean
-                           ) => onChange(event, checked, key)}
+                           onChange={onChange}
                         />
                      ))}
                   </Grid>
