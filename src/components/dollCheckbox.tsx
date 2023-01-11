@@ -1,10 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { styled } from '@mui/material/styles';
+import React, { useCallback, useMemo } from 'react';
 import ButtonBase from '@mui/material/ButtonBase';
-import Checkbox from '@mui/material/Checkbox';
 // import colorMix from '../utils/blendColors';
-import Image from 'react-image-webp';
-import { Doll, dolls } from '../data/dolls';
+import { dolls } from '../data/dolls';
 import Tooltip from '@mui/material/Tooltip';
 import DollIcon from './dollIcon';
 
@@ -58,7 +55,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
 
    const handleClick = useCallback(
       () => onChange?.(doll, !checked),
-      [doll, onChange]
+      [doll, onChange, checked]
    );
 
    return (

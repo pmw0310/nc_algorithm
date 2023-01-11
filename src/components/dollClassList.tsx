@@ -1,12 +1,6 @@
 import React, { useMemo } from 'react';
 import { toPairs } from 'lodash';
-import {
-   dolls,
-   DOLL_CLASSES,
-   rarityColors,
-   DollClasses,
-   DollClass,
-} from '../data/dolls';
+import { dolls, DOLL_CLASSES, DollClasses, DollClass } from '../data/dolls';
 import DollCheckbox from '../components/dollCheckbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';

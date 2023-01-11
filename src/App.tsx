@@ -4,7 +4,6 @@ import { dolls, rarityColors } from './data/dolls';
 import { Algorithm } from './data/algorithm';
 import DollIcon from './components/dollIcon';
 import { styled } from '@mui/material/styles';
-import Image from 'react-image-webp';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
