@@ -215,27 +215,27 @@ const App: React.FC = () => {
                >
                   <Tab
                      label="요일별 알고리즘"
-                     icon={
-                        <Image
-                           src="https://i.ibb.co/GPJJTRt/calendar-icon.png"
-                           webp="https://i.ibb.co/XbZvdK1/calendar-icon.webp"
-                           width={24}
-                           height={24}
-                        />
-                     }
+                     // icon={
+                     //    <Image
+                     //       src="https://i.ibb.co/GPJJTRt/calendar-icon.png"
+                     //       webp="https://i.ibb.co/XbZvdK1/calendar-icon.webp"
+                     //       width={20}
+                     //       height={20}
+                     //    />
+                     // }
                      iconPosition="start"
                      {...a11yProps(0)}
                   />
                   <Tab
                      label="개별 알고리즘"
-                     icon={
-                        <Image
-                           src="https://i.ibb.co/LdHxg9M/people-icon.png"
-                           webp="https://i.ibb.co/3pzq46K/people-icon.webp"
-                           width={24}
-                           height={24}
-                        />
-                     }
+                     // icon={
+                     //    <Image
+                     //       src="https://i.ibb.co/LdHxg9M/people-icon.png"
+                     //       webp="https://i.ibb.co/3pzq46K/people-icon.webp"
+                     //       width={20}
+                     //       height={20}
+                     //    />
+                     // }
                      iconPosition="start"
                      {...a11yProps(1)}
                   />
