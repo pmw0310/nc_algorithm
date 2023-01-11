@@ -286,7 +286,7 @@ export const dolls: Readonly<Record<string, Doll>> = {
          ).setPaths(),
          ...new Algorithm(
             'loopGain',
-            ['healingEffect', 'skillHaste'],
+            ['critRate', 'critDamage'],
             ['hashratePlus', 'critRate', 'critDamage']
          ).setPaths(),
       ],
