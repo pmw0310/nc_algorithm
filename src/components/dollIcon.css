@@ -1,0 +1,50 @@
+.doll-icon-main {
+   position: relative;
+   margin: 4px;
+   padding: 0;
+}
+
+.doll-icon-main .doll-icon-image {
+   position: absolute;
+   left: 0;
+   top: 0;
+   border-radius: 6px;
+}
+
+.doll-icon-main .doll-icon-rarity-border {
+   position: absolute;
+   left: 0;
+   top: 0;
+   box-sizing: border-box;
+   border-radius: 6px;
+}
+
+.doll-icon-main .doll-icon-rarity-background {
+   position: absolute;
+   left: 0;
+   top: 0;
+   border-radius: 6px;
+}
+
+.doll-icon-main .doll-icon-side-background {
+   position: absolute;
+   left: 0;
+   top: 0;
+   border-top-left-radius: 6px;
+}
+
+.doll-icon-main .doll-icon-side-icon {
+   position: absolute;
+   left: 2px;
+   top: 2px;
+   object-fit: contain;
+}
+
+.doll-icon-main.doll-icon-disabled .doll-icon-image {
+   filter: grayscale(100%) opacity(0.5);
+}
+
+.doll-icon-main.doll-icon-disabled .doll-icon-rarity-border,
+.doll-icon-main.doll-icon-disabled .doll-icon-rarity-background {
+   filter: grayscale(75%);
+}
