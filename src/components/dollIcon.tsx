@@ -114,4 +114,4 @@ const ImageIcon: React.FC<DollIconProps> = ({
    </StyledIcon>
 );
 
-export default ImageIcon;
+export default React.memo(ImageIcon);

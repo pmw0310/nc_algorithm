@@ -4,7 +4,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Checkbox from '@mui/material/Checkbox';
 // import colorMix from '../utils/blendColors';
 import Image from 'react-image-webp';
-import { Doll } from '../data/dolls';
+import { Doll, dolls } from '../data/dolls';
 import Tooltip from '@mui/material/Tooltip';
 import DollIcon from './dollIcon';
 
@@ -102,7 +102,7 @@ interface DollCheckboxProps {
    size?: number;
    color?: string;
    checked?: boolean;
-   doll: Doll;
+   doll: string;
    onChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       checked: boolean
@@ -116,40 +116,24 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    checked = false,
    onChange,
 }) => {
-   // const image = useMemo(
-   //    () => (
-   //       // <>
-   //       //    <div className="rarity-background" />
-   //       //    <Image
-   //       //       className="doll-icon"
-   //       //       src={doll.iconPng}
-   //       //       webp={doll.iconWebp}
-   //       //       width={size}
-   //       //       height={size}
-   //       //    />
-   //       //    <div className="rarity-border" />
-   //       //    {doll.sideIcon && (
-   //       //       <>
-   //       //          <div className="side-background" />
-   //       //          <Image
-   //       //             className="side-icons"
-   //       //             src={doll.sideIcon.iconPng}
-   //       //             webp={doll.sideIcon.iconWebp}
-   //       //          />
-   //       //       </>
-   //       //    )}
-   //       // </>
-   //    ),
-   //    [size, doll]
-   // );
+   const dollData = useMemo(() => dolls[doll], [doll]);
+
+   const checkedIcon = useMemo(
+      () => <DollIcon size={size} doll={dollData} />,
+      [size, dollData]
+   );
+   const icon = useMemo(
+      () => <DollIcon size={size} doll={dollData} disabled />,
+      [size, dollData]
+   );
 
    return (
-      <Tooltip arrow title={doll.name}>
+      <Tooltip arrow title={dollData.name}>
          <DollButton focusRipple size={size} color={color}>
             <Checkbox
                disableRipple
-               icon={<DollIcon size={size} doll={doll} disabled />}
-               checkedIcon={<DollIcon size={size} doll={doll} />}
+               icon={icon}
+               checkedIcon={checkedIcon}
                checked={checked}
                onChange={onChange}
             />
@@ -158,4 +142,4 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    );
 };
 
-export default ImageCheckbox;
+export default React.memo(ImageCheckbox);

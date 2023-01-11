@@ -473,7 +473,7 @@ export const dolls: Readonly<Record<string, Doll>> = {
    panakeia: {
       name: '파나케이아',
       rarity: 2,
-      iconPng: 'https://i.ibb.co/QkFKgYb/char-head-spic-panakeia.png',
+      iconPng: 'https://i.ibb.co/bB5MnYL/char-head-spic-panakeia.png',
       iconWebp: 'https://i.ibb.co/mbM04M9/char-head-spic-panakeia.webp',
       dollClass: 'medic',
       algorithms: [

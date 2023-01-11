@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState, useContext } from 'react';
 import { toPairs, range, isNil } from 'lodash';
-import { dolls, DOLL_CLASSES, rarityColors, DollClasses } from './data/dolls';
+import { dolls, rarityColors } from './data/dolls';
 import { Algorithm } from './data/algorithm';
-import DollCheckbox from './components/dollCheckbox';
 import DollIcon from './components/dollIcon';
-import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
@@ -15,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
 import { DayContext } from './context/day';
+import DollClassList from './components/dollClassList';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -44,34 +43,6 @@ function a11yProps(index: number) {
       'aria-controls': `simple-tabpanel-${index}`,
    };
 }
-
-const DollClassList = styled(Grid)(() => ({
-   padding: '2px 0',
-   '.class-info': {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-   '.class-box-main': {
-      background: '#323338',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '24px',
-      height: '24px',
-      borderRadius: 8,
-      margin: '4px',
-      img: {
-         objectFit: 'contain',
-         width: 18,
-         height: 18,
-      },
-   },
-   '.class-title': {
-      fontWeight: 'bold',
-   },
-}));
 
 const StyledSwiper = styled(Swiper)(({ theme }) => ({
    '.swiper-pagination': {
@@ -192,19 +163,6 @@ const App: React.FC = () => {
       setValue(newValue);
    };
 
-   const data = useMemo(
-      () => toPairs(dolls).map(([key, doll]) => ({ ...doll, key })),
-      []
-   );
-
-   // const nowDay = useMemo(() => {
-   //    const now = new Date();
-   //    const utc4 = new Date(
-   //       now.getTime() + now.getTimezoneOffset() * 60000 + 14400000
-   //    );
-   //    return utc4.getDay();
-   // }, []);
-
    const algorithms = useMemo(() => {
       const algorithmPaths = toPairs(dollCheck)
          .filter(([, check]) => check)
@@ -228,67 +186,19 @@ const App: React.FC = () => {
 
    return (
       <Container style={{ minHeight: '100vh' }} fixed>
-         {DOLL_CLASSES.map(className => {
-            const classDollList = data
-               .filter(({ dollClass }) => className === dollClass)
-               .sort(
-                  (
-                     { name: aName, rarity: aRarity },
-                     { name: bName, rarity: bRarity }
-                  ) => {
-                     let sortIndex = 0;
-
-                     if (aName < bName) {
-                        sortIndex = -1;
-                     } else if (aName > bName) {
-                        sortIndex = 1;
-                     }
-                     if (aRarity < bRarity) {
-                        sortIndex = -1;
-                     } else if (aRarity > bRarity) {
-                        sortIndex = 1;
-                     }
-
-                     return sortIndex;
-                  }
-               );
-
-            return (
-               <DollClassList container key={className}>
-                  <Grid className="class-info" xs={1}>
-                     <div className="class-box-main">
-                        <Image
-                           src={DollClasses[className].iconPng}
-                           webp={DollClasses[className].iconWebp}
-                        />
-                     </div>
-                     <div className="class-title">
-                        {DollClasses[className].name}
-                     </div>
-                  </Grid>
-                  <Grid xs={11}>
-                     {classDollList.map(({ key, ...doll }) => (
-                        <DollCheckbox
-                           key={key}
-                           doll={doll}
-                           size={64}
-                           color={rarityColors[doll.rarity]}
-                           checked={dollCheck[key]}
-                           onChange={(
-                              _event: React.ChangeEvent<HTMLInputElement>,
-                              checked: boolean
-                           ) => {
-                              setDollCheck(dollCheck => ({
-                                 ...dollCheck,
-                                 [key]: checked,
-                              }));
-                           }}
-                        />
-                     ))}
-                  </Grid>
-               </DollClassList>
-            );
-         })}
+         <DollClassList
+            dollCheck={dollCheck}
+            onChange={(
+               _event: React.ChangeEvent<HTMLInputElement>,
+               checked: boolean,
+               key: string
+            ) => {
+               setDollCheck(dollCheck => ({
+                  ...dollCheck,
+                  [key]: checked,
+               }));
+            }}
+         />
          <Box
             sx={{
                width: '100%',
