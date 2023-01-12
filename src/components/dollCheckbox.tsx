@@ -58,7 +58,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    );
 
    return (
-      <Tooltip arrow title={dollData.name}>
+      <Tooltip title={dollData.name}>
          <ButtonBase
             focusRipple
             style={{
