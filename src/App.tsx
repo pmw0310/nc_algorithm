@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
 import { DayContext } from './context/day';
+import { SelectDollContext } from './context/selectDoll';
 import DollClassList from './components/dollClassList';
 
 interface TabPanelProps {
@@ -146,15 +147,16 @@ const StyledTabs = styled(Tabs)(() => ({
 
 const App: React.FC = () => {
    const { day: nowDay } = useContext(DayContext);
-   const [dollCheck, setDollCheck] = useState<Record<string, boolean>>(
-      (() => {
-         const data = localStorage.getItem('dollCheck');
-         if (isNil(data)) {
-            return {};
-         }
-         return JSON.parse(data);
-      })()
-   );
+   const { selectDoll: dollCheck } = useContext(SelectDollContext);
+   // const [dollCheck, setDollCheck] = useState<Record<string, boolean>>(
+   //    (() => {
+   //       const data = localStorage.getItem('dollCheck');
+   //       if (isNil(data)) {
+   //          return {};
+   //       }
+   //       return JSON.parse(data);
+   //    })()
+   // );
    const [value, setValue] = React.useState(0);
 
    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -178,21 +180,13 @@ const App: React.FC = () => {
       [dollCheck]
    );
 
-   useEffect(() => {
-      localStorage.setItem('dollCheck', JSON.stringify(dollCheck));
-   }, [dollCheck]);
+   // useEffect(() => {
+   //    localStorage.setItem('dollCheck', JSON.stringify(dollCheck));
+   // }, [dollCheck]);
 
    return (
       <>
-         <DollClassList
-            dollCheck={dollCheck}
-            onChange={(key: string, checked: boolean) => {
-               setDollCheck(dollCheck => ({
-                  ...dollCheck,
-                  [key]: checked,
-               }));
-            }}
-         />
+         <DollClassList />
          <Box
             sx={{
                width: '100%',

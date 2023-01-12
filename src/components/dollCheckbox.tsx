@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import ButtonBase from '@mui/material/ButtonBase';
-// import colorMix from '../utils/blendColors';
 import { dolls } from '../data/dolls';
 import Tooltip from '@mui/material/Tooltip';
 import DollIcon from './dollIcon';

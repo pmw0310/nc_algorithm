@@ -1,10 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext, useCallback } from 'react';
 import { toPairs } from 'lodash';
-import { dolls, DOLL_CLASSES, DollClasses, DollClass } from '../data/dolls';
+import {
+   Doll,
+   dolls,
+   DOLL_CLASSES,
+   DollClasses,
+   DollClass,
+} from '../data/dolls';
 import DollCheckbox from '../components/dollCheckbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
+import { SelectDollContext } from '../context/selectDoll';
 
 const StyledDollClassList = styled(Grid)(() => ({
    padding: '2px 0',
@@ -23,7 +30,7 @@ const StyledClassIcon = styled('div')(() => ({
    alignItems: 'center',
    width: '24px',
    height: '24px',
-   borderRadius: 8,
+   borderRadius: 4,
    margin: '4px',
    img: {
       objectFit: 'contain',
@@ -34,6 +41,10 @@ const StyledClassIcon = styled('div')(() => ({
       fontWeight: 'bold',
    },
 }));
+
+interface DollData extends Doll {
+   key: string;
+}
 
 interface ClassIconProps {
    iconPng: string;
@@ -52,16 +63,10 @@ const ClassIcon: React.FC<ClassIconProps> = React.memo(
    )
 );
 
-interface DollClassListProps {
-   onChange: (key: string, checked: boolean) => void;
-   dollCheck: Record<string, boolean>;
-}
+const DollClassList: React.FC = () => {
+   const { selectDoll, setSelect } = useContext(SelectDollContext);
 
-const DollClassList: React.FC<DollClassListProps> = ({
-   onChange,
-   dollCheck,
-}) => {
-   const data = useMemo(
+   const data = useMemo<Array<DollData>>(
       () => toPairs(dolls).map(([key, doll]) => ({ ...doll, key })),
       []
    );
@@ -97,6 +102,13 @@ const DollClassList: React.FC<DollClassListProps> = ({
       [data]
    );
 
+   const handleChange = useCallback(
+      (doll: string, checked: boolean) => {
+         setSelect(doll, checked);
+      },
+      [setSelect]
+   );
+
    return (
       <>
          {classDollList.map(([className, classDollList]) => {
@@ -112,13 +124,13 @@ const DollClassList: React.FC<DollClassListProps> = ({
                      />
                   </Grid>
                   <Grid xs={11}>
-                     {classDollList.map(({ key, ...doll }) => (
+                     {classDollList.map(({ key }) => (
                         <DollCheckbox
                            key={key}
                            doll={key}
                            size={64}
-                           checked={dollCheck[key]}
-                           onChange={onChange}
+                           checked={selectDoll[key]}
+                           onChange={handleChange}
                         />
                      ))}
                   </Grid>

@@ -8,6 +8,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import SvgIcon from '@mui/material/SvgIcon';
 import { ReactComponent as BlackOlfIcon } from './blackolf.svg';
 import { DayProvider } from './context/day';
+import { SelectDollProvider } from './context/selectDoll';
 import Container from '@mui/material/Container';
 
 const root = ReactDOM.createRoot(
@@ -24,11 +25,13 @@ root.render(
             },
          }}
       />
-      <DayProvider>
-         <Container style={{ minHeight: '100vh' }} fixed>
-            <App />
-         </Container>
-      </DayProvider>
+      <Container style={{ minHeight: '100vh' }} fixed>
+         <DayProvider>
+            <SelectDollProvider>
+               <App />
+            </SelectDollProvider>
+         </DayProvider>
+      </Container>
       <footer
          style={{
             display: 'flex',
