@@ -1,12 +1,12 @@
 import React, { useMemo, useContext } from 'react';
-import { toPairs, range } from 'lodash';
+import { toPairs } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { styled } from '@mui/material/styles';
 import { Pagination } from 'swiper';
 import { DayContext } from '../context/day';
 import 'swiper/css';
 import { SelectDollContext } from '../context/selectDoll';
-import { Algorithm } from '../data/algorithm';
+import { DAY_OBTAINED as days, mergeAlgorithmSet } from '../data/algorithms';
 import { dolls } from '../data/dolls';
 
 export const StyledSwiper = styled(Swiper)(({ theme }) => ({
@@ -90,27 +90,35 @@ export const StyledSwiper = styled(Swiper)(({ theme }) => ({
    },
 }));
 
-const days = range(1, 6);
+// const days = range(1, 6);
 
 const WeekAlgorithmView: React.FC = () => {
    const { day: nowDay } = useContext(DayContext);
    const { selectDoll: dollCheck } = useContext(SelectDollContext);
 
-   const algorithms = useMemo(() => {
-      const algorithmPaths = toPairs(dollCheck)
-         .filter(([, check]) => check)
-         .map(([doll]) => dolls[doll]?.algorithms ?? [])
-         .flat();
-      return Algorithm.pathsToAlgorithms(algorithmPaths);
-   }, [dollCheck]);
-
-   const doll = useMemo(
+   const dollKeys = useMemo(
       () =>
          toPairs(dollCheck)
             .filter(([, value]) => value)
             .map(([key]) => key),
       [dollCheck]
    );
+
+   const algorithms = useMemo(() => {
+      const algorithms = dollKeys
+         .map(key => {
+            return dolls[key]?.algorithms;
+         })
+         .flat();
+
+      return days.map(day => mergeAlgorithmSet(algorithms, day));
+
+      // const algorithmPaths = toPairs(dollCheck)
+      //    .filter(([, check]) => check)
+      //    .map(([doll]) => dolls[doll]?.algorithms ?? [])
+      //    .flat();
+      // return Algorithm.pathsToAlgorithms(algorithmPaths);
+   }, [dollKeys]);
 
    return (
       <StyledSwiper
@@ -126,7 +134,7 @@ const WeekAlgorithmView: React.FC = () => {
          }}
          modules={[Pagination]}
       >
-         {days.map(day => (
+         {days.map((day, index) => (
             <SwiperSlide
                className={`algorithm-view${nowDay === day ? ' now-day' : ''}`}
                key={`day_${day}`}
@@ -145,8 +153,18 @@ const WeekAlgorithmView: React.FC = () => {
                         return '금';
                   }
                })()}요일`}</div>
+               {algorithms[index].map(([a, b, c]) => (
+                  <>
+                     <div>{a}</div>
+                     <div>{'->'}</div>
+                     <div>{b?.join('/') ?? '**error**'}</div>
+                     <div>{'->'}</div>
+                     <div>{c?.join('/') ?? '**error**'}</div>
+                     <div>end</div>
+                  </>
+               ))}
                <div className="algorithm-view-main">
-                  {(() => {
+                  {/* {(() => {
                      const a = algorithms.filter(
                         algorithm => algorithm.getDayObtained() === day
                      );
@@ -164,10 +182,10 @@ const WeekAlgorithmView: React.FC = () => {
                            key={`day_${day}_${algorithm.getKey()}`}
                            className="algorithm-outline"
                         >
-                           {algorithm.toElement(doll)}
+                           {algorithm.toElement(dollKeys)}
                         </div>
                      ));
-                  })()}
+                  })()} */}
                </div>
             </SwiperSlide>
          ))}

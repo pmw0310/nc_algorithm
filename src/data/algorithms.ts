@@ -1,8 +1,13 @@
+import { union, intersection, zipWith, toPairs, fromPairs } from 'lodash';
+
+export const DAY_OBTAINED = [1, 2, 3, 4, 5] as const;
+export type DayObtained = typeof DAY_OBTAINED[number];
+
 export interface AlgorithmData {
    name: string;
    iconPng: string;
    iconWebp: string;
-   dayObtained: 1 | 2 | 3 | 4 | 5;
+   dayObtained: DayObtained;
    setType: AlgorithmSetType;
 }
 
@@ -36,19 +41,25 @@ export const algorithmSetTypes: Readonly<
    },
 };
 
-export const ALGORITHM_TYPE = [
+export const OFFENSE_ALGORITHM_TYPE = [
    'dataRepair',
    'lowerLimit',
    'mlrMatrix',
    'deduction',
    'feedforward',
    'progression',
+] as const;
+
+export const STABILITY_ALGORITHM_TYPE = [
    'encapsulate',
    'iteration',
    'overflow',
    'connection',
    'perception',
    'rationality',
+] as const;
+
+export const SPECIAL_ALGORITHM_TYPE = [
    'deltaV',
    'loopGain',
    'paradigm',
@@ -59,7 +70,16 @@ export const ALGORITHM_TYPE = [
    'stratagem',
 ] as const;
 
+export const ALGORITHM_TYPE = [
+   ...OFFENSE_ALGORITHM_TYPE,
+   ...STABILITY_ALGORITHM_TYPE,
+   ...SPECIAL_ALGORITHM_TYPE,
+] as const;
+
 export type AlgorithmType = typeof ALGORITHM_TYPE[number];
+export type OffenseAlgorithmType = typeof OFFENSE_ALGORITHM_TYPE[number];
+export type StabilityAlgorithmType = typeof STABILITY_ALGORITHM_TYPE[number];
+export type SpecialAlgorithmType = typeof SPECIAL_ALGORITHM_TYPE[number];
 
 export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
    dataRepair: {
@@ -204,6 +224,22 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
    },
 };
 
+const dayObtainedAlgorithmTypes = (() => {
+   const pairs = toPairs(algorithms);
+
+   const types = DAY_OBTAINED.map(day => {
+      const keys = pairs
+         .filter(([, { dayObtained }]) => dayObtained === day)
+         .map(([key]) => key);
+      Object.freeze(keys);
+      return [day, keys];
+   });
+
+   return fromPairs(types) as Record<DayObtained, Array<AlgorithmType>>;
+})();
+
+Object.freeze(dayObtainedAlgorithmTypes);
+
 export const STATS_TYPE = [
    'maxHpPlus',
    'maxHpPercent',
@@ -218,8 +254,10 @@ export const STATS_TYPE = [
    'attackSpeed',
    'critRate',
    'critDamage',
-   'physicalPen',
-   'operandPen',
+   'physicalPenPlus',
+   'physicalPenPercent',
+   'operandPenPlus',
+   'operandPenPercent',
    'bodgeRate',
    'postBattleHpRegen',
    'skillHaste',
@@ -230,7 +268,96 @@ export const STATS_TYPE = [
    'healingEffect',
 ] as const;
 
-export type statsType = typeof STATS_TYPE[number];
+export type StatsType = typeof STATS_TYPE[number];
+
+export type SpecialPrimaryStatsType = Extract<
+   StatsType,
+   | 'physicalDefPlus'
+   | 'physicalDefPercent'
+   | 'operandDefPlus'
+   | 'operandDefPercent'
+   | 'critRate'
+   | 'critDamage'
+   | 'skillHaste'
+   | 'healingEffect'
+>;
+export type SpecialSecondaryStatsType = Extract<
+   StatsType,
+   | 'maxHpPlus'
+   | 'atkPlus'
+   | 'atkPercent'
+   | 'hashratePlus'
+   | 'hashratePercent'
+   | 'physicalDefPlus'
+   | 'operandDefPlus'
+   | 'physicalPenPlus'
+   | 'operandPenPlus'
+   | 'critRate'
+   | 'critDamage'
+   | 'bodgeRate'
+   | 'postBattleHpRegen'
+   | 'debuffResistance'
+   | 'skillHaste'
+   | 'healingEffect'
+>;
+
+export type StabilityPrimaryStatsType = Extract<
+   StatsType,
+   | 'maxHpPlus'
+   | 'maxHpPercent'
+   | 'physicalDefPlus'
+   | 'physicalDefPercent'
+   | 'operandDefPlus'
+   | 'operandDefPercent'
+   | 'postBattleHpRegen'
+>;
+export type StabilitySecondaryStatsType = Extract<
+   StatsType,
+   | 'maxHpPlus'
+   | 'maxHpPercent'
+   | 'atkPlus'
+   | 'atkPercent'
+   | 'hashratePlus'
+   | 'hashratePercent'
+   | 'physicalDefPlus'
+   | 'operandDefPlus'
+   | 'physicalPenPlus'
+   | 'operandPenPlus'
+   | 'critRate'
+   | 'critDamage'
+   | 'postBattleHpRegen'
+   | 'debuffResistance'
+   | 'injuryMitigation'
+>;
+
+export type OffensePrimaryStatsType = Extract<
+   StatsType,
+   | 'atkPlus'
+   | 'atkPercent'
+   | 'hashratePlus'
+   | 'hashratePercent'
+   | 'physicalPenPlus'
+   | 'physicalPenPercent'
+   | 'operandPenPlus'
+   | 'operandPenPercent'
+>;
+export type OffenseSecondaryStatsType = Extract<
+   StatsType,
+   | 'maxHpPlus'
+   | 'atkPlus'
+   | 'atkPercent'
+   | 'hashratePlus'
+   | 'hashratePercent'
+   | 'physicalDefPlus'
+   | 'operandDefPlus'
+   | 'physicalPenPlus'
+   | 'operandPenPlus'
+   | 'critRate'
+   | 'critDamage'
+   | 'postBattleHpRegen'
+   | 'debuffResistance'
+   | 'damageBoost'
+>;
 
 export interface StatsData {
    name: string;
@@ -238,7 +365,7 @@ export interface StatsData {
    iconWebp: string;
 }
 
-export const stats: Readonly<Record<statsType, StatsData>> = {
+export const stats: Readonly<Record<StatsType, StatsData>> = {
    maxHpPlus: {
       name: '최대체력 +',
       iconPng: 'https://i.ibb.co/GTf2V7f/attr-icon-attri-hp.png',
@@ -304,13 +431,23 @@ export const stats: Readonly<Record<statsType, StatsData>> = {
       iconPng: 'https://i.ibb.co/68CCmMh/attr-icon-attri-crit-damage.png',
       iconWebp: 'https://i.ibb.co/M22hp66/attr-icon-attri-crit-damage.webp',
    },
-   physicalPen: {
-      name: '물리관통',
+   physicalPenPlus: {
+      name: '물리관통 +',
       iconPng: 'https://i.ibb.co/kM4S125/attr-icon-attri-sunder.png',
       iconWebp: 'https://i.ibb.co/ZGt67cL/attr-icon-attri-sunder.webp',
    },
-   operandPen: {
-      name: '연산관통',
+   physicalPenPercent: {
+      name: '물리관통 %',
+      iconPng: 'https://i.ibb.co/kM4S125/attr-icon-attri-sunder.png',
+      iconWebp: 'https://i.ibb.co/ZGt67cL/attr-icon-attri-sunder.webp',
+   },
+   operandPenPlus: {
+      name: '연산관통 +',
+      iconPng: 'https://i.ibb.co/j8MYZfz/attr-icon-attri-magic-pen.png',
+      iconWebp: 'https://i.ibb.co/2k013Qz/attr-icon-attri-magic-pen.webp',
+   },
+   operandPenPercent: {
+      name: '연산관통 %',
       iconPng: 'https://i.ibb.co/j8MYZfz/attr-icon-attri-magic-pen.png',
       iconWebp: 'https://i.ibb.co/2k013Qz/attr-icon-attri-magic-pen.webp',
    },
@@ -355,3 +492,51 @@ export const stats: Readonly<Record<statsType, StatsData>> = {
       iconWebp: 'https://i.ibb.co/sFzqw6J/attr-icon-attri-heal.webp',
    },
 } as const;
+
+export type AlgorithmSet =
+   | [
+        OffenseAlgorithmType,
+        Array<OffensePrimaryStatsType>,
+        Array<OffenseSecondaryStatsType>
+     ]
+   | [
+        StabilityAlgorithmType,
+        Array<StabilityPrimaryStatsType>,
+        Array<StabilitySecondaryStatsType>
+     ]
+   | [
+        SpecialAlgorithmType,
+        Array<SpecialPrimaryStatsType>,
+        Array<SpecialSecondaryStatsType>
+     ];
+
+export const mergeAlgorithmSet = (
+   sets: Array<AlgorithmSet>,
+   dayObtained?: DayObtained
+): Array<AlgorithmSet> => {
+   let types = union(sets.map(([type]) => type));
+
+   if (dayObtained) {
+      types = intersection(dayObtainedAlgorithmTypes[dayObtained], types);
+   }
+
+   return types.map(type => {
+      const states = sets
+         .filter(([setType]) => setType === type)
+         .map(([, primary, secondary]) => [
+            primary as Array<StatsType>,
+            secondary as Array<StatsType>,
+         ]);
+
+      const [primary, secondary] = states.reduce(
+         (acc, cur) => {
+            acc[0] = union(acc[0], cur[0]);
+            acc[1] = union(acc[1], cur[1]);
+            return acc;
+         },
+         [[], []]
+      );
+
+      return [type, primary, secondary];
+   }) as Array<AlgorithmSet>;
+};

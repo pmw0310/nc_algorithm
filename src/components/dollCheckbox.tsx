@@ -1,41 +1,29 @@
 import React, { useCallback, useMemo } from 'react';
 import ButtonBase from '@mui/material/ButtonBase';
-import { dolls } from '../data/dolls';
+import { dolls, rarityColors } from '../data/dolls';
 import Tooltip from '@mui/material/Tooltip';
 import DollIcon from './dollIcon';
+import { styled } from '@mui/material/styles';
+import { toPairs, fromPairs } from 'lodash';
 
-// interface DollButtonProps {
-//    size: number;
-//    color?: string;
-// }
+interface DollButtonProps {
+   size: number;
+}
 
-// const DollButton = styled(ButtonBase)<DollButtonProps>(
-//    ({ theme, size, color }) => {
-//       // const mainColor: string = color || theme.palette.info.main;
-
-//       return {
-//          position: 'relative',
-//          width: size,
-//          height: size,
-//          margin: 4,
-//          // '.MuiTouchRipple-child': {
-//          //    backgroundColor: `${mainColor} !important`,
-//          // },
-//          // '&:hover, &.Mui-focusVisible': {
-//          //    zIndex: 1,
-//          //    '& .MuiImageBackdrop-root': {
-//          //       opacity: 0.15,
-//          //    },
-//          //    '& .MuiImageMarked-root': {
-//          //       opacity: 0,
-//          //    },
-//          //    '& .MuiTypography-root': {
-//          //       border: `4px solid ${mainColor}`,
-//          //    },
-//          // },
-//       };
-//    }
-// );
+const DollButton = styled(ButtonBase)<DollButtonProps>(({ size }) => ({
+   position: 'relative',
+   margin: 4,
+   width: size,
+   height: size,
+   ...fromPairs(
+      toPairs(rarityColors).map(([rarity, color]) => [
+         `&.rarity-${rarity} .MuiTouchRipple-child`,
+         {
+            backgroundColor: `${color} !important`,
+         },
+      ])
+   ),
+}));
 
 interface DollCheckboxProps {
    size?: number;
@@ -59,18 +47,14 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
 
    return (
       <Tooltip title={dollData.name}>
-         <ButtonBase
+         <DollButton
             focusRipple
-            style={{
-               position: 'relative',
-               width: size,
-               height: size,
-               margin: 4,
-            }}
+            size={size}
+            className={`rarity-${dollData.rarity}`}
             onClick={handleClick}
          >
             <DollIcon size={size} doll={dollData} disabled={!checked} />
-         </ButtonBase>
+         </DollButton>
       </Tooltip>
    );
 };

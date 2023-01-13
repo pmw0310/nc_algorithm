@@ -1,4 +1,4 @@
-import { Algorithm } from './algorithm';
+import { AlgorithmSet } from './algorithms';
 
 export const DOLL_CLASSES = [
    'guard',
@@ -49,7 +49,7 @@ export interface Doll {
    iconPng: string;
    iconWebp: string;
    dollClass: DollClass;
-   algorithms: Array<string>;
+   algorithms: Array<AlgorithmSet>;
    sideIcon?: {
       iconPng: string;
       iconWebp: string;
@@ -71,26 +71,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/Fs40kDX/char-head-spic-persicaria.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'svm',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    antonina: {
@@ -100,26 +92,14 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/sWV89G7/char-head-spic-anna.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['hashratePercent'],
-            ['hashratePercent', 'damageBoost']
-         ).setPaths(),
-         ...new Algorithm(
+         ['mlrMatrix', ['hashratePercent'], ['hashratePercent', 'damageBoost']],
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'damageBoost']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+            ['hashratePercent', 'damageBoost'],
+         ],
+         ['encapsulate', ['maxHpPercent'], ['hashratePlus']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
    sol: {
@@ -129,26 +109,10 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/LZyRN2L/char-head-spic-sol.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['hashratePercent'],
-            ['damageBoost', 'hashratePercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPercent'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+         ['mlrMatrix', ['hashratePercent'], ['damageBoost', 'hashratePercent']],
+         ['perception', ['maxHpPercent'], ['hashratePlus', 'critRate']],
+         ['encapsulate', ['maxHpPercent'], ['hashratePlus', 'critRate']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
    simo: {
@@ -158,21 +122,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/CHXkQxM/char-head-spic-simo.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['critDamage', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'cluster',
-            ['critRate', 'critDamage'],
-            ['critRate', 'critDamage']
-         ).setPaths(),
+            ['damageBoost', 'atkPercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['critDamage', 'critRate']],
+         ['cluster', ['critRate', 'critDamage'], ['critRate', 'critDamage']],
       ],
    },
    croque: {
@@ -182,26 +138,26 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/kBTSpVj/char-head-spic-croque.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus'],
+         ],
+         [
             'overflow',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'stratagem',
             ['physicalDefPlus', 'skillHaste'],
-            ['bodgeRate', 'skillHaste', 'hashratePlus']
-         ).setPaths(),
+            ['bodgeRate', 'skillHaste', 'hashratePlus'],
+         ],
       ],
    },
    fresnel: {
@@ -211,21 +167,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/k4vyzTB/char-head-spic-fresnel.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste', 'critRate']
-         ).setPaths(),
+            ['damageBoost', 'hashratePercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste', 'critRate']],
       ],
    },
    chelsea: {
@@ -235,26 +183,10 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/0X7yxr3/char-head-spic-chelsea.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPercent'],
-            ['critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'convolution',
-            ['skillHaste'],
-            ['skillHaste', 'atkPlus']
-         ).setPaths(),
+         ['mlrMatrix', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['perception', ['maxHpPercent'], ['critDamage', 'atkPlus']],
+         ['encapsulate', ['maxHpPercent'], ['critDamage', 'atkPlus']],
+         ['convolution', ['skillHaste'], ['skillHaste', 'atkPlus']],
       ],
    },
    gin: {
@@ -264,31 +196,31 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/gFn7DL9/char-head-spic-gin.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'critRate', 'critDamage'],
+         ],
+         [
             'deduction',
             ['hashratePercent'],
-            ['hashratePercent', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'critRate', 'critDamage'],
+         ],
+         [
             'perception',
             ['maxHpPlus'],
-            ['hashratePlus', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'critRate', 'critDamage'],
+         ],
+         [
             'encapsulate',
             ['maxHpPlus'],
-            ['hashratePlus', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'critRate', 'critDamage'],
+         ],
+         [
             'loopGain',
             ['critRate', 'critDamage'],
-            ['hashratePlus', 'critRate', 'critDamage']
-         ).setPaths(),
+            ['hashratePlus', 'critRate', 'critDamage'],
+         ],
       ],
    },
    mai: {
@@ -298,21 +230,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/5rtZ98t/char-head-spic-mai.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'damageBoost']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+            ['hashratePercent', 'damageBoost'],
+         ],
+         ['encapsulate', ['maxHpPercent'], ['hashratePlus']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
    evelyn: {
@@ -322,26 +246,22 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/nnzR2dv/char-head-spic-evelyn.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
-            'progression',
-            ['hashratePercent'],
-            ['hashratePercent', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+         ['progression', ['hashratePercent'], ['hashratePercent', 'maxHpPlus']],
+         [
             'overflow',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'stratagem',
             ['physicalDefPlus', 'skillHaste'],
-            ['bodgeRate', 'skillHaste']
-         ).setPaths(),
+            ['bodgeRate', 'skillHaste'],
+         ],
       ],
    },
    souchun: {
@@ -351,26 +271,26 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/j3G1fwd/char-head-spic-camellia.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus'],
+         ],
+         [
             'overflow',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'stratagem',
             ['physicalDefPlus', 'skillHaste'],
-            ['bodgeRate', 'skillHaste', 'hashratePlus']
-         ).setPaths(),
+            ['bodgeRate', 'skillHaste', 'hashratePlus'],
+         ],
       ],
    },
    max: {
@@ -380,21 +300,17 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/dDyc2bW/char-head-spic-max.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'hashratePercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         [
             'paradigm',
             ['skillHaste'],
-            ['hashratePlus', 'skillHaste', 'critRate']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'critRate'],
+         ],
       ],
    },
    betty: {
@@ -404,31 +320,31 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/yqjMrF5/char-head-spic-betty.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'atkPercent', 'critRate'],
+         ],
+         [
             'lowerLimit',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'atkPercent', 'critRate'],
+         ],
+         [
             'perception',
             ['maxHpPercent'],
-            ['atkPlus', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['atkPlus', 'critRate', 'critDamage'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent'],
-            ['atkPlus', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['atkPlus', 'critRate', 'critDamage'],
+         ],
+         [
             'paradigm',
             ['critRate', 'critDamage'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
+            ['critRate', 'critDamage', 'atkPlus'],
+         ],
       ],
    },
    choco: {
@@ -438,36 +354,28 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/0qGHPTt/char-head-spic-choco.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         [
             'deduction',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'deltaV',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
+         [
             'loopGain',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    panakeia: {
@@ -477,26 +385,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/mbM04M9/char-head-spic-panakeia.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'svm',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    banxsy: {
@@ -506,21 +406,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/7NNF8p1/char-head-spic-banxsy.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
-            'feedforward',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
+         ['feedforward', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['encapsulate', ['maxHpPlus'], ['critRate', 'critDamage', 'atkPlus']],
+         [
             'paradigm',
             ['critRate', 'critDamage'],
-            ['atkPlus', 'critRate', 'critDamage']
-         ).setPaths(),
+            ['atkPlus', 'critRate', 'critDamage'],
+         ],
       ],
    },
    angela: {
@@ -530,9 +422,9 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/SsjqLZz/char-head-spic-angela.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm('deduction').setPaths(),
-         ...new Algorithm('encapsulate', ['maxHpPercent']).setPaths(),
-         ...new Algorithm('deltaV', ['skillHaste'], ['skillHaste']).setPaths(),
+         ['deduction', [], []],
+         ['encapsulate', ['maxHpPercent'], []],
+         ['deltaV', ['skillHaste'], ['skillHaste']],
       ],
    },
    florence: {
@@ -542,26 +434,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/J2dVQrV/char-head-spic-florence.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'deltaV',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    fern: {
@@ -571,26 +455,14 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/TL72RQC/char-head-spic-fern.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPercent'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPercent'], ['hashratePlus', 'critRate']],
+         ['encapsulate', ['maxHpPercent'], ['hashratePlus', 'critRate']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
    yanny: {
@@ -600,26 +472,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/ckrWH3Q/char-head-spic-yanny.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
-            'progression',
-            ['hashratePercent'],
-            ['hashratePercent', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+         ['progression', ['hashratePercent'], ['hashratePercent', 'maxHpPlus']],
+         [
             'overflow',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'stratagem',
-            ['physicalDefPlus'],
-            ['bodgeRate', 'hashratePlus']
-         ).setPaths(),
+            ['injuryMitigation', 'maxHpPercent'],
+         ],
+         ['stratagem', ['physicalDefPlus'], ['bodgeRate', 'hashratePlus']],
       ],
    },
    groove: {
@@ -629,9 +493,9 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/1rWk9SJ/char-head-spic-groove.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm('deduction').setPaths(),
-         ...new Algorithm('encapsulate', ['maxHpPercent']).setPaths(),
-         ...new Algorithm('deltaV', ['skillHaste'], ['skillHaste']).setPaths(),
+         ['deduction', [], []],
+         ['encapsulate', ['maxHpPercent'], []],
+         ['deltaV', ['skillHaste'], ['skillHaste']],
       ],
    },
    aki: {
@@ -641,26 +505,26 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/jMFCtNz/char-head-spic-aki.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'atkPercent', 'critDamage'],
+         ],
+         [
             'perception',
             ['maxHpPercent'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['critRate', 'critDamage', 'atkPlus'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['critRate', 'critDamage', 'atkPlus'],
+         ],
+         [
             'convolution',
             ['critRate', 'critDamage'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
+            ['critRate', 'critDamage', 'atkPlus'],
+         ],
       ],
    },
    bonee: {
@@ -670,26 +534,26 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/6sNqnYf/char-head-spic-bonee.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus'],
+         ],
+         [
             'overflow',
             ['maxHpPercent'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'stratagem',
             ['skillHaste'],
-            ['bodgeRate', 'skillHaste', 'hashratePlus']
-         ).setPaths(),
+            ['bodgeRate', 'skillHaste', 'hashratePlus'],
+         ],
       ],
    },
    earhart: {
@@ -699,21 +563,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/wgFHJfT/char-head-spic-earhart.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['critRate', 'critDamage'],
-            ['critRate', 'critDamage']
-         ).setPaths(),
+            ['damageBoost', 'hashratePercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         ['paradigm', ['critRate', 'critDamage'], ['critRate', 'critDamage']],
       ],
    },
    chanzhi: {
@@ -723,21 +579,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/wdcdsTB/char-head-spic-twigs.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['critDamage', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['critDamage', 'critRate'],
-            ['critDamage', 'critRate']
-         ).setPaths(),
+            ['damageBoost', 'atkPercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['critDamage', 'critRate']],
+         ['paradigm', ['critDamage', 'critRate'], ['critDamage', 'critRate']],
       ],
    },
    nanaka: {
@@ -747,26 +595,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/RQf2nj1/char-head-spic-nanaka.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'loopGain',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    zion: {
@@ -776,26 +616,26 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/5Lb7vKc/char-head-spic-zion.webp',
       dollClass: 'guard',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus', 'maxHpPlus']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus', 'maxHpPlus'],
+         ],
+         [
             'overflow',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent', 'physicalDefPlus'],
-            ['hashratePlus', 'injuryMitigation', 'maxHpPercent']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'injuryMitigation', 'maxHpPercent'],
+         ],
+         [
             'stratagem',
             ['physicalDefPlus', 'skillHaste'],
-            ['bodgeRate', 'skillHaste', 'hashratePlus']
-         ).setPaths(),
+            ['bodgeRate', 'skillHaste', 'hashratePlus'],
+         ],
       ],
    },
    vee: {
@@ -805,26 +645,14 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/61xrvcm/char-head-spic-vee.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['atkPlus', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['atkPlus', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['critDamage'],
-            ['atkPlus', 'critDamage']
-         ).setPaths(),
+            ['damageBoost', 'atkPercent', 'critDamage'],
+         ],
+         ['perception', ['maxHpPlus'], ['atkPlus', 'critDamage']],
+         ['encapsulate', ['maxHpPlus'], ['atkPlus', 'critDamage']],
+         ['paradigm', ['critDamage'], ['atkPlus', 'critDamage']],
       ],
       sideIcon: {
          iconPng: 'https://i.ibb.co/C29NC0f/attr-icon-attri-pow.png',
@@ -838,26 +666,10 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/61xrvcm/char-head-spic-vee.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['hashratePercent'],
-            ['damageBoost', 'hashratePercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+         ['mlrMatrix', ['hashratePercent'], ['damageBoost', 'hashratePercent']],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
       sideIcon: {
          iconPng:
@@ -873,21 +685,17 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/RjLdd9d/char-head-spic-willow.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
+         [
             'deduction',
             ['atkPercent'],
-            ['damageBoost', 'critRate', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'critRate', 'critDamage'],
+         ],
+         [
             'encapsulate',
             ['maxHpPercent'],
-            ['critRate', 'critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['critDamage'],
-            ['atkPlus', 'critDamage']
-         ).setPaths(),
+            ['critRate', 'critDamage', 'atkPlus'],
+         ],
+         ['paradigm', ['critDamage'], ['atkPlus', 'critDamage']],
       ],
    },
    ksenia: {
@@ -897,21 +705,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/LpH9QD9/char-head-spic-ksenia.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'damageBoost']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste']
-         ).setPaths(),
+            ['hashratePercent', 'damageBoost'],
+         ],
+         ['encapsulate', ['maxHpPercent'], ['hashratePlus']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
    imhotep: {
@@ -921,26 +721,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/rKBK3bW/char-head-spic-imhotep.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'svm',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    octogen: {
@@ -950,21 +742,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/PNFXXKh/char-head-spic-octogen.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['hashratePlus', 'skillHaste', 'critRate']
-         ).setPaths(),
+            ['damageBoost', 'hashratePercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste', 'critRate']],
       ],
    },
    rise: {
@@ -974,9 +758,9 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/ThDS436/char-head-spic-rise.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm('deduction').setPaths(),
-         ...new Algorithm('encapsulate', ['maxHpPercent']).setPaths(),
-         ...new Algorithm('deltaV', ['skillHaste'], ['skillHaste']).setPaths(),
+         ['deduction', [], []],
+         ['encapsulate', ['maxHpPercent'], []],
+         ['deltaV', ['skillHaste'], ['skillHaste']],
       ],
    },
    abigail: {
@@ -986,9 +770,9 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/gmWmNN2/char-head-spic-abigail.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm('deduction').setPaths(),
-         ...new Algorithm('encapsulate', ['maxHpPercent']).setPaths(),
-         ...new Algorithm('deltaV', ['skillHaste'], ['skillHaste']).setPaths(),
+         ['deduction', [], []],
+         ['encapsulate', ['maxHpPercent'], []],
+         ['deltaV', ['skillHaste'], ['skillHaste']],
       ],
    },
    jessie: {
@@ -998,26 +782,18 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/bWky2SN/char-head-spic-jessie.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'deltaV',
             ['healingEffect', 'skillHaste'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    lam: {
@@ -1027,26 +803,14 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/Sckhqhh/char-head-spic-lam.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['atkPercent'],
-            ['damageBoost', 'atkPercent', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['critDamage', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['critDamage'],
-            ['atkPlus', 'critDamage']
-         ).setPaths(),
+            ['damageBoost', 'atkPercent', 'critDamage'],
+         ],
+         ['perception', ['maxHpPlus'], ['critDamage', 'atkPlus']],
+         ['encapsulate', ['maxHpPlus'], ['critDamage', 'atkPlus']],
+         ['paradigm', ['critDamage'], ['atkPlus', 'critDamage']],
       ],
    },
    hubble: {
@@ -1056,21 +820,17 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/QPKPGJY/char-head-spic-hubble.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'hashratePercent', 'critRate'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         [
             'paradigm',
             ['skillHaste'],
-            ['hashratePlus', 'skillHaste', 'critRate']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'critRate'],
+         ],
       ],
    },
    sakuya: {
@@ -1080,17 +840,9 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/vQmTFr8/char-head-spic-sakuya.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm('encapsulate', ['maxHpPlus'], ['atkPlus']).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['atkPlus', 'skillHaste']
-         ).setPaths(),
+         ['mlrMatrix', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['encapsulate', ['maxHpPlus'], ['atkPlus']],
+         ['deltaV', ['skillHaste'], ['atkPlus', 'skillHaste']],
       ],
    },
    centaureissi: {
@@ -1100,36 +852,12 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/z4GMtDC/char-head-spic-centaureissi.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'dataRepair',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPercent'],
-            ['injuryMitigation', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['injuryMitigation', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'stratagem',
-            ['skillHaste'],
-            ['skillHaste', 'bodgeRate', 'atkPlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['skillHaste', 'bodgeRate', 'atkPlus']
-         ).setPaths(),
+         ['mlrMatrix', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['dataRepair', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['perception', ['maxHpPercent'], ['injuryMitigation', 'atkPlus']],
+         ['encapsulate', ['maxHpPercent'], ['injuryMitigation', 'atkPlus']],
+         ['stratagem', ['skillHaste'], ['skillHaste', 'bodgeRate', 'atkPlus']],
+         ['deltaV', ['skillHaste'], ['skillHaste', 'bodgeRate', 'atkPlus']],
       ],
    },
    dushevnaya: {
@@ -1139,21 +867,13 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/XxgQpng/char-head-spic-dusevnyj.webp',
       dollClass: 'specialist',
       algorithms: [
-         ...new Algorithm(
-            'deduction',
-            ['hashratePercent'],
-            ['hashratePlus', 'damageBoost']
-         ).setPaths(),
-         ...new Algorithm(
+         ['deduction', ['hashratePercent'], ['hashratePlus', 'damageBoost']],
+         [
             'encapsulate',
             ['maxHpPercent'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'paradigm',
-            ['physicalDefPlus'],
-            ['hashratePlus', 'bodgeRate']
-         ).setPaths(),
+            ['hashratePlus', 'injuryMitigation'],
+         ],
+         ['paradigm', ['physicalDefPlus'], ['hashratePlus', 'bodgeRate']],
       ],
    },
    deLacey: {
@@ -1163,31 +883,23 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/rc83wyG/char-head-spic-delacey.webp',
       dollClass: 'medic',
       algorithms: [
-         ...new Algorithm(
+         [
             'progression',
             ['hashratePercent'],
-            ['hashratePercent', 'hashratePlus']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePercent', 'hashratePlus'],
+         ],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         [
             'loopGain',
             ['skillHaste', 'healingEffect'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
-         ...new Algorithm(
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
+         [
             'svm',
             ['skillHaste', 'healingEffect'],
-            ['hashratePlus', 'skillHaste', 'healingEffect']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'healingEffect'],
+         ],
       ],
    },
    hatsuchiri: {
@@ -1197,26 +909,10 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/JpX2WDS/char-head-spic-hatsuchiri.webp',
       dollClass: 'warrior',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPercent'],
-            ['atkPlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPercent'],
-            ['atkPlus', 'injuryMitigation']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['skillHaste', 'atkPlus']
-         ).setPaths(),
+         ['mlrMatrix', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['perception', ['maxHpPercent'], ['atkPlus', 'injuryMitigation']],
+         ['encapsulate', ['maxHpPercent'], ['atkPlus', 'injuryMitigation']],
+         ['deltaV', ['skillHaste'], ['skillHaste', 'atkPlus']],
       ],
    },
    kuro: {
@@ -1226,21 +922,17 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/9sSYXZQ/char-head-spic-kuro.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
+         [
             'mlrMatrix',
             ['hashratePercent'],
-            ['damageBoost', 'hashratePercent', 'critDamage']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['hashratePlus', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
+            ['damageBoost', 'hashratePercent', 'critDamage'],
+         ],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critRate']],
+         [
             'paradigm',
             ['skillHaste'],
-            ['hashratePlus', 'skillHaste', 'critRate']
-         ).setPaths(),
+            ['hashratePlus', 'skillHaste', 'critRate'],
+         ],
       ],
    },
    daiyan: {
@@ -1250,31 +942,11 @@ export const dolls: Readonly<Record<string, Doll>> = {
       iconWebp: 'https://i.ibb.co/qNvxxmh/char-head-spic-daiyan.webp',
       dollClass: 'sniper',
       algorithms: [
-         ...new Algorithm(
-            'mlrMatrix',
-            ['atkPercent'],
-            ['damageBoost', 'atkPercent']
-         ).setPaths(),
-         ...new Algorithm(
-            'encapsulate',
-            ['maxHpPlus'],
-            ['critDamage', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'perception',
-            ['maxHpPlus'],
-            ['critDamage', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'deltaV',
-            ['skillHaste'],
-            ['skillHaste', 'critRate']
-         ).setPaths(),
-         ...new Algorithm(
-            'cluster',
-            ['critDamage', 'critRate'],
-            ['skillHaste', 'critRate']
-         ).setPaths(),
+         ['mlrMatrix', ['atkPercent'], ['damageBoost', 'atkPercent']],
+         ['encapsulate', ['maxHpPlus'], ['critDamage', 'critRate']],
+         ['perception', ['maxHpPlus'], ['critDamage', 'critRate']],
+         ['deltaV', ['skillHaste'], ['skillHaste', 'critRate']],
+         ['cluster', ['critDamage', 'critRate'], ['skillHaste', 'critRate']],
       ],
    },
 };

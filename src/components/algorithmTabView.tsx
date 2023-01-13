@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import WeekAlgorithmView from './weekAlgorithmView';
-import DollAlgorithmView from './dollAlgorithmView';
+// import DollAlgorithmView from './dollAlgorithmView';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -92,7 +92,7 @@ const AlgorithmTabView: React.FC = () => {
                iconPosition="start"
                {...a11yProps(0)}
             />
-            <Tab
+            {/* <Tab
                label="개별 알고리즘"
                // icon={
                //    <Image
@@ -104,14 +104,14 @@ const AlgorithmTabView: React.FC = () => {
                // }
                iconPosition="start"
                {...a11yProps(1)}
-            />
+            /> */}
          </StyledTabs>
          <TabPanel value={tabIndex} index={0}>
             <WeekAlgorithmView />
          </TabPanel>
-         <TabPanel value={tabIndex} index={1}>
+         {/* <TabPanel value={tabIndex} index={1}>
             <DollAlgorithmView />
-         </TabPanel>
+         </TabPanel> */}
       </Box>
    );
 };
