@@ -8,6 +8,7 @@ import 'swiper/css';
 import { SelectDollContext } from '../context/selectDoll';
 import { DAY_OBTAINED as days, mergeAlgorithmSet } from '../data/algorithms';
 import { dolls } from '../data/dolls';
+import AlgorithmSetView from './algorithmSetView';
 
 export const StyledSwiper = styled(Swiper)(({ theme }) => ({
    userSelect: 'none',
@@ -90,8 +91,6 @@ export const StyledSwiper = styled(Swiper)(({ theme }) => ({
    },
 }));
 
-// const days = range(1, 6);
-
 const WeekAlgorithmView: React.FC = () => {
    const { day: nowDay } = useContext(DayContext);
    const { selectDoll: dollCheck } = useContext(SelectDollContext);
@@ -112,12 +111,6 @@ const WeekAlgorithmView: React.FC = () => {
          .flat();
 
       return days.map(day => mergeAlgorithmSet(algorithms, day));
-
-      // const algorithmPaths = toPairs(dollCheck)
-      //    .filter(([, check]) => check)
-      //    .map(([doll]) => dolls[doll]?.algorithms ?? [])
-      //    .flat();
-      // return Algorithm.pathsToAlgorithms(algorithmPaths);
    }, [dollKeys]);
 
    return (
@@ -153,39 +146,30 @@ const WeekAlgorithmView: React.FC = () => {
                         return '금';
                   }
                })()}요일`}</div>
-               {algorithms[index].map(([a, b, c]) => (
-                  <>
-                     <div>{a}</div>
-                     <div>{'->'}</div>
-                     <div>{b?.join('/') ?? '**error**'}</div>
-                     <div>{'->'}</div>
-                     <div>{c?.join('/') ?? '**error**'}</div>
-                     <div>end</div>
-                  </>
-               ))}
                <div className="algorithm-view-main">
-                  {/* {(() => {
-                     const a = algorithms.filter(
-                        algorithm => algorithm.getDayObtained() === day
-                     );
-                     if (a.length === 0) {
+                  {(() => {
+                     const data = algorithms[index];
+                     if (data.length === 0) {
                         return (
-                           <div style={{ width: 100, height: 100 }}>
+                           <div
+                              key={`day_${day}_none`}
+                              style={{ width: 100, height: 100 }}
+                           >
                               <div className="algorithm-outline none-algorithm">
                                  <div className="none-algorithm-icon" />
                               </div>
                            </div>
                         );
                      }
-                     return a.map(algorithm => (
+                     return data.map(set => (
                         <div
-                           key={`day_${day}_${algorithm.getKey()}`}
+                           key={`day_${day}_${set[0]}`}
                            className="algorithm-outline"
                         >
-                           {algorithm.toElement(dollKeys)}
+                           <AlgorithmSetView algorithmSet={set} />
                         </div>
                      ));
-                  })()} */}
+                  })()}
                </div>
             </SwiperSlide>
          ))}
