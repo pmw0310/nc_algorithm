@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import WeekAlgorithmView from './weekAlgorithmView';
-// import DollAlgorithmView from './dollAlgorithmView';
 
 interface TabPanelProps {
    children?: React.ReactNode;

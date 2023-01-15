@@ -1,27 +1,29 @@
-import React, { Fragment, useMemo } from 'react';
-import { compact, indexOf, head, pick, toPairs, isNil } from 'lodash';
+import React, { useMemo, useContext } from 'react';
+import { compact } from 'lodash';
 import { styled } from '@mui/material/styles';
 import Image from 'react-image-webp';
-import { Doll, dolls, rarityColors } from '../data/dolls';
+import { dolls, rarityColors } from '../data/dolls';
 import Divider from '@mui/material/Divider';
+import { SelectDollContext } from '../context/selectDoll';
+import { DayContext } from '../context/day';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 
 import {
    AlgorithmSet,
    algorithms,
-   AlgorithmType,
-   AlgorithmData,
    algorithmSetTypes,
    stats,
    freeStats,
-   StatsType,
+   AlgorithmType,
 } from '../data/algorithms';
+import dayToString from '../utils/dayToString';
 
-const AlgorithmView = styled('span')(() => ({
+const AlgorithmView = styled('span')(({}) => ({
    position: 'relative',
    backgroundColor: '#f5f7f7',
    padding: 6,
+   width: 100,
    '.algorithm-main': {
       display: 'flex',
       justifyContent: 'center',
@@ -125,58 +127,124 @@ const AlgorithmView = styled('span')(() => ({
    },
    '.algorithm-day-title': {
       position: 'absolute',
-      left: 2.5,
-      top: -0.5,
-      fontSize: 11,
+      left: 3,
+      top: 0,
+      fontSize: 10,
       fontWeight: 'bold',
       color: '#f5f7f7',
+      '.&.now-day': {
+         color: '#FC8A00',
+      },
    },
 }));
 
+interface DollAvatarGroupProps {
+   type: AlgorithmType;
+}
+const DollAvatarGroup: React.FC<DollAvatarGroupProps> = React.memo(
+   ({ type }) => {
+      const { selectDolls } = useContext(SelectDollContext);
+
+      const usingDoll = selectDolls
+         .map(doll => dolls[doll])
+         .filter(({ algorithms }) =>
+            algorithms.some(([algo]) => algo === type)
+         );
+
+      return (
+         <AvatarGroup max={5}>
+            {usingDoll.map(({ iconPng, iconWebp, rarity, name }, index) => (
+               <Avatar
+                  key={`${type}_${name}_avatar`}
+                  sx={{
+                     bgcolor: rarityColors[rarity],
+                  }}
+               >
+                  <Image src={iconPng} webp={iconWebp} />
+               </Avatar>
+            ))}
+         </AvatarGroup>
+      );
+   }
+);
+
+interface AlgorithmTypeViewProps {
+   type: AlgorithmType;
+   showDay?: boolean;
+}
+
+const AlgorithmTypeView: React.FC<AlgorithmTypeViewProps> = React.memo(
+   ({ type, showDay = false }) => {
+      const { day: nowDay } = useContext(DayContext);
+      const { setType, iconPng, iconWebp, name, dayObtained } =
+         algorithms[type];
+      const setTypeData = algorithmSetTypes[setType];
+
+      return (
+         <>
+            {showDay && (
+               <>
+                  <div className="algorithm-day" />
+                  <div
+                     className={`algorithm-day-title${
+                        nowDay === dayObtained ? 'now-day' : ''
+                     }`}
+                  >
+                     {dayToString(dayObtained)}
+                  </div>
+               </>
+            )}
+            <div className="algorithm-main">
+               <Image
+                  className="algorithm-icon"
+                  src={iconPng}
+                  webp={iconWebp}
+               />
+               <div className="algorithm-text">{name}</div>
+               <div className="set-type-main">
+                  <Image
+                     className="set-type-icon"
+                     src={setTypeData.iconPng}
+                     webp={setTypeData.iconWebp}
+                  />
+                  <span className="set-type-title">{setTypeData.name}</span>
+               </div>
+            </div>
+         </>
+      );
+   }
+);
+
+interface StateViewProps {
+   iconPng: string;
+   iconWebp: string;
+   name: string;
+   last: boolean;
+}
+
+const StateView: React.FC<StateViewProps> = React.memo(
+   ({ iconPng, iconWebp, name, last }) => (
+      <>
+         <div className="state-view">
+            <Image className="state-icon" src={iconPng} webp={iconWebp} />
+            <span className="state-title">{name}</span>
+         </div>
+         {!last && <Divider />}
+      </>
+   )
+);
+
 interface AlgorithmProps {
-   dollList?: Array<string>;
+   showDoll?: boolean;
    showDay?: boolean;
    algorithmSet: AlgorithmSet;
 }
 
-interface StateIconProps {
-   iconPng: string;
-   iconWebp: string;
-   name: string;
-}
-
-const StateIcon: React.FC<StateIconProps> = React.memo(
-   ({ iconPng, iconWebp, name }) => (
-      <div className="state-view">
-         <Image className="state-icon" src={iconPng} webp={iconWebp} />
-         <span className="state-title">{name}</span>
-      </div>
-   )
-);
-
 const AlgorithmSetView: React.FC<AlgorithmProps> = ({
-   dollList,
+   showDoll = false,
    showDay = false,
    algorithmSet: [algorithmKey, primaryKeys, secondaryKey],
 }) => {
-   // const pathsIsEqualAlgorithm = (paths: Array<string>, algorithm: AlgorithmMap) => {
-   //    const set = new Set(paths.map(path => head(/^[a-z|A-Z]+/.exec(path))));
-   //    return set.has(algorithm.key);
-   // }
-
-   // const setType = algorithmSetTypes[algorithm.setType];
-   // let usingDoll: Array<Doll> | null = null;
-
-   // if (dollList) {
-   //    const dollDatas = toPairs(pick(dolls, dollList)).map(([, data]) => data);
-   //    usingDoll = dollDatas.filter(({ algorithms }) =>
-   //       pathsIsEqualAlgorithm(algorithms, algorithm)
-   //    );
-   // }
-
-   const { setType, iconPng, iconWebp, name, dayObtained } =
-      useMemo<AlgorithmData>(() => algorithms[algorithmKey], [algorithmKey]);
-
    const primary = useMemo(
       () => compact(primaryKeys.map(key => stats[key])),
       [primaryKeys]
@@ -187,89 +255,40 @@ const AlgorithmSetView: React.FC<AlgorithmProps> = ({
       [secondaryKey]
    );
 
-   const setTypeData = algorithmSetTypes[setType];
-
    return (
       <AlgorithmView>
-         {showDay && (
-            <>
-               <div className="algorithm-day"></div>
-               <div className="algorithm-day-title">
-                  {(() => {
-                     switch (dayObtained) {
-                        case 1:
-                           return '월';
-                        case 2:
-                           return '화';
-                        case 3:
-                           return '수';
-                        case 4:
-                           return '목';
-                        case 5:
-                           return '금';
-                     }
-                  })()}
-               </div>
-            </>
-         )}
-         <div className="algorithm-main">
-            <Image className="algorithm-icon" src={iconPng} webp={iconWebp} />
-            <div className="algorithm-text">{name}</div>
-            <div className="set-type-main">
-               <Image
-                  className="set-type-icon"
-                  src={setTypeData.iconPng}
-                  webp={setTypeData.iconWebp}
-               />
-               <span className="set-type-title">{setTypeData.name}</span>
-            </div>
-         </div>
+         <AlgorithmTypeView type={algorithmKey} showDay={showDay} />
          <div className="state-main">
             <div className="state-box state-primary">
                {(primary.length > 0 ? primary : [freeStats])?.map(
                   ({ iconPng, iconWebp, name, key }, index, array) => (
-                     <Fragment key={`${algorithmKey}_${key}_primary`}>
-                        <StateIcon
-                           iconPng={iconPng}
-                           iconWebp={iconWebp}
-                           name={name}
-                        />
-                        {array.length - 1 > index && <Divider />}
-                     </Fragment>
+                     <StateView
+                        key={`${algorithmKey}_${key}_primary`}
+                        iconPng={iconPng}
+                        iconWebp={iconWebp}
+                        name={name}
+                        last={array.length - 1 <= index}
+                     />
                   )
                )}
             </div>
             <div className="state-box state-secondary">
                {(secondary.length > 0 ? secondary : [freeStats])?.map(
                   ({ iconPng, iconWebp, name, key }, index, array) => (
-                     <Fragment key={`${algorithmKey}_${key}_secondary`}>
-                        <StateIcon
-                           iconPng={iconPng}
-                           iconWebp={iconWebp}
-                           name={name}
-                        />
-                        {array.length - 1 > index && <Divider />}
-                     </Fragment>
+                     <StateView
+                        key={`${algorithmKey}_${key}_secondary`}
+                        iconPng={iconPng}
+                        iconWebp={iconWebp}
+                        name={name}
+                        last={array.length - 1 <= index}
+                     />
                   )
                )}
             </div>
-            {/* {usingDoll && (
-               <AvatarGroup max={5}>
-                  {usingDoll.map(({ iconPng, iconWebp, rarity }, index) => (
-                     <Avatar
-                        key={`${this.algorithm.key}_${index}_avatar`}
-                        sx={{
-                           bgcolor: rarityColors[rarity],
-                        }}
-                     >
-                        <Image src={iconPng} webp={iconWebp} />
-                     </Avatar>
-                  ))}
-               </AvatarGroup>
-            )} */}
+            {showDoll && <DollAvatarGroup type={algorithmKey} />}
          </div>
       </AlgorithmView>
    );
 };
 
-export default AlgorithmSetView;
+export default React.memo(AlgorithmSetView);

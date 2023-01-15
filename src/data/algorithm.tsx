@@ -368,4 +368,4 @@
 //    }
 // }
 
-export const a = '';
+export default null;

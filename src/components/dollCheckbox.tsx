@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useContext } from 'react';
 import ButtonBase from '@mui/material/ButtonBase';
 import { dolls, rarityColors } from '../data/dolls';
-import Tooltip from '@mui/material/Tooltip';
 import DollIcon from './dollIcon';
 import { styled } from '@mui/material/styles';
-import { toPairs, fromPairs } from 'lodash';
+import { toPairs, fromPairs, debounce } from 'lodash';
+import { useLongPress, LongPressDetectEvents } from 'use-long-press';
+import { SelectDollContext } from '../context/selectDoll';
 
 interface DollButtonProps {
    size: number;
@@ -38,24 +39,38 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    checked = false,
    onChange,
 }) => {
+   const { setShowDoll } = useContext(SelectDollContext);
+
    const dollData = useMemo(() => dolls[doll], [doll]);
 
    const handleClick = useCallback(
-      () => onChange?.(doll, !checked),
+      debounce(() => onChange?.(doll, !checked), 100),
       [doll, onChange, checked]
    );
 
+   const handleLongPress = useCallback(
+      () => setShowDoll(doll),
+      [doll, setShowDoll]
+   );
+
+   const bind = useLongPress(handleLongPress, {
+      onCancel: handleClick,
+      filterEvents: () => true,
+      threshold: 500,
+      captureEvent: true,
+      cancelOnMovement: true,
+      detect: LongPressDetectEvents.BOTH,
+   });
+
    return (
-      <Tooltip title={dollData.name}>
-         <DollButton
-            focusRipple
-            size={size}
-            className={`rarity-${dollData.rarity}`}
-            onClick={handleClick}
-         >
-            <DollIcon size={size} doll={dollData} disabled={!checked} />
-         </DollButton>
-      </Tooltip>
+      <DollButton
+         focusRipple
+         size={size}
+         className={`rarity-${dollData.rarity}`}
+         {...bind()}
+      >
+         <DollIcon size={size} doll={dollData} disabled={!checked} />
+      </DollButton>
    );
 };
 

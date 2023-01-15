@@ -1,25 +1,16 @@
-// import React, { useMemo, useContext } from 'react';
-// import { toPairs } from 'lodash';
+// import React, { useContext } from 'react';
 // import { SwiperSlide } from 'swiper/react';
 // import { Pagination } from 'swiper';
 // import 'swiper/css';
 // import { SelectDollContext } from '../context/selectDoll';
-// import { Algorithm } from '../data/algorithm';
 // import { dolls, rarityColors } from '../data/dolls';
 // import { StyledSwiper } from './weekAlgorithmView';
 // import DollIcon from './dollIcon';
 // import 'swiper/css';
+// import AlgorithmSetView from './algorithmSetView';
 
 // const DollAlgorithmView: React.FC = () => {
-//    const { selectDoll: dollCheck } = useContext(SelectDollContext);
-
-//    const doll = useMemo(
-//       () =>
-//          toPairs(dollCheck)
-//             .filter(([, value]) => value)
-//             .map(([key]) => key),
-//       [dollCheck]
-//    );
+//    const { selectDolls: doll } = useContext(SelectDollContext);
 
 //    return (
 //       <StyledSwiper
@@ -47,8 +38,8 @@
 //                   <div className="algorithm-view-main">
 //                      {(() => {
 //                         const { algorithms } = dollData;
-//                         const a = Algorithm.pathsToAlgorithms(algorithms);
-//                         if (a.length === 0) {
+//                         // const a = Algorithm.pathsToAlgorithms(algorithms);
+//                         if (algorithms.length === 0) {
 //                            return (
 //                               <div style={{ width: 100, height: 100 }}>
 //                                  <div className="algorithm-outline none-algorithm">
@@ -57,12 +48,15 @@
 //                               </div>
 //                            );
 //                         }
-//                         return a.map(algorithm => (
+//                         return algorithms.map(algorithm => (
 //                            <div
-//                               key={`doll_${doll}_${algorithm.getKey()}`}
+//                               key={`doll_${doll}_${algorithm[0]}`}
 //                               className="algorithm-outline"
 //                            >
-//                               {algorithm.toElement(undefined, true)}
+//                               <AlgorithmSetView
+//                                  algorithmSet={algorithm}
+//                                  showDay
+//                               />
 //                            </div>
 //                         ));
 //                      })()}
@@ -75,5 +69,4 @@
 // };
 
 // export default React.memo(DollAlgorithmView);
-
-export const a = '';
+export default null;
