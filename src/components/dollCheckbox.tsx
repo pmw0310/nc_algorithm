@@ -44,7 +44,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    const dollData = useMemo(() => dolls[doll], [doll]);
 
    const handleClick = useCallback(
-      debounce(() => onChange?.(doll, !checked), 100),
+      debounce(() => onChange?.(doll, !checked), 50),
       [doll, onChange, checked]
    );
 
@@ -54,10 +54,8 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    );
 
    const bind = useLongPress(handleLongPress, {
-      onCancel: handleClick,
-      filterEvents: () => true,
-      threshold: 500,
-      captureEvent: true,
+      threshold: 600,
+      captureEvent: false,
       cancelOnMovement: true,
       detect: LongPressDetectEvents.BOTH,
    });
@@ -67,6 +65,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
          focusRipple
          size={size}
          className={`rarity-${dollData.rarity}`}
+         onClick={handleClick}
          {...bind()}
       >
          <DollIcon size={size} doll={dollData} disabled={!checked} />
