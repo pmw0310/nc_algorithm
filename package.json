@@ -20,6 +20,7 @@
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
       "react-image-webp": "^0.8.0",
+      "react-resize-detector": "^7.1.2",
       "react-scripts": "5.0.1",
       "slick-carousel": "^1.8.1",
       "swiper": "^8.4.5",

@@ -48,11 +48,6 @@ const DialogContentStyled = styled(DialogContent)(() => ({
       borderRadius: 4,
       boxSizing: 'content-box',
       flexFlow: 'wrap',
-      '.algorithm-outline': {
-         display: 'inherit',
-         margin: 2,
-         border: 'rgba(255,255,255,0.35) solid 2px',
-      },
    },
 }));
 
@@ -98,12 +93,11 @@ const DollAlgorithmView: React.FC = () => {
 
                   return mergeAlgorithmSet(dollData.algorithms).map(
                      algorithm => (
-                        <div
+                        <AlgorithmSetView
                            key={`dialog_${showDoll}_${algorithm[0]}`}
-                           className="algorithm-outline"
-                        >
-                           <AlgorithmSetView algorithmSet={algorithm} showDay />
-                        </div>
+                           algorithmSet={algorithm}
+                           showDay
+                        />
                      )
                   );
                })()}

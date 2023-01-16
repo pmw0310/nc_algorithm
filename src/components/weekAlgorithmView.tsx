@@ -60,13 +60,13 @@ export const StyledSwiper = styled(Swiper)(() => ({
          //    'linear-gradient(135deg, #4f4f50 25%, #252525 0, #252525 50%, #4f4f50 0, #4f4f50 75%, #252525 0)',
          // backgroundSize: '6px 6px',
       },
-      '.algorithm-outline': {
-         display: 'inherit',
-         margin: 2,
-         // padding: 2,
-         border: 'rgba(255,255,255,0.35) solid 2px',
-         // backgroundColor: 'rgba(255,255,255,0.35)',
-      },
+      // '.algorithm-outline': {
+      //    display: 'inherit',
+      //    margin: 2,
+      //    // padding: 2,
+      //    border: 'rgba(255,255,255,0.35) solid 2px',
+      //    // backgroundColor: 'rgba(255,255,255,0.35)',
+      // },
       '.none-algorithm': {
          backgroundColor: 'rgba(0,0,0,0.5)',
          width: 'calc(100% - 8px)',
@@ -169,12 +169,11 @@ const WeekAlgorithmView: React.FC = () => {
                         );
                      }
                      return data.map(set => (
-                        <div
+                        <AlgorithmSetView
                            key={`day_${day}_${set[0]}`}
-                           className="algorithm-outline"
-                        >
-                           <AlgorithmSetView algorithmSet={set} showDoll />
-                        </div>
+                           algorithmSet={set}
+                           showDoll
+                        />
                      ));
                   })()}
                </div>
