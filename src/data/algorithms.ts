@@ -522,8 +522,8 @@ export const stats: Readonly<Record<StatsType, StatsData>> = {
 export const freeStats: Readonly<StatsData> = {
    key: 'free',
    name: '자유',
-   iconPng: 'https://i.ibb.co/wCZgD4J/reload-icon.png',
-   iconWebp: 'https://i.ibb.co/whp5Kf5/reload-icon.webp',
+   iconPng: 'https://i.ibb.co/dbSqs60/function-mark-icon-corner-12.png',
+   iconWebp: 'https://i.ibb.co/S3zd8K1/function-mark-icon-corner-12.webp',
 } as const;
 
 export type AlgorithmSet =

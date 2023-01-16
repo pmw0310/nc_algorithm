@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import TouchAppIcon from '@mui/icons-material/TouchApp';
+import Image from 'react-image-webp';
 import { Glitch } from 'react-teffex';
 import useIntersectionObsever from '../hooks/useIntersectionObsever';
 
@@ -18,10 +18,14 @@ const HelpText: React.FC = () => {
             fontWeight: 'bold',
          }}
       >
-         <TouchAppIcon
+         <Image
+            src="https://i.ibb.co/PYg3Wg9/skill-icon-betty-skill.png"
+            webp="https://i.ibb.co/tXHQ37F/skill-icon-betty-skill.webp"
             style={{
-               marginRight: 8,
+               marginRight: 4,
             }}
+            width={32}
+            height={32}
          />
          {isInViewport && (
             <Glitch
