@@ -1,7 +1,6 @@
 import React, { useMemo, useContext } from 'react';
 import { compact } from 'lodash';
 import { styled } from '@mui/material/styles';
-import Image from 'react-image-webp';
 import { dolls, rarityColors } from '../data/dolls';
 import Divider from '@mui/material/Divider';
 import { SelectDollContext } from '../context/selectDoll';
@@ -10,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Stack from '@mui/material/Stack';
 import GlowingOutline from './glowingOutline';
+import LazyImage from './lazyImage';
 
 import {
    AlgorithmSet,
@@ -178,7 +178,7 @@ const DollAvatarGroup: React.FC<DollAvatarGroupProps> = React.memo(
                      bgcolor: rarityColors[rarity],
                   }}
                >
-                  <Image src={iconPng} webp={iconWebp} />
+                  <LazyImage src={iconPng} webp={iconWebp} />
                </Avatar>
             ))}
          </AvatarGroup>
@@ -213,14 +213,14 @@ const AlgorithmTypeView: React.FC<AlgorithmTypeViewProps> = React.memo(
                </>
             )}
             <div className="algorithm-main">
-               <Image
+               <LazyImage
                   className="algorithm-icon"
                   src={iconPng}
                   webp={iconWebp}
                />
                <div className="algorithm-text">{name}</div>
                <div className="set-type-main">
-                  <Image
+                  <LazyImage
                      className="set-type-icon"
                      src={setTypeData.iconPng}
                      webp={setTypeData.iconWebp}
@@ -243,7 +243,7 @@ const StateView: React.FC<StateViewProps> = React.memo(
    ({ iconPng, iconWebp, name }) => (
       <>
          <div className="state-view">
-            <Image className="state-icon" src={iconPng} webp={iconWebp} />
+            <LazyImage className="state-icon" src={iconPng} webp={iconWebp} />
             <span className="state-title">{name}</span>
          </div>
       </>

@@ -1,9 +1,9 @@
 import React from 'react';
 import colorMix from '../utils/blendColors';
-import Image from 'react-image-webp';
 import { Doll, rarityColors } from '../data/dolls';
 import { styled } from '@mui/material/styles';
 import { toPairs, fromPairs } from 'lodash';
+import LazyImage from './lazyImage';
 
 interface StyledDollIconProps {
    size: number;
@@ -108,7 +108,7 @@ const ImageIcon: React.FC<DollIconProps> = ({
          }`}
       >
          <div className="doll-icon-rarity-background" />
-         <Image
+         <LazyImage
             className="doll-icon-image"
             src={doll.iconPng}
             webp={doll.iconWebp}
@@ -117,7 +117,7 @@ const ImageIcon: React.FC<DollIconProps> = ({
          {doll.sideIcon && (
             <>
                <div className="doll-icon-side-background" />
-               <Image
+               <LazyImage
                   className="doll-icon-side-icon"
                   src={doll.sideIcon.iconPng}
                   webp={doll.sideIcon.iconWebp}

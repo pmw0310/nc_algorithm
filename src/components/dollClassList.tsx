@@ -10,8 +10,8 @@ import {
 import DollCheckbox from '../components/dollCheckbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
-import Image from 'react-image-webp';
 import { SelectDollContext } from '../context/selectDoll';
+import LazyImage from './lazyImage';
 
 const StyledDollClassList = styled(Grid)(() => ({
    padding: '2px 0',
@@ -56,7 +56,7 @@ const ClassIcon: React.FC<ClassIconProps> = React.memo(
    ({ iconPng, iconWebp, name }) => (
       <>
          <StyledClassIcon>
-            <Image src={iconPng} webp={iconWebp} />
+            <LazyImage src={iconPng} webp={iconWebp} />
          </StyledClassIcon>
          <div className="class-title">{name}</div>
       </>
