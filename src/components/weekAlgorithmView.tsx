@@ -55,22 +55,12 @@ export const StyledSwiper = styled(Swiper)(() => ({
          display: 'flex',
          flexFlow: 'wrap',
          justifyContent: 'center',
-         // border: `#585858 solid 2px`,
-         // background:
-         //    'linear-gradient(135deg, #4f4f50 25%, #252525 0, #252525 50%, #4f4f50 0, #4f4f50 75%, #252525 0)',
-         // backgroundSize: '6px 6px',
       },
-      // '.algorithm-outline': {
-      //    display: 'inherit',
-      //    margin: 2,
-      //    // padding: 2,
-      //    border: 'rgba(255,255,255,0.35) solid 2px',
-      //    // backgroundColor: 'rgba(255,255,255,0.35)',
-      // },
       '.none-algorithm': {
-         backgroundColor: 'rgba(0,0,0,0.5)',
-         width: 'calc(100% - 8px)',
-         height: 'calc(100% - 8px)',
+         backgroundColor: '#0000007f',
+         width: 100,
+         height: 100,
+         border: '#ffffff59 solid 2px',
          '.none-algorithm-icon': {
             width: '100%',
             height: '100%',
@@ -78,8 +68,8 @@ export const StyledSwiper = styled(Swiper)(() => ({
          },
          '.none-algorithm-icon:before, .none-algorithm-icon:after': {
             position: 'absolute',
-            bottom: '27.5%',
-            left: '50%',
+            left: 'calc(50% - 1px)',
+            top: 'calc(50% - 20px)',
             content: '""',
             height: 40,
             width: 2,
@@ -132,7 +122,7 @@ const WeekAlgorithmView: React.FC = () => {
       return () => {
          window.removeEventListener('resize', handleResize);
       };
-   }, []);
+   }, [handleResize]);
 
    return (
       <StyledSwiper
@@ -161,10 +151,8 @@ const WeekAlgorithmView: React.FC = () => {
                      const data = algorithms[index];
                      if (data.length === 0) {
                         return (
-                           <div style={{ width: 100, height: 100 }}>
-                              <div className="algorithm-outline none-algorithm">
-                                 <div className="none-algorithm-icon" />
-                              </div>
+                           <div className="algorithm-outline none-algorithm">
+                              <div className="none-algorithm-icon" />
                            </div>
                         );
                      }
