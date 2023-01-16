@@ -25,7 +25,14 @@ root.render(
             },
          }}
       />
-      <Container style={{ minHeight: '100vh' }} fixed>
+      <Container
+         style={{
+            minHeight: '100vh',
+            WebkitTouchCallout: 'none',
+            userSelect: 'none',
+         }}
+         fixed
+      >
          <DayProvider>
             <SelectDollProvider>
                <App />

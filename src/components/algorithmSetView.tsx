@@ -8,6 +8,7 @@ import { SelectDollContext } from '../context/selectDoll';
 import { DayContext } from '../context/day';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
+import Stack from '@mui/material/Stack';
 
 import {
    AlgorithmSet,
@@ -19,7 +20,7 @@ import {
 } from '../data/algorithms';
 import dayToString from '../utils/dayToString';
 
-const AlgorithmView = styled('span')(({}) => ({
+const AlgorithmView = styled('span')(() => ({
    position: 'relative',
    backgroundColor: '#f5f7f7',
    padding: 6,
@@ -132,7 +133,7 @@ const AlgorithmView = styled('span')(({}) => ({
       fontSize: 10,
       fontWeight: 'bold',
       color: '#f5f7f7',
-      '.&.now-day': {
+      '&.now-day': {
          color: '#FC8A00',
       },
    },
@@ -187,7 +188,7 @@ const AlgorithmTypeView: React.FC<AlgorithmTypeViewProps> = React.memo(
                   <div className="algorithm-day" />
                   <div
                      className={`algorithm-day-title${
-                        nowDay === dayObtained ? 'now-day' : ''
+                        nowDay === dayObtained ? ' now-day' : ''
                      }`}
                   >
                      {dayToString(dayObtained)}
@@ -219,17 +220,15 @@ interface StateViewProps {
    iconPng: string;
    iconWebp: string;
    name: string;
-   last: boolean;
 }
 
 const StateView: React.FC<StateViewProps> = React.memo(
-   ({ iconPng, iconWebp, name, last }) => (
+   ({ iconPng, iconWebp, name }) => (
       <>
          <div className="state-view">
             <Image className="state-icon" src={iconPng} webp={iconWebp} />
             <span className="state-title">{name}</span>
          </div>
-         {!last && <Divider />}
       </>
    )
 );
@@ -259,32 +258,40 @@ const AlgorithmSetView: React.FC<AlgorithmProps> = ({
       <AlgorithmView>
          <AlgorithmTypeView type={algorithmKey} showDay={showDay} />
          <div className="state-main">
-            <div className="state-box state-primary">
+            <Stack
+               className="state-box state-primary"
+               direction="column"
+               divider={<Divider />}
+               spacing={0}
+            >
                {(primary.length > 0 ? primary : [freeStats])?.map(
-                  ({ iconPng, iconWebp, name, key }, index, array) => (
+                  ({ iconPng, iconWebp, name, key }) => (
                      <StateView
                         key={`${algorithmKey}_${key}_primary`}
                         iconPng={iconPng}
                         iconWebp={iconWebp}
                         name={name}
-                        last={array.length - 1 <= index}
                      />
                   )
                )}
-            </div>
-            <div className="state-box state-secondary">
+            </Stack>
+            <Stack
+               className="state-box state-secondary"
+               direction="column"
+               divider={<Divider />}
+               spacing={0}
+            >
                {(secondary.length > 0 ? secondary : [freeStats])?.map(
-                  ({ iconPng, iconWebp, name, key }, index, array) => (
+                  ({ iconPng, iconWebp, name, key }) => (
                      <StateView
                         key={`${algorithmKey}_${key}_secondary`}
                         iconPng={iconPng}
                         iconWebp={iconWebp}
                         name={name}
-                        last={array.length - 1 <= index}
                      />
                   )
                )}
-            </div>
+            </Stack>
             {showDoll && <DollAvatarGroup type={algorithmKey} />}
          </div>
       </AlgorithmView>

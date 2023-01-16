@@ -116,14 +116,14 @@ const DollClassList: React.FC = () => {
 
             return (
                <StyledDollClassList container key={className}>
-                  <Grid className="class-info" xs={1}>
+                  <Grid className="class-info" xs={2} sm={1}>
                      <ClassIcon
                         iconPng={dollData.iconPng}
                         iconWebp={dollData.iconWebp}
                         name={dollData.name}
                      />
                   </Grid>
-                  <Grid xs={11}>
+                  <Grid xs={10} sm={11}>
                      {classDollList.map(({ key }) => (
                         <DollCheckbox
                            key={key}

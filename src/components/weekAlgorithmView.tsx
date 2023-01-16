@@ -19,7 +19,6 @@ import dayToString from '../utils/dayToString';
 import { debounce } from 'lodash';
 
 export const StyledSwiper = styled(Swiper)(() => ({
-   userSelect: 'none',
    '.swiper-pagination': {
       height: 14,
       display: 'flex',

@@ -3,8 +3,8 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { dolls, rarityColors } from '../data/dolls';
 import DollIcon from './dollIcon';
 import { styled } from '@mui/material/styles';
-import { toPairs, fromPairs, debounce } from 'lodash';
-import { useLongPress, LongPressDetectEvents } from 'use-long-press';
+import { toPairs, fromPairs } from 'lodash';
+import { useLongPress } from 'use-long-press';
 import { SelectDollContext } from '../context/selectDoll';
 
 interface DollButtonProps {
@@ -44,7 +44,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    const dollData = useMemo(() => dolls[doll], [doll]);
 
    const handleClick = useCallback(
-      debounce(() => onChange?.(doll, !checked), 50),
+      () => onChange?.(doll, !checked),
       [doll, onChange, checked]
    );
 
@@ -55,9 +55,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
 
    const bind = useLongPress(handleLongPress, {
       threshold: 600,
-      captureEvent: false,
-      cancelOnMovement: true,
-      detect: LongPressDetectEvents.BOTH,
+      cancelOnMovement: 6,
    });
 
    return (

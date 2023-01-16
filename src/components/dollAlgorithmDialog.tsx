@@ -1,7 +1,7 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import 'swiper/css';
 import { SelectDollContext } from '../context/selectDoll';
-import { dolls } from '../data/dolls';
+import { Doll, dolls } from '../data/dolls';
 import { mergeAlgorithmSet } from '../data/algorithms';
 import DollIcon from './dollIcon';
 import AlgorithmSetView from './algorithmSetView';
@@ -13,6 +13,8 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
 const DialogStyled = styled(Dialog)(() => ({
+   WebkitTouchCallout: 'none',
+   userSelect: 'none',
    '.MuiDialog-paper': {
       backgroundColor: 'transparent',
       borderRadius: 0,
@@ -64,11 +66,14 @@ const DialogActionsStyled = styled(DialogActions)(() => ({
 
 const DollAlgorithmView: React.FC = () => {
    const { showDoll, setShowDoll } = useContext(SelectDollContext);
+   const [dollData, setDollData] = useState<Doll>();
 
-   const dollData = useMemo(
-      () => (showDoll !== null ? dolls[showDoll] : null),
-      [showDoll]
-   );
+   useEffect(() => {
+      if (showDoll === null) {
+         return;
+      }
+      setDollData(dolls[showDoll]);
+   }, [showDoll]);
 
    return (
       <DialogStyled
@@ -79,7 +84,7 @@ const DollAlgorithmView: React.FC = () => {
          maxWidth={false}
       >
          <DialogTitleStyled id="alert-dialog-title">
-            {dollData?.name ?? 'Unknown'}
+            {dollData?.name ?? ''}
          </DialogTitleStyled>
          <DialogContentStyled>
             <div className="algorithm-doll-background">
