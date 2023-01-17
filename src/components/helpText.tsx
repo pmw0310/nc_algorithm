@@ -1,10 +1,14 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Glitch } from 'react-teffex';
-import { InView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 import LazyImage from './lazyImage';
 
 const HelpText: React.FC = () => {
-   const ref = useRef<HTMLDivElement>(null);
+   const { ref, inView } = useInView({
+      threshold: 0,
+      triggerOnce: true,
+      delay: 100,
+   });
 
    return (
       <div
@@ -26,7 +30,7 @@ const HelpText: React.FC = () => {
             width={32}
             height={32}
          />
-         <InView as="div" delay={100} triggerOnce>
+         {inView && (
             <Glitch
                speed={20}
                alphabet
@@ -39,7 +43,7 @@ const HelpText: React.FC = () => {
                }}
                text={'인형 아이콘을 길게 눌러서 인형 알고리즘 확인'}
             />
-         </InView>
+         )}
       </div>
    );
 };

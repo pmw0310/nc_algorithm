@@ -22,12 +22,17 @@ import { debounce } from 'lodash';
 export const StyledSwiper = styled(Swiper)(() => ({
    '.swiper-button-next, .swiper-button-prev': {
       color: '#FC8A00',
-      backgroundColor: 'rgba(32,32,32,0.4)',
-      padding: '32px 24px',
+      backgroundColor: 'rgba(32,32,32,0.5)',
+      width: 32,
+      height: 48,
       borderRadius: 4,
       '&.swiper-button-disabled': {
          color: '#252525',
-         opacity: 0.75,
+         opacity: 1,
+      },
+      '&:after': {
+         fontSize: 24,
+         fontWeight: 'bolder',
       },
    },
    '.swiper-pagination': {
@@ -140,6 +145,7 @@ const WeekAlgorithmView: React.FC = () => {
          slidesPerView={slidesPerView}
          centeredSlides
          navigation
+         virtual
          spaceBetween={30}
          initialSlide={initialSlide}
          pagination={{
@@ -149,7 +155,6 @@ const WeekAlgorithmView: React.FC = () => {
             },
          }}
          modules={[Pagination, Virtual, Navigation]}
-         virtual
       >
          {days.map((day, index) => (
             <SwiperSlide
