@@ -23,13 +23,15 @@ root.render(
                backgroundColor: '#eaeaea',
                fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
             },
+            html: {
+               WebkitTouchCallout: 'none',
+               userSelect: 'none',
+            },
          }}
       />
       <Container
          style={{
             minHeight: '100vh',
-            WebkitTouchCallout: 'none',
-            userSelect: 'none',
          }}
          fixed
       >

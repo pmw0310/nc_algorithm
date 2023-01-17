@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import { isWebpSupported } from 'react-image-webp/dist/utils';
-import useIntersectionObsever from '../hooks/useIntersectionObsever';
+import { useInView } from 'react-intersection-observer';
 
 interface LazyImageProps
    extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'ref' | 'loading'> {
    webp?: string;
-   loading?: string;
+   loadingSrc?: string;
 }
 
 const EMPTY_PNG =
@@ -15,28 +15,26 @@ const LazyImage: React.FC<LazyImageProps> = ({
    children,
    src,
    webp,
-   loading = EMPTY_PNG,
+   loadingSrc = EMPTY_PNG,
    ...props
 }) => {
-   const ref = useRef<HTMLImageElement>(null);
-   const isInViewport = useIntersectionObsever(ref);
-   const webpSupport = isWebpSupported();
+   const { ref, inView } = useInView({
+      threshold: 0,
+      triggerOnce: true,
+   });
+
+   const imgSrc = useMemo(() => {
+      if (!inView) {
+         return loadingSrc;
+      }
+      return (isWebpSupported() ? webp : src) ?? src;
+   }, [inView, loadingSrc, src, webp]);
 
    return (
-      <img
-         {...props}
-         ref={ref}
-         loading="lazy"
-         src={(() => {
-            if (!isInViewport) {
-               return loading;
-            }
-            return (webpSupport ? webp : src) ?? src;
-         })()}
-      >
+      <img {...props} ref={ref} src={imgSrc}>
          {children}
       </img>
    );
 };
 
-export default LazyImage;
+export default React.memo(LazyImage);

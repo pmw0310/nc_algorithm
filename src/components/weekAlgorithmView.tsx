@@ -7,10 +7,11 @@ import React, {
 } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { styled } from '@mui/material/styles';
-import { Pagination, Virtual } from 'swiper';
+import { Pagination, Virtual, Navigation } from 'swiper';
 import { DayContext } from '../context/day';
 import 'swiper/css';
 import 'swiper/css/virtual';
+import 'swiper/css/navigation';
 import { SelectDollContext } from '../context/selectDoll';
 import { DAY_OBTAINED as days, mergeAlgorithmSet } from '../data/algorithms';
 import { dolls } from '../data/dolls';
@@ -19,6 +20,16 @@ import dayToString from '../utils/dayToString';
 import { debounce } from 'lodash';
 
 export const StyledSwiper = styled(Swiper)(() => ({
+   '.swiper-button-next, .swiper-button-prev': {
+      color: '#FC8A00',
+      backgroundColor: 'rgba(32,32,32,0.4)',
+      padding: '32px 24px',
+      borderRadius: 4,
+      '&.swiper-button-disabled': {
+         color: '#252525',
+         opacity: 0.75,
+      },
+   },
    '.swiper-pagination': {
       height: 14,
       display: 'flex',
@@ -60,7 +71,7 @@ export const StyledSwiper = styled(Swiper)(() => ({
          backgroundColor: '#0000007f',
          width: 100,
          height: 100,
-         border: '#ffffff59 solid 2px',
+         border: '#464646 solid 2px',
          '.none-algorithm-icon': {
             width: '100%',
             height: '100%',
@@ -128,6 +139,7 @@ const WeekAlgorithmView: React.FC = () => {
       <StyledSwiper
          slidesPerView={slidesPerView}
          centeredSlides
+         navigation
          spaceBetween={30}
          initialSlide={initialSlide}
          pagination={{
@@ -136,7 +148,7 @@ const WeekAlgorithmView: React.FC = () => {
                return `<span class="${className}"></span>`;
             },
          }}
-         modules={[Pagination, Virtual]}
+         modules={[Pagination, Virtual, Navigation]}
          virtual
       >
          {days.map((day, index) => (
