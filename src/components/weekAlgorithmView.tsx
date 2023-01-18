@@ -27,8 +27,9 @@ export const StyledSwiper = styled(Swiper)(() => ({
       height: 48,
       borderRadius: 4,
       '&.swiper-button-disabled': {
-         color: '#252525',
-         opacity: 1,
+         // color: '#252525',
+         // opacity: 1,
+         display: 'none',
       },
       '&:after': {
          fontSize: 24,
