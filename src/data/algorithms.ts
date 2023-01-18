@@ -1,4 +1,5 @@
-import { union, intersection, indexOf, toPairs, fromPairs } from 'lodash';
+import { union, intersection, indexOf, toPairs, fromPairs, pick } from 'lodash';
+import { dolls } from './dolls';
 
 export const DAY_OBTAINED = [1, 2, 3, 4, 5] as const;
 export type DayObtained = typeof DAY_OBTAINED[number];
@@ -270,93 +271,115 @@ export const STATS_TYPE = [
 
 export type StatsType = typeof STATS_TYPE[number];
 
+export const SPECIAL_PRIMARY_STATS_TYPE = [
+   'physicalDefPlus',
+   'physicalDefPercent',
+   'operandDefPlus',
+   'operandDefPercent',
+   'critRate',
+   'critDamage',
+   'skillHaste',
+   'healingEffect',
+] as const;
+
 export type SpecialPrimaryStatsType = Extract<
    StatsType,
-   | 'physicalDefPlus'
-   | 'physicalDefPercent'
-   | 'operandDefPlus'
-   | 'operandDefPercent'
-   | 'critRate'
-   | 'critDamage'
-   | 'skillHaste'
-   | 'healingEffect'
+   typeof SPECIAL_PRIMARY_STATS_TYPE[number]
 >;
+
+export const SPECIAL_SECONDARY_STATS_TYPE = [
+   'maxHpPlus',
+   'atkPlus',
+   'atkPercent',
+   'hashratePlus',
+   'hashratePercent',
+   'physicalDefPlus',
+   'operandDefPlus',
+   'physicalPenPlus',
+   'operandPenPlus',
+   'critRate',
+   'critDamage',
+   'bodgeRate',
+   'postBattleHpRegen',
+   'debuffResistance',
+   'skillHaste',
+   'healingEffect',
+] as const;
 export type SpecialSecondaryStatsType = Extract<
    StatsType,
-   | 'maxHpPlus'
-   | 'atkPlus'
-   | 'atkPercent'
-   | 'hashratePlus'
-   | 'hashratePercent'
-   | 'physicalDefPlus'
-   | 'operandDefPlus'
-   | 'physicalPenPlus'
-   | 'operandPenPlus'
-   | 'critRate'
-   | 'critDamage'
-   | 'bodgeRate'
-   | 'postBattleHpRegen'
-   | 'debuffResistance'
-   | 'skillHaste'
-   | 'healingEffect'
+   typeof SPECIAL_SECONDARY_STATS_TYPE[number]
 >;
 
+export const STABILITY_PRIMARY_STATS_TYPE = [
+   'maxHpPlus',
+   'maxHpPercent',
+   'physicalDefPlus',
+   'physicalDefPercent',
+   'operandDefPlus',
+   'operandDefPercent',
+   'postBattleHpRegen',
+] as const;
 export type StabilityPrimaryStatsType = Extract<
    StatsType,
-   | 'maxHpPlus'
-   | 'maxHpPercent'
-   | 'physicalDefPlus'
-   | 'physicalDefPercent'
-   | 'operandDefPlus'
-   | 'operandDefPercent'
-   | 'postBattleHpRegen'
->;
-export type StabilitySecondaryStatsType = Extract<
-   StatsType,
-   | 'maxHpPlus'
-   | 'maxHpPercent'
-   | 'atkPlus'
-   | 'atkPercent'
-   | 'hashratePlus'
-   | 'hashratePercent'
-   | 'physicalDefPlus'
-   | 'operandDefPlus'
-   | 'physicalPenPlus'
-   | 'operandPenPlus'
-   | 'critRate'
-   | 'critDamage'
-   | 'postBattleHpRegen'
-   | 'debuffResistance'
-   | 'injuryMitigation'
+   typeof STABILITY_PRIMARY_STATS_TYPE[number]
 >;
 
+export const STABILITY_SECONDARY_STATS_TYPE = [
+   'maxHpPlus',
+   'maxHpPercent',
+   'atkPlus',
+   'atkPercent',
+   'hashratePlus',
+   'hashratePercent',
+   'physicalDefPlus',
+   'operandDefPlus',
+   'physicalPenPlus',
+   'operandPenPlus',
+   'critRate',
+   'critDamage',
+   'postBattleHpRegen',
+   'debuffResistance',
+   'injuryMitigation',
+] as const;
+export type StabilitySecondaryStatsType = Extract<
+   StatsType,
+   typeof STABILITY_SECONDARY_STATS_TYPE[number]
+>;
+
+export const OFFENSE_PRIMARY_STATS_TYPE = [
+   'atkPlus',
+   'atkPercent',
+   'hashratePlus',
+   'hashratePercent',
+   'physicalPenPlus',
+   'physicalPenPercent',
+   'operandPenPlus',
+   'operandPenPercent',
+] as const;
 export type OffensePrimaryStatsType = Extract<
    StatsType,
-   | 'atkPlus'
-   | 'atkPercent'
-   | 'hashratePlus'
-   | 'hashratePercent'
-   | 'physicalPenPlus'
-   | 'physicalPenPercent'
-   | 'operandPenPlus'
-   | 'operandPenPercent'
+   typeof OFFENSE_PRIMARY_STATS_TYPE[number]
 >;
+
+export const OFFENSE_SECONDARY_STATS_TYPE = [
+   'maxHpPlus',
+   'atkPlus',
+   'atkPercent',
+   'hashratePlus',
+   'hashratePercent',
+   'physicalDefPlus',
+   'operandDefPlus',
+   'physicalPenPlus',
+   'operandPenPlus',
+   'critRate',
+   'critDamage',
+   'postBattleHpRegen',
+   'debuffResistance',
+   'damageBoost',
+] as const;
 export type OffenseSecondaryStatsType = Extract<
    StatsType,
-   | 'maxHpPlus'
-   | 'atkPlus'
-   | 'atkPercent'
-   | 'hashratePlus'
-   | 'hashratePercent'
-   | 'physicalDefPlus'
-   | 'operandDefPlus'
-   | 'physicalPenPlus'
-   | 'operandPenPlus'
-   | 'critRate'
-   | 'critDamage'
-   | 'postBattleHpRegen'
-   | 'debuffResistance'
-   | 'damageBoost'
+   typeof OFFENSE_SECONDARY_STATS_TYPE[number]
 >;
 
 export interface StatsData {
@@ -543,6 +566,47 @@ export type AlgorithmSet =
         Array<SpecialSecondaryStatsType>
      ];
 
+type AllAlgorithmSet = Readonly<
+   [AlgorithmType, ReadonlyArray<StatsType>, ReadonlyArray<StatsType>]
+>;
+type AllAlgorithmSetData = Record<
+   AlgorithmType,
+   {
+      usage: Array<string>;
+      primary: Record<StatsType, Array<string>>;
+      secondary: Record<StatsType, Array<string>>;
+   }
+>;
+
+const allAlgorithmSets: ReadonlyArray<AllAlgorithmSet> = ALGORITHM_TYPE.map(
+   algorithmType => {
+      const setType = algorithms[algorithmType].setType;
+
+      switch (setType) {
+         case 'offense':
+            return [
+               algorithmType,
+               OFFENSE_PRIMARY_STATS_TYPE,
+               OFFENSE_SECONDARY_STATS_TYPE,
+            ] as const;
+         case 'stability':
+            return [
+               algorithmType,
+               STABILITY_PRIMARY_STATS_TYPE,
+               STABILITY_SECONDARY_STATS_TYPE,
+            ] as const;
+         case 'special':
+            return [
+               algorithmType,
+               SPECIAL_PRIMARY_STATS_TYPE,
+               SPECIAL_SECONDARY_STATS_TYPE,
+            ] as const;
+         default:
+            throw new TypeError();
+      }
+   }
+);
+
 const stateSort = (keyA: string, keyB: string) => {
    const indexA = indexOf(STATS_TYPE, keyA);
    const indexB = indexOf(STATS_TYPE, keyB);
@@ -584,4 +648,79 @@ export const mergeAlgorithmSet = (
 
       return [type, primary.sort(stateSort), secondary.sort(stateSort)];
    }) as Array<AlgorithmSet>;
+};
+
+export const algorithmUsageStatistics = (doll?: Array<string>) => {
+   const dollData = doll ? pick(dolls, doll) : dolls;
+   const data = fromPairs(
+      ALGORITHM_TYPE.map((type: AlgorithmType) => {
+         const setType = algorithms[type].setType;
+         let initStatus: {
+            primary: Record<string, Array<string>>;
+            secondary: Record<string, Array<string>>;
+         };
+
+         switch (setType) {
+            case 'offense':
+               initStatus = {
+                  primary: fromPairs(
+                     OFFENSE_PRIMARY_STATS_TYPE.map(type => [type, []])
+                  ),
+                  secondary: fromPairs(
+                     OFFENSE_SECONDARY_STATS_TYPE.map(type => [type, []])
+                  ),
+               };
+               break;
+            case 'stability':
+               initStatus = {
+                  primary: fromPairs(
+                     STABILITY_PRIMARY_STATS_TYPE.map(type => [type, []])
+                  ),
+                  secondary: fromPairs(
+                     STABILITY_SECONDARY_STATS_TYPE.map(type => [type, []])
+                  ),
+               };
+               break;
+            case 'special':
+               initStatus = {
+                  primary: fromPairs(
+                     SPECIAL_PRIMARY_STATS_TYPE.map(type => [type, []])
+                  ),
+                  secondary: fromPairs(
+                     SPECIAL_SECONDARY_STATS_TYPE.map(type => [type, []])
+                  ),
+               };
+               break;
+            default:
+               throw new TypeError();
+         }
+
+         return [
+            type,
+            {
+               usage: [] as Array<string>,
+               ...initStatus,
+            },
+         ];
+      })
+   ) as AllAlgorithmSetData;
+
+   toPairs(dollData).forEach(([doll, { algorithms }]) => {
+      algorithms.forEach(([algorithm, primary, secondary]) => {
+         data[algorithm].usage.push(doll);
+
+         primary.forEach(primaryKey => {
+            const primaryArray = data[algorithm].primary[primaryKey] ?? [];
+            data[algorithm].primary[primaryKey] = [...primaryArray, doll];
+         });
+
+         secondary.forEach(secondaryKey => {
+            const secondaryArray =
+               data[algorithm].secondary[secondaryKey] ?? [];
+            data[algorithm].secondary[secondaryKey] = [...secondaryArray, doll];
+         });
+      });
+   });
+
+   return data;
 };
