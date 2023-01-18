@@ -21,7 +21,7 @@ import { debounce } from 'lodash';
 
 export const StyledSwiper = styled(Swiper)(() => ({
    '.swiper-button-next, .swiper-button-prev': {
-      color: '#FC8A00',
+      color: '#fff',
       backgroundColor: 'rgba(32,32,32,0.5)',
       width: 32,
       height: 48,
