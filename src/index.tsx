@@ -52,7 +52,11 @@ root.render(
       >
          <div style={{ fontSize: 8 }}>{`빌드 시간 : ${new Date(
             buildTime.buildTime * 1000
-         ).toLocaleString()}`}</div>
+         ).toLocaleString('ko-KR', {
+            hour12: false,
+            dateStyle: 'medium',
+            timeStyle: 'short',
+         })}`}</div>
          <div
             style={{
                display: 'flex',

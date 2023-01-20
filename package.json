@@ -24,6 +24,7 @@
       "react-resize-detector": "^7.1.2",
       "react-scripts": "5.0.1",
       "react-teffex": "^1.0.5",
+      "recharts": "^2.3.2",
       "slick-carousel": "^1.8.1",
       "swiper": "^8.4.5",
       "typescript": "^4.9.4",

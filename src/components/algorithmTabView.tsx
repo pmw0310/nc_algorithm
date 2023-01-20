@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import WeekAlgorithmView from './weekAlgorithmView';
+import UsageStatisticsView from './usageStatisticsView';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -104,6 +105,19 @@ const AlgorithmTabView: React.FC = () => {
                iconPosition="start"
                {...a11yProps(1)}
             /> */}
+            <Tab
+               label="Test"
+               // icon={
+               //    <Image
+               //       src="https://i.ibb.co/GPJJTRt/calendar-icon.png"
+               //       webp="https://i.ibb.co/XbZvdK1/calendar-icon.webp"
+               //       width={20}
+               //       height={20}
+               //    />
+               // }
+               iconPosition="start"
+               {...a11yProps(0)}
+            />
          </StyledTabs>
          <TabPanel value={tabIndex} index={0}>
             <WeekAlgorithmView />
@@ -111,6 +125,10 @@ const AlgorithmTabView: React.FC = () => {
          {/* <TabPanel value={tabIndex} index={1}>
             <DollAlgorithmView />
          </TabPanel> */}
+         {/* test */}
+         <TabPanel value={tabIndex} index={1}>
+            <UsageStatisticsView />
+         </TabPanel>
       </Box>
    );
 };
