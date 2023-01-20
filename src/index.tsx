@@ -10,6 +10,7 @@ import { ReactComponent as BlackOlfIcon } from './blackolf.svg';
 import { DayProvider } from './context/day';
 import { SelectDollProvider } from './context/selectDoll';
 import Container from '@mui/material/Container';
+import buildTime from './buildTime.json';
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement
@@ -44,18 +45,32 @@ root.render(
       <footer
          style={{
             display: 'flex',
-            justifyContent: 'end',
+            justifyContent: 'space-between',
             alignItems: 'flex-end',
+            padding: '0 12px',
          }}
       >
-         <span>제작 : </span>
-         <SvgIcon style={{ margin: '0 2px' }}>
-            <BlackOlfIcon />
-         </SvgIcon>
-         <span>
-            <div style={{ fontWeight: 500 }}>BlackOlf</div>
-            <div style={{ fontSize: 8, lineHeight: 0.3 }}>(UID : 1188093)</div>
-         </span>
+         <div style={{ fontSize: 8 }}>{`빌드 시간 : ${new Date(
+            buildTime.buildTime * 1000
+         ).toLocaleString()}`}</div>
+         <div
+            style={{
+               display: 'flex',
+               justifyContent: 'center',
+               alignItems: 'center',
+            }}
+         >
+            <span>제작 : </span>
+            <SvgIcon style={{ margin: '0 2px' }}>
+               <BlackOlfIcon />
+            </SvgIcon>
+            <span>
+               <div style={{ fontWeight: 500, fontSize: 16 }}>BlackOlf</div>
+               <div style={{ fontSize: 8, lineHeight: 0.3 }}>
+                  (UID : 1188093)
+               </div>
+            </span>
+         </div>
       </footer>
    </React.StrictMode>
 );

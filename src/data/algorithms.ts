@@ -1,4 +1,13 @@
-import { union, intersection, indexOf, toPairs, fromPairs, pick } from 'lodash';
+import {
+   union,
+   intersection,
+   indexOf,
+   toPairs,
+   fromPairs,
+   pick,
+   forOwn,
+   mapValues,
+} from 'lodash';
 import { dolls } from './dolls';
 
 export const DAY_OBTAINED = [1, 2, 3, 4, 5] as const;
@@ -569,17 +578,21 @@ export type AlgorithmSet =
 type AllAlgorithmSet = Readonly<
    [AlgorithmType, ReadonlyArray<StatsType>, ReadonlyArray<StatsType>]
 >;
-type AllAlgorithmSetData = Record<
+
+type StatisticalData = {
+   usage: Array<string>;
+   rate: number;
+};
+type AlgorithmSetStatisticalData = Record<
    AlgorithmType,
-   {
-      usage: Array<string>;
-      primary: Record<StatsType, Array<string>>;
-      secondary: Record<StatsType, Array<string>>;
+   StatisticalData & {
+      primary: Record<StatsType, StatisticalData>;
+      secondary: Record<StatsType, StatisticalData>;
    }
 >;
 
-const allAlgorithmSets: ReadonlyArray<AllAlgorithmSet> = ALGORITHM_TYPE.map(
-   algorithmType => {
+export const allAlgorithmSets: ReadonlyArray<AllAlgorithmSet> =
+   ALGORITHM_TYPE.map(algorithmType => {
       const setType = algorithms[algorithmType].setType;
 
       switch (setType) {
@@ -604,8 +617,7 @@ const allAlgorithmSets: ReadonlyArray<AllAlgorithmSet> = ALGORITHM_TYPE.map(
          default:
             throw new TypeError();
       }
-   }
-);
+   });
 
 const stateSort = (keyA: string, keyB: string) => {
    const indexA = indexOf(STATS_TYPE, keyA);
@@ -656,38 +668,74 @@ export const algorithmUsageStatistics = (doll?: Array<string>) => {
       ALGORITHM_TYPE.map((type: AlgorithmType) => {
          const setType = algorithms[type].setType;
          let initStatus: {
-            primary: Record<string, Array<string>>;
-            secondary: Record<string, Array<string>>;
+            primary: Record<string, StatisticalData>;
+            secondary: Record<string, StatisticalData>;
          };
 
          switch (setType) {
             case 'offense':
                initStatus = {
                   primary: fromPairs(
-                     OFFENSE_PRIMARY_STATS_TYPE.map(type => [type, []])
+                     OFFENSE_PRIMARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                   secondary: fromPairs(
-                     OFFENSE_SECONDARY_STATS_TYPE.map(type => [type, []])
+                     OFFENSE_SECONDARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                };
                break;
             case 'stability':
                initStatus = {
                   primary: fromPairs(
-                     STABILITY_PRIMARY_STATS_TYPE.map(type => [type, []])
+                     STABILITY_PRIMARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                   secondary: fromPairs(
-                     STABILITY_SECONDARY_STATS_TYPE.map(type => [type, []])
+                     STABILITY_SECONDARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                };
                break;
             case 'special':
                initStatus = {
                   primary: fromPairs(
-                     SPECIAL_PRIMARY_STATS_TYPE.map(type => [type, []])
+                     SPECIAL_PRIMARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                   secondary: fromPairs(
-                     SPECIAL_SECONDARY_STATS_TYPE.map(type => [type, []])
+                     SPECIAL_SECONDARY_STATS_TYPE.map(type => [
+                        type,
+                        {
+                           usage: [],
+                           rate: 0,
+                        },
+                     ])
                   ),
                };
                break;
@@ -699,28 +747,54 @@ export const algorithmUsageStatistics = (doll?: Array<string>) => {
             type,
             {
                usage: [] as Array<string>,
+               rate: 0,
                ...initStatus,
             },
          ];
       })
-   ) as AllAlgorithmSetData;
+   ) as AlgorithmSetStatisticalData;
 
-   toPairs(dollData).forEach(([doll, { algorithms }]) => {
+   forOwn(dollData, ({ algorithms }, doll) => {
       algorithms.forEach(([algorithm, primary, secondary]) => {
          data[algorithm].usage.push(doll);
 
          primary.forEach(primaryKey => {
-            const primaryArray = data[algorithm].primary[primaryKey] ?? [];
-            data[algorithm].primary[primaryKey] = [...primaryArray, doll];
+            data[algorithm].primary[primaryKey].usage.push(doll);
          });
 
          secondary.forEach(secondaryKey => {
-            const secondaryArray =
-               data[algorithm].secondary[secondaryKey] ?? [];
-            data[algorithm].secondary[secondaryKey] = [...secondaryArray, doll];
+            data[algorithm].secondary[secondaryKey].usage.push(doll);
          });
       });
    });
 
-   return data;
+   const dollsLength = Object.keys(dollData).length;
+
+   return mapValues(data, ({ usage, primary, secondary }) => {
+      const usageLength = usage.length;
+      const rate = usageLength / dollsLength;
+
+      return {
+         usage,
+         rate,
+         primary: mapValues(
+            primary,
+            ({ usage }) =>
+               ({
+                  usage,
+                  rate: usage.length / usageLength,
+               } as StatisticalData)
+         ),
+         secondary: mapValues(
+            secondary,
+            ({ usage }) =>
+               ({
+                  usage,
+                  rate: usage.length / usageLength,
+               } as StatisticalData)
+         ),
+      };
+   }) as AlgorithmSetStatisticalData;
 };
+
+// console.log('algorithmUsageStatistics', algorithmUsageStatistics());

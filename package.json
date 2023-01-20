@@ -31,11 +31,11 @@
       "web-vitals": "^2.1.4"
    },
    "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
+      "start": "./buildTime.sh && react-scripts start",
+      "build": "./buildTime.sh && react-scripts build",
+      "test": "./buildTime.sh && react-scripts test",
       "eject": "react-scripts eject",
-      "predeploy": "npm run build && cp CNAME ./build",
+      "predeploy": "./buildTime.sh && npm run build && cp CNAME ./build",
       "deploy": "gh-pages -d build"
    },
    "eslintConfig": {
