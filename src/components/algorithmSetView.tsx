@@ -5,11 +5,12 @@ import { dolls, rarityColors } from '../data/dolls';
 import Divider from '@mui/material/Divider';
 import { SelectDollContext } from '../context/selectDoll';
 import { DayContext } from '../context/day';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
+// import Avatar from '@mui/material/Avatar';
+// import AvatarGroup from '@mui/material/AvatarGroup';
 import Stack from '@mui/material/Stack';
 import GlowingOutline from './glowingOutline';
 import LazyImage from './lazyImage';
+import DollAvatar, { DollAvatarGroup } from './dollAvatar';
 
 import {
    AlgorithmSet,
@@ -119,20 +120,16 @@ const AlgorithmView = styled('span')<AlgorithmViewProps>(
                color: 'white',
             },
          },
-         '.MuiAvatarGroup-root': {
-            marginTop: 4,
-            justifyContent: 'center',
-            '.MuiAvatar-root': {
-               width: 20,
-               height: 20,
-               border: '1px solid #fff',
-               fontSize: 8,
-               img: {
-                  width: 20,
-                  height: 20,
-               },
-            },
-         },
+         // '.MuiAvatarGroup-root': {
+         //    marginTop: 4,
+         //    justifyContent: 'center',
+         //    '.MuiAvatarGroup-avatar': {
+         //       width: 20,
+         //       height: 20,
+         //       border: '1px solid #fff',
+         //       fontSize: 8,
+         //    },
+         // },
          '.algorithm-day': {
             position: 'absolute',
             left: 0,
@@ -156,35 +153,28 @@ const AlgorithmView = styled('span')<AlgorithmViewProps>(
    })
 );
 
-interface DollAvatarGroupProps {
+interface DollAvatarsProps {
    type: AlgorithmType;
 }
-const DollAvatarGroup: React.FC<DollAvatarGroupProps> = React.memo(
-   ({ type }) => {
-      const { selectDolls } = useContext(SelectDollContext);
+const DollAvatars: React.FC<DollAvatarsProps> = React.memo(({ type }) => {
+   const { selectDolls } = useContext(SelectDollContext);
 
-      const usingDoll = selectDolls
-         .map(doll => dolls[doll])
-         .filter(({ algorithms }) =>
-            algorithms.some(([algo]) => algo === type)
-         );
+   const usingDoll = useMemo(
+      () =>
+         selectDolls
+            .map(doll => ({
+               doll,
+               data: dolls[doll],
+            }))
+            .filter(({ data: { algorithms } }) =>
+               algorithms.some(([algo]) => algo === type)
+            )
+            .map(({ doll }) => doll),
+      [selectDolls]
+   );
 
-      return (
-         <AvatarGroup max={5}>
-            {usingDoll.map(({ iconPng, iconWebp, rarity, name }, index) => (
-               <Avatar
-                  key={`${type}_${name}_avatar`}
-                  sx={{
-                     bgcolor: rarityColors[rarity],
-                  }}
-               >
-                  <LazyImage src={iconPng} webp={iconWebp} />
-               </Avatar>
-            ))}
-         </AvatarGroup>
-      );
-   }
-);
+   return <DollAvatarGroup doll={usingDoll} />;
+});
 
 interface AlgorithmTypeViewProps {
    type: AlgorithmType;
@@ -313,7 +303,7 @@ const AlgorithmSetView: React.FC<AlgorithmProps> = ({
                   )
                )}
             </Stack>
-            {showDoll && <DollAvatarGroup type={algorithmKey} />}
+            {showDoll && <DollAvatars type={algorithmKey} />}
          </div>
       </div>
    );

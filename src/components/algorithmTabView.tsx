@@ -12,7 +12,7 @@ interface TabPanelProps {
    value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
    const { children, value, index, ...other } = props;
 
    return (
@@ -26,14 +26,14 @@ function TabPanel(props: TabPanelProps) {
          {value === index && children}
       </div>
    );
-}
+};
 
-function a11yProps(index: number) {
+const a11yProps = (index: number) => {
    return {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`,
    };
-}
+};
 
 const StyledTabs = styled(Tabs)(() => ({
    backgroundColor: '#1d1d1e',
@@ -106,7 +106,7 @@ const AlgorithmTabView: React.FC = () => {
                {...a11yProps(1)}
             /> */}
             <Tab
-               label="Test"
+               label="통계"
                // icon={
                //    <Image
                //       src="https://i.ibb.co/GPJJTRt/calendar-icon.png"

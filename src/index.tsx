@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -69,7 +69,7 @@ root.render(
                <BlackOlfIcon />
             </SvgIcon>
             <span>
-               <div style={{ fontWeight: 500, fontSize: 16 }}>BlackOlf</div>
+               <div style={{ fontWeight: 500, fontSize: 12 }}>BlackOlf</div>
                <div style={{ fontSize: 8, lineHeight: 0.3 }}>
                   (UID : 1188093)
                </div>
