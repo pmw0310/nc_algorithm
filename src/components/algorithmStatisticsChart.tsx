@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 import {
    BarChart,
    Bar,
    XAxis,
    YAxis,
-   // CartesianGrid,
    Tooltip,
    ResponsiveContainer,
 } from 'recharts';
-import {
-   algorithmUsageStatistics,
-   algorithms,
-   AlgorithmType,
-} from '../data/algorithms';
-import { dolls } from '../data/dolls';
+import { algorithms, AlgorithmType } from '../data/algorithms';
 import { toPairs } from 'lodash';
 import { styled } from '@mui/material/styles';
 import ClassPieChart from './classPieChart';
 import { isWebpSupported } from 'react-image-webp/dist/utils';
 import { DollAvatarGroup } from './dollAvatar';
+import { DollsContext } from '../context/dolls';
 
 const BarChartStyled = styled(BarChart)(() => ({
    '.custom-tooltip': {
@@ -37,15 +32,23 @@ const BarChartStyled = styled(BarChart)(() => ({
    },
 }));
 
-const statistics = algorithmUsageStatistics();
-const data = toPairs(statistics).map(([key, data]) => ({
-   name: key,
-   value: data.usage.length,
-}));
-
-const max = Object.keys(dolls).length;
-
 const AlgorithmStatisticsChart: React.FC = () => {
+   const { dolls, algorithmUsageStatistics } = useContext(DollsContext);
+
+   const statistics = useMemo(
+      () => algorithmUsageStatistics(),
+      [algorithmUsageStatistics]
+   );
+   const data = useMemo(
+      () =>
+         toPairs(statistics).map(([key, data]) => ({
+            name: key,
+            value: data.usage.length,
+         })),
+      [statistics]
+   );
+   const max = useMemo(() => Object.keys(dolls).length, [dolls]);
+
    const renderCustomAxisTick = ({
       x,
       y,
@@ -146,7 +149,6 @@ const AlgorithmStatisticsChart: React.FC = () => {
                tick={renderCustomAxisTick}
             />
             <Tooltip content={<CustomTooltip />} />
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Bar dataKey="value" fill="#ed752f" />
          </BarChartStyled>
       </ResponsiveContainer>

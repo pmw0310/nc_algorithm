@@ -1,17 +1,12 @@
 import React, { useMemo, useContext, useCallback } from 'react';
 import { toPairs } from 'lodash';
-import {
-   Doll,
-   dolls,
-   DOLL_CLASSES,
-   DollClasses,
-   DollClass,
-} from '../data/dolls';
+import { Doll, DOLL_CLASSES, DollClasses, DollClass } from '../data/dolls';
 import DollCheckbox from '../components/dollCheckbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import { SelectDollContext } from '../context/selectDoll';
 import LazyImage from './lazyImage';
+import { DollsContext } from '../context/dolls';
 
 const StyledDollClassList = styled(Grid)(() => ({
    padding: '2px 0',
@@ -65,6 +60,7 @@ const ClassIcon: React.FC<ClassIconProps> = React.memo(
 
 const DollClassList: React.FC = () => {
    const { selectDoll, setSelect } = useContext(SelectDollContext);
+   const { dolls } = useContext(DollsContext);
 
    const data = useMemo<Array<DollData>>(
       () => toPairs(dolls).map(([key, doll]) => ({ ...doll, key })),

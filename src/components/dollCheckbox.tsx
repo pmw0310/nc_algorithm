@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo, useContext } from 'react';
 import ButtonBase from '@mui/material/ButtonBase';
-import { dolls, rarityColors } from '../data/dolls';
+import { rarityColors } from '../data/dolls';
 import DollIcon from './dollIcon';
 import { styled } from '@mui/material/styles';
 import { toPairs, fromPairs } from 'lodash';
 import { useLongPress } from 'use-long-press';
 import { SelectDollContext } from '../context/selectDoll';
+import { DollsContext } from '../context/dolls';
 
 interface DollButtonProps {
    size: number;
@@ -40,6 +41,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    onChange,
 }) => {
    const { setShowDoll } = useContext(SelectDollContext);
+   const { dolls } = useContext(DollsContext);
 
    const dollData = useMemo(() => dolls[doll], [doll]);
 

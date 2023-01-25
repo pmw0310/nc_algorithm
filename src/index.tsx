@@ -9,6 +9,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import { ReactComponent as BlackOlfIcon } from './blackolf.svg';
 import { DayProvider } from './context/day';
 import { SelectDollProvider } from './context/selectDoll';
+import { DollsProvider } from './context/dolls';
 import Container from '@mui/material/Container';
 import buildTime from './buildTime.json';
 
@@ -37,9 +38,11 @@ root.render(
          fixed
       >
          <DayProvider>
-            <SelectDollProvider>
-               <App />
-            </SelectDollProvider>
+            <DollsProvider>
+               <SelectDollProvider>
+                  <App />
+               </SelectDollProvider>
+            </DollsProvider>
          </DayProvider>
       </Container>
       <footer

@@ -1,26 +1,19 @@
-import React from 'react';
+import React, { useMemo, useContext } from 'react';
 import {
    BarChart,
    Bar,
    XAxis,
    YAxis,
-   // CartesianGrid,
    Tooltip,
    ResponsiveContainer,
 } from 'recharts';
-import {
-   algorithmUsageStatistics,
-   algorithms,
-   AlgorithmType,
-   stats,
-   StatsType,
-} from '../data/algorithms';
-import { dolls } from '../data/dolls';
+import { AlgorithmType, stats, StatsType } from '../data/algorithms';
 import { toPairs } from 'lodash';
 import { styled } from '@mui/material/styles';
 import ClassPieChart from './classPieChart';
 import { isWebpSupported } from 'react-image-webp/dist/utils';
 import { DollAvatarGroup } from './dollAvatar';
+import { DollsContext } from '../context/dolls';
 
 const BarChartStyled = styled(BarChart)(() => ({
    '.custom-tooltip': {
@@ -39,8 +32,6 @@ const BarChartStyled = styled(BarChart)(() => ({
    },
 }));
 
-const statistics = algorithmUsageStatistics();
-
 interface StatStatisticsChartProps {
    algorithmType: AlgorithmType;
 }
@@ -48,6 +39,13 @@ interface StatStatisticsChartProps {
 const StatStatisticsChart: React.FC<StatStatisticsChartProps> = ({
    algorithmType,
 }) => {
+   const { algorithmUsageStatistics } = useContext(DollsContext);
+
+   const statistics = useMemo(
+      () => algorithmUsageStatistics(),
+      [algorithmUsageStatistics]
+   );
+
    const primaryData = toPairs(statistics[algorithmType].primary).map(
       ([key, data]) => ({
          name: key,

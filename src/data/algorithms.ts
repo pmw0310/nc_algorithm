@@ -8,7 +8,6 @@ import {
    forOwn,
    mapValues,
 } from 'lodash';
-import { dolls } from './dolls';
 
 export const DAY_OBTAINED = [1, 2, 3, 4, 5] as const;
 export type DayObtained = typeof DAY_OBTAINED[number];
@@ -575,15 +574,15 @@ export type AlgorithmSet =
         Array<SpecialSecondaryStatsType>
      ];
 
-type AllAlgorithmSet = Readonly<
+export type AllAlgorithmSet = Readonly<
    [AlgorithmType, ReadonlyArray<StatsType>, ReadonlyArray<StatsType>]
 >;
 
-type StatisticalData = {
+export type StatisticalData = {
    usage: Array<string>;
    rate: number;
 };
-type AlgorithmSetStatisticalData = Record<
+export type AlgorithmSetStatisticalData = Record<
    AlgorithmType,
    StatisticalData & {
       primary: Record<StatsType, StatisticalData>;
@@ -661,140 +660,3 @@ export const mergeAlgorithmSet = (
       return [type, primary.sort(stateSort), secondary.sort(stateSort)];
    }) as Array<AlgorithmSet>;
 };
-
-export const algorithmUsageStatistics = (doll?: Array<string>) => {
-   const dollData = doll ? pick(dolls, doll) : dolls;
-   const data = fromPairs(
-      ALGORITHM_TYPE.map((type: AlgorithmType) => {
-         const setType = algorithms[type].setType;
-         let initStatus: {
-            primary: Record<string, StatisticalData>;
-            secondary: Record<string, StatisticalData>;
-         };
-
-         switch (setType) {
-            case 'offense':
-               initStatus = {
-                  primary: fromPairs(
-                     OFFENSE_PRIMARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-                  secondary: fromPairs(
-                     OFFENSE_SECONDARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-               };
-               break;
-            case 'stability':
-               initStatus = {
-                  primary: fromPairs(
-                     STABILITY_PRIMARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-                  secondary: fromPairs(
-                     STABILITY_SECONDARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-               };
-               break;
-            case 'special':
-               initStatus = {
-                  primary: fromPairs(
-                     SPECIAL_PRIMARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-                  secondary: fromPairs(
-                     SPECIAL_SECONDARY_STATS_TYPE.map(type => [
-                        type,
-                        {
-                           usage: [],
-                           rate: 0,
-                        },
-                     ])
-                  ),
-               };
-               break;
-            default:
-               throw new TypeError();
-         }
-
-         return [
-            type,
-            {
-               usage: [] as Array<string>,
-               rate: 0,
-               ...initStatus,
-            },
-         ];
-      })
-   ) as AlgorithmSetStatisticalData;
-
-   forOwn(dollData, ({ algorithms }, doll) => {
-      algorithms.forEach(([algorithm, primary, secondary]) => {
-         data[algorithm].usage.push(doll);
-
-         primary.forEach(primaryKey => {
-            data[algorithm].primary[primaryKey].usage.push(doll);
-         });
-
-         secondary.forEach(secondaryKey => {
-            data[algorithm].secondary[secondaryKey].usage.push(doll);
-         });
-      });
-   });
-
-   const dollsLength = Object.keys(dollData).length;
-
-   return mapValues(data, ({ usage, primary, secondary }) => {
-      const usageLength = usage.length;
-      const rate = usageLength / dollsLength;
-
-      return {
-         usage,
-         rate,
-         primary: mapValues(
-            primary,
-            ({ usage }) =>
-               ({
-                  usage,
-                  rate: usage.length / usageLength,
-               } as StatisticalData)
-         ),
-         secondary: mapValues(
-            secondary,
-            ({ usage }) =>
-               ({
-                  usage,
-                  rate: usage.length / usageLength,
-               } as StatisticalData)
-         ),
-      };
-   }) as AlgorithmSetStatisticalData;
-};
-
-// console.log('algorithmUsageStatistics', algorithmUsageStatistics());

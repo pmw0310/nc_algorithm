@@ -15,55 +15,7 @@ export interface DollClassData {
    iconWebp: string;
 }
 
-export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {
-   guard: {
-      name: '수위',
-      iconPng: 'https://i.ibb.co/TL2WrTs/class-icon-career-1.png',
-      iconWebp: 'https://i.ibb.co/N6GCCj7/class-icon-career-1.webp',
-   },
-   warrior: {
-      name: '전사',
-      iconPng: 'https://i.ibb.co/PrPWmCZ/class-icon-career-3.png',
-      iconWebp: 'https://i.ibb.co/r3m2qjD/class-icon-career-3.webp',
-   },
-   specialist: {
-      name: '해결사',
-      iconPng: 'https://i.ibb.co/hd2P883/class-icon-career-4.png',
-      iconWebp: 'https://i.ibb.co/0qmRWHF/class-icon-career-4.webp',
-   },
-   medic: {
-      name: '치료사',
-      iconPng: 'https://i.ibb.co/jJkvBFc/class-icon-career-5.png',
-      iconWebp: 'https://i.ibb.co/n3DKsMv/class-icon-career-5.webp',
-   },
-   sniper: {
-      name: '사수',
-      iconPng: 'https://i.ibb.co/YQNHnHN/class-icon-career-2.png',
-      iconWebp: 'https://i.ibb.co/6DkLgnR/class-icon-career-2.webp',
-   },
-};
-
-export interface Doll {
-   name: string;
-   rarity: 1 | 2 | 3;
-   iconPng: string;
-   iconWebp: string;
-   dollClass: DollClass;
-   algorithms: Array<AlgorithmSet>;
-   sideIcon?: {
-      iconPng: string;
-      iconWebp: string;
-   };
-}
-
-export const rarityColors: Readonly<Record<0 | 1 | 2 | 3, string>> = {
-   0: '#7F7F7F',
-   1: '#51BAF5',
-   2: '#BD74F9',
-   3: '#FC8A00',
-} as const;
-
-export const dolls: Readonly<Record<string, Doll>> = {
+export const dollData: Readonly<Record<string, Doll>> = {
    persicaria: {
       name: '페르시카',
       rarity: 2,
@@ -639,7 +591,7 @@ export const dolls: Readonly<Record<string, Doll>> = {
       ],
    },
    vee: {
-      name: '브이 (물리)',
+      name: '브이',
       rarity: 3,
       iconPng: 'https://i.ibb.co/G9sW6wS/char-head-spic-vee.png',
       iconWebp: 'https://i.ibb.co/61xrvcm/char-head-spic-vee.webp',
@@ -654,29 +606,6 @@ export const dolls: Readonly<Record<string, Doll>> = {
          ['encapsulate', ['maxHpPlus'], ['atkPlus', 'critDamage']],
          ['paradigm', ['critDamage'], ['atkPlus', 'critDamage']],
       ],
-      sideIcon: {
-         iconPng: 'https://i.ibb.co/C29NC0f/attr-icon-attri-pow.png',
-         iconWebp: 'https://i.ibb.co/cL5PR92/attr-icon-attri-pow.webp',
-      },
-   },
-   veeHashrate: {
-      name: '브이 (연산)',
-      rarity: 3,
-      iconPng: 'https://i.ibb.co/G9sW6wS/char-head-spic-vee.png',
-      iconWebp: 'https://i.ibb.co/61xrvcm/char-head-spic-vee.webp',
-      dollClass: 'warrior',
-      algorithms: [
-         ['mlrMatrix', ['hashratePercent'], ['damageBoost', 'hashratePercent']],
-         ['perception', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
-         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
-         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
-      ],
-      sideIcon: {
-         iconPng:
-            'https://i.ibb.co/rpGr1LB/attr-icon-attri-skill-intensity.png',
-         iconWebp:
-            'https://i.ibb.co/5nyTJwt/attr-icon-attri-skill-intensity.webp',
-      },
    },
    willow: {
       name: '윌로우',
@@ -948,5 +877,81 @@ export const dolls: Readonly<Record<string, Doll>> = {
          ['deltaV', ['skillHaste'], ['skillHaste', 'critRate']],
          ['cluster', ['critDamage', 'critRate'], ['skillHaste', 'critRate']],
       ],
+   },
+};
+
+export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {
+   guard: {
+      name: '수위',
+      iconPng: 'https://i.ibb.co/TL2WrTs/class-icon-career-1.png',
+      iconWebp: 'https://i.ibb.co/N6GCCj7/class-icon-career-1.webp',
+   },
+   warrior: {
+      name: '전사',
+      iconPng: 'https://i.ibb.co/PrPWmCZ/class-icon-career-3.png',
+      iconWebp: 'https://i.ibb.co/r3m2qjD/class-icon-career-3.webp',
+   },
+   specialist: {
+      name: '해결사',
+      iconPng: 'https://i.ibb.co/hd2P883/class-icon-career-4.png',
+      iconWebp: 'https://i.ibb.co/0qmRWHF/class-icon-career-4.webp',
+   },
+   medic: {
+      name: '치료사',
+      iconPng: 'https://i.ibb.co/jJkvBFc/class-icon-career-5.png',
+      iconWebp: 'https://i.ibb.co/n3DKsMv/class-icon-career-5.webp',
+   },
+   sniper: {
+      name: '사수',
+      iconPng: 'https://i.ibb.co/YQNHnHN/class-icon-career-2.png',
+      iconWebp: 'https://i.ibb.co/6DkLgnR/class-icon-career-2.webp',
+   },
+};
+
+export interface Doll {
+   name: string;
+   rarity: 0 | 1 | 2 | 3;
+   iconPng: string;
+   iconWebp?: string;
+   dollClass: DollClass;
+   algorithms: Array<AlgorithmSet>;
+   sideIcon?: {
+      iconPng: string;
+      iconWebp?: string;
+   };
+}
+
+export const rarityColors: Readonly<Record<0 | 1 | 2 | 3, string>> = {
+   0: '#7F7F7F',
+   1: '#51BAF5',
+   2: '#BD74F9',
+   3: '#FC8A00',
+} as const;
+
+export const dolls: Readonly<Record<string, Doll>> = {
+   ...dollData,
+   vee: {
+      ...dollData.vee,
+      name: '브이 (물리)',
+      sideIcon: {
+         iconPng: 'https://i.ibb.co/C29NC0f/attr-icon-attri-pow.png',
+         iconWebp: 'https://i.ibb.co/cL5PR92/attr-icon-attri-pow.webp',
+      },
+   },
+   veeHashrate: {
+      ...dollData.vee,
+      name: '브이 (연산)',
+      algorithms: [
+         ['mlrMatrix', ['hashratePercent'], ['damageBoost', 'hashratePercent']],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'critDamage']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
+      ],
+      sideIcon: {
+         iconPng:
+            'https://i.ibb.co/rpGr1LB/attr-icon-attri-skill-intensity.png',
+         iconWebp:
+            'https://i.ibb.co/5nyTJwt/attr-icon-attri-skill-intensity.webp',
+      },
    },
 };

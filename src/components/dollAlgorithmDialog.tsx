@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import 'swiper/css';
 import { SelectDollContext } from '../context/selectDoll';
-import { Doll, dolls } from '../data/dolls';
+import { Doll } from '../data/dolls';
 import { mergeAlgorithmSet } from '../data/algorithms';
 import DollIcon from './dollIcon';
 import AlgorithmSetView from './algorithmSetView';
@@ -11,8 +11,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { DollsContext } from '../context/dolls';
 
-const DialogStyled = styled(Dialog)(() => ({
+export const DialogStyled = styled(Dialog)(() => ({
    WebkitTouchCallout: 'none',
    userSelect: 'none',
    '.MuiDialog-paper': {
@@ -21,7 +22,7 @@ const DialogStyled = styled(Dialog)(() => ({
    },
 }));
 
-const DialogTitleStyled = styled(DialogTitle)(() => ({
+export const DialogTitleStyled = styled(DialogTitle)(() => ({
    height: 44,
    backgroundColor: 'rgba(42,42,42,0.8)',
    color: 'white',
@@ -30,7 +31,7 @@ const DialogTitleStyled = styled(DialogTitle)(() => ({
    padding: 8,
 }));
 
-const DialogContentStyled = styled(DialogContent)(() => ({
+export const DialogContentStyled = styled(DialogContent)(() => ({
    backgroundColor: 'rgba(234,234,234,0.85)',
    padding: '20px 20px 0 20px !important',
    '.algorithm-doll-background': {
@@ -51,7 +52,7 @@ const DialogContentStyled = styled(DialogContent)(() => ({
    },
 }));
 
-const DialogActionsStyled = styled(DialogActions)(() => ({
+export const DialogActionsStyled = styled(DialogActions)(() => ({
    backgroundColor: 'rgba(234,234,234,0.85)',
    justifyContent: 'center',
    '.MuiButtonBase-root': {
@@ -61,6 +62,7 @@ const DialogActionsStyled = styled(DialogActions)(() => ({
 
 const DollAlgorithmView: React.FC = () => {
    const { showDoll, setShowDoll } = useContext(SelectDollContext);
+   const { dolls } = useContext(DollsContext);
    const [dollData, setDollData] = useState<Doll>();
 
    useEffect(() => {

@@ -3,6 +3,7 @@ import DollClassList from './components/dollClassList';
 import AlgorithmTabView from './components/algorithmTabView';
 import DollAlgorithmDialog from './components/dollAlgorithmDialog';
 import HelpText from './components/helpText';
+import SideMenu from './components/sideMenu';
 
 const App: React.FC = () => {
    return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
          <HelpText />
          <AlgorithmTabView />
          <DollAlgorithmDialog />
+         <SideMenu />
       </>
    );
 };

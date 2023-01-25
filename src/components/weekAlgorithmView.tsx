@@ -14,10 +14,10 @@ import 'swiper/css/virtual';
 import 'swiper/css/navigation';
 import { SelectDollContext } from '../context/selectDoll';
 import { DAY_OBTAINED as days, mergeAlgorithmSet } from '../data/algorithms';
-import { dolls } from '../data/dolls';
 import AlgorithmSetView from './algorithmSetView';
 import dayToString from '../utils/dayToString';
 import { debounce } from 'lodash';
+import { DollsContext } from '../context/dolls';
 
 export const StyledSwiper = styled(Swiper)(() => ({
    '.swiper-button-next, .swiper-button-prev': {
@@ -105,6 +105,7 @@ export const StyledSwiper = styled(Swiper)(() => ({
 const WeekAlgorithmView: React.FC = () => {
    const { day: nowDay } = useContext(DayContext);
    const { selectDolls: dollKeys } = useContext(SelectDollContext);
+   const { dolls } = useContext(DollsContext);
    const [slidesPerView, setSlidesPerView] = useState(1);
 
    const algorithms = useMemo(() => {

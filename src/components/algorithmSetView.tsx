@@ -1,16 +1,15 @@
 import React, { useMemo, useContext } from 'react';
 import { compact } from 'lodash';
 import { styled } from '@mui/material/styles';
-import { dolls, rarityColors } from '../data/dolls';
+import { rarityColors } from '../data/dolls';
 import Divider from '@mui/material/Divider';
 import { SelectDollContext } from '../context/selectDoll';
 import { DayContext } from '../context/day';
-// import Avatar from '@mui/material/Avatar';
-// import AvatarGroup from '@mui/material/AvatarGroup';
 import Stack from '@mui/material/Stack';
 import GlowingOutline from './glowingOutline';
 import LazyImage from './lazyImage';
-import DollAvatar, { DollAvatarGroup } from './dollAvatar';
+import { DollAvatarGroup } from './dollAvatar';
+import { DollsContext } from '../context/dolls';
 
 import {
    AlgorithmSet,
@@ -158,6 +157,7 @@ interface DollAvatarsProps {
 }
 const DollAvatars: React.FC<DollAvatarsProps> = React.memo(({ type }) => {
    const { selectDolls } = useContext(SelectDollContext);
+   const { dolls } = useContext(DollsContext);
 
    const usingDoll = useMemo(
       () =>

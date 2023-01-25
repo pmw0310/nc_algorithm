@@ -1,8 +1,9 @@
-import React from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-import { DollClass, dolls, DollClasses } from '../data/dolls';
+import React, { useContext } from 'react';
+import { PieChart, Pie, Cell } from 'recharts';
+import { DollClass, DollClasses } from '../data/dolls';
 import { toPairs } from 'lodash';
 import { isWebpSupported } from 'react-image-webp/dist/utils';
+import { DollsContext } from '../context/dolls';
 
 const COLORS = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de'];
 
@@ -50,6 +51,8 @@ interface ClassPieChartProps {
 }
 
 const ClassPieChart: React.FC<ClassPieChartProps> = ({ size, doll }) => {
+   const { dolls } = useContext(DollsContext);
+
    const data = toPairs(
       doll.reduce((acc, cur) => {
          const data = dolls[cur];

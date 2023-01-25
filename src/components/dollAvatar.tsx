@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import { styled } from '@mui/material/styles';
-import { dolls, rarityColors } from '../data/dolls';
+import { rarityColors } from '../data/dolls';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup, { AvatarGroupProps } from '@mui/material/AvatarGroup';
 import LazyImage from './lazyImage';
 import colorMix from '../utils/blendColors';
 import Badge from '@mui/material/Badge';
 import { fromPairs, toPairs } from 'lodash';
+import { DollsContext } from '../context/dolls';
 
 const AvatarStyled = styled(Avatar)(() => ({
    '&.doll-avatar': {
@@ -53,6 +54,8 @@ interface AlgorithmProps {
 }
 
 const DollAvatar: React.FC<AlgorithmProps> = ({ doll, size = 20 }) => {
+   const { dolls } = useContext(DollsContext);
+
    const { iconPng, iconWebp, rarity, sideIcon } = useMemo(
       () => dolls[doll],
       [doll]

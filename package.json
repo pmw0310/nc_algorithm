@@ -17,6 +17,7 @@
       "@types/react": "^18.0.26",
       "@types/react-dom": "^18.0.10",
       "lodash": "^4.17.21",
+      "randomstring": "^1.2.3",
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
       "react-image-webp": "^0.8.0",
@@ -58,6 +59,7 @@
       ]
    },
    "devDependencies": {
+      "@types/randomstring": "^1.1.8",
       "gh-pages": "^4.0.0"
    }
 }
