@@ -66,15 +66,15 @@ const DollAlgorithmView: React.FC = () => {
    const [dollData, setDollData] = useState<Doll>();
 
    useEffect(() => {
-      if (showDoll === null) {
+      if (showDoll === null || showDoll[0] !== 'info') {
          return;
       }
-      setDollData(dolls[showDoll]);
+      setDollData(dolls[showDoll[1]]);
    }, [showDoll]);
 
    return (
       <DialogStyled
-         open={showDoll !== null}
+         open={showDoll === null || showDoll[0] !== 'info'}
          onClose={() => {
             setShowDoll(null);
          }}
@@ -96,7 +96,9 @@ const DollAlgorithmView: React.FC = () => {
                   return mergeAlgorithmSet(dollData.algorithms).map(
                      algorithm => (
                         <AlgorithmSetView
-                           key={`dialog_${showDoll}_${algorithm[0]}`}
+                           key={`dialog_${showDoll?.[1] ?? '?'}_${
+                              algorithm[0]
+                           }`}
                            algorithmSet={algorithm}
                            showDay
                         />

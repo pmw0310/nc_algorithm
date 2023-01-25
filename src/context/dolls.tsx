@@ -15,6 +15,7 @@ import {
    fromPairs,
    forOwn,
    mapValues,
+   merge,
 } from 'lodash';
 import {
    algorithms,
@@ -51,7 +52,7 @@ interface Props {
 }
 
 const DollsProvider: React.FC<Props> = ({ children }) => {
-   const [customDolls, setCustomDolls] = useState<Record<string, Doll | null>>(
+   const [customDolls, setCustomDolls] = useState<Record<string, Doll>>(
       (() => {
          const data = localStorage.getItem('dolls');
          if (isNil(data)) {
@@ -62,17 +63,19 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
    );
 
    const dolls = useMemo<Record<string, Doll>>(() => {
-      const nullKeys = toPairs(customDolls)
-         .filter(([, value]) => isNil(value))
-         .map(([key]) => key);
+      return merge(dollData, customDolls);
 
-      return omit(
-         {
-            ...dollData,
-            ...customDolls,
-         },
-         nullKeys
-      ) as Record<string, Doll>;
+      // const nullKeys = toPairs(customDolls)
+      //    .filter(([, value]) => isNil(value))
+      //    .map(([key]) => key);
+
+      // return omit(
+      //    {
+      //       ...dollData,
+      //       ...customDolls,
+      //    },
+      //    nullKeys
+      // ) as Record<string, Doll>;
    }, [customDolls]);
 
    const addDoll = useCallback(
@@ -91,10 +94,11 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
 
    const removeDoll = useCallback(
       (doll: string) => {
-         setCustomDolls(dolls => ({
-            ...dolls,
-            [doll]: null,
-         }));
+         setCustomDolls(dolls => {
+            const data = { ...dolls };
+            delete data[doll];
+            return data;
+         });
       },
       [setCustomDolls]
    );

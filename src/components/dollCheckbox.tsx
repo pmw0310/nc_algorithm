@@ -51,7 +51,7 @@ const ImageCheckbox: React.FC<DollCheckboxProps> = ({
    );
 
    const handleLongPress = useCallback(
-      () => setShowDoll(doll),
+      () => setShowDoll(['info', doll]),
       [doll, setShowDoll]
    );
 

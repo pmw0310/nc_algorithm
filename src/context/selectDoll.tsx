@@ -7,12 +7,14 @@ import React, {
 } from 'react';
 import { isNil, toPairs } from 'lodash';
 
+type DialogType = 'info' | 'edit';
+
 interface SelectDollContextProps {
    selectDoll: Record<string, boolean>;
    selectDolls: Array<string>;
    setSelect: (key: string, select: boolean) => void;
-   showDoll: string | null;
-   setShowDoll: (doll: string | null) => void;
+   showDoll: [DialogType, string] | null;
+   setShowDoll: (doll: [DialogType, string] | null) => void;
 }
 
 const SelectDollContext = createContext<SelectDollContextProps>({
@@ -37,7 +39,7 @@ const SelectDollProvider: React.FC<Props> = ({ children }) => {
          return JSON.parse(data);
       })()
    );
-   const [showDoll, setShowDoll] = useState<string | null>(null);
+   const [showDoll, setShowDoll] = useState<[DialogType, string] | null>(null);
 
    useEffect(() => {
       localStorage.setItem('dollCheck', JSON.stringify(selectDoll));
