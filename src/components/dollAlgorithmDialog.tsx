@@ -70,11 +70,11 @@ const DollAlgorithmView: React.FC = () => {
          return;
       }
       setDollData(dolls[showDoll[1]]);
-   }, [showDoll]);
+   }, [dolls, showDoll]);
 
    return (
       <DialogStyled
-         open={showDoll === null || showDoll[0] !== 'info'}
+         open={showDoll?.[0] === 'info'}
          onClose={() => {
             setShowDoll(null);
          }}
@@ -86,6 +86,19 @@ const DollAlgorithmView: React.FC = () => {
          <DialogContentStyled>
             <div className="algorithm-doll-background">
                {dollData && <DollIcon doll={dollData} />}
+               <Button
+                  variant="contained"
+                  onClick={() => {
+                     console.log('showDoll', showDoll);
+
+                     if (!showDoll) {
+                        return;
+                     }
+                     setShowDoll(['edit', showDoll[1]]);
+                  }}
+               >
+                  알고리즘 수정
+               </Button>
             </div>
             <div className="algorithm-background">
                {(() => {

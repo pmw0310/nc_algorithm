@@ -7,16 +7,7 @@ import React, {
 } from 'react';
 import { dolls as dollData, Doll } from '../data/dolls';
 import randomstring from 'randomstring';
-import {
-   isNil,
-   toPairs,
-   omit,
-   pick,
-   fromPairs,
-   forOwn,
-   mapValues,
-   merge,
-} from 'lodash';
+import { isNil, pick, fromPairs, forOwn, mapValues, merge } from 'lodash';
 import {
    algorithms,
    AlgorithmSetStatisticalData,
