@@ -298,11 +298,11 @@ export type SpecialPrimaryStatsType = Extract<
 export const SPECIAL_SECONDARY_STATS_TYPE = [
    'maxHpPlus',
    'atkPlus',
-   'atkPercent',
    'hashratePlus',
-   'hashratePercent',
    'physicalDefPlus',
+   'physicalDefPercent',
    'operandDefPlus',
+   'operandDefPercent',
    'physicalPenPlus',
    'operandPenPlus',
    'critRate',
@@ -336,11 +336,11 @@ export const STABILITY_SECONDARY_STATS_TYPE = [
    'maxHpPlus',
    'maxHpPercent',
    'atkPlus',
-   'atkPercent',
    'hashratePlus',
-   'hashratePercent',
    'physicalDefPlus',
+   'physicalDefPercent',
    'operandDefPlus',
+   'operandDefPercent',
    'physicalPenPlus',
    'operandPenPlus',
    'critRate',
@@ -580,7 +580,7 @@ export type AllAlgorithmSet = Readonly<
 
 export type StatisticalData = {
    usage: Array<string>;
-   rate: number;
+   // rate: number;
 };
 export type AlgorithmSetStatisticalData = Record<
    AlgorithmType,

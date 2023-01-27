@@ -11,13 +11,12 @@ import {
 } from './dollAlgorithmDialog';
 import Button from '@mui/material/Button';
 import { debounce } from 'lodash';
-import { Select } from './select';
 
 const SideMenu: React.FC = () => {
    const [open, setOpen] = React.useState<boolean>(false);
    const [hidden, setHidden] = React.useState<boolean>(false);
    const [showAddDollDialog, setShowAddDollDialog] = useState<boolean>(false);
-   const [ScrollY, setScrollY] = useState(0);
+   const [scrollY, setScrollY] = useState(0);
 
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
@@ -42,7 +41,7 @@ const SideMenu: React.FC = () => {
             ariaLabel="SpeedDial basic example"
             sx={{
                position: 'absolute',
-               bottom: 20 - ScrollY,
+               bottom: 20 - scrollY,
                right: 16,
                transition: '0.25s',
             }}

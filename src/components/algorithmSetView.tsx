@@ -170,7 +170,7 @@ const DollAvatars: React.FC<DollAvatarsProps> = React.memo(({ type }) => {
                algorithms.some(([algo]) => algo === type)
             )
             .map(({ doll }) => doll),
-      [selectDolls]
+      [dolls, selectDolls, type]
    );
 
    return <DollAvatarGroup doll={usingDoll} />;

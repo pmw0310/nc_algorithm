@@ -107,7 +107,7 @@ const StatStatisticsChart: React.FC<StatStatisticsChartProps> = ({
             statistics[algorithmType][type as 'primary' | 'secondary'][
                label as StatsType
             ];
-         const rate = statisticsData.rate * 100;
+         const rate = (statisticsData.usage.length / max) * 100;
          const value = payload[0].value;
 
          return (

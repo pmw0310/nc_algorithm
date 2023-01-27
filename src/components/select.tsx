@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { styled } from '@mui/material/styles';
 
 const SelectStyled = styled(Select)(() => ({
+   fontFamily: 'inherit',
    '&.MuiInputBase-root': {
       '& fieldset': {
          borderColor: '#fff',
@@ -12,12 +13,12 @@ const SelectStyled = styled(Select)(() => ({
       '&:hover fieldset': {
          borderColor: '#aaa',
       },
-      '&.Mui-focused fieldset': {
-         borderColor: '#ed752f',
-      },
+      // '&.Mui-focused fieldset': {
+      //    borderColor: '#ed752f',
+      // },
    },
    '.MuiSelect-select': {
-      fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
+      fontFamily: 'inherit',
       display: 'flex',
       alignItems: 'center',
       color: '#fff',
@@ -55,11 +56,11 @@ const ListSubheaderStyled = styled(ListSubheader)(() => ({
 }));
 
 const InputLabelStyled = styled(InputLabel)(() => ({
-   fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
+   fontFamily: 'inherit',
    color: '#fff',
-   '&.Mui-focused': {
-      color: '#ed752f',
-   },
+   // '&.Mui-focused': {
+   //    color: '#ed752f',
+   // },
 }));
 
 export {

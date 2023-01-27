@@ -7,7 +7,15 @@ import React, {
 } from 'react';
 import { dolls as dollData, Doll } from '../data/dolls';
 import randomstring from 'randomstring';
-import { isNil, pick, fromPairs, forOwn, mapValues, merge } from 'lodash';
+import {
+   isNil,
+   pick,
+   fromPairs,
+   forOwn,
+   mapValues,
+   merge,
+   cloneDeep,
+} from 'lodash';
 import {
    algorithms,
    AlgorithmSetStatisticalData,
@@ -25,6 +33,7 @@ import {
 interface DollsContextProps {
    dolls: Record<string, Doll>;
    addDoll: (doll: Doll) => void;
+   editDoll: (doll: string, data: Partial<Doll>) => void;
    removeDoll: (doll: string) => void;
    algorithmUsageStatistics: (
       doll?: Array<string>
@@ -34,6 +43,7 @@ interface DollsContextProps {
 const DollsContext = createContext<DollsContextProps>({
    dolls: {},
    addDoll: () => {},
+   editDoll: () => {},
    removeDoll: () => {},
    algorithmUsageStatistics: () => ({} as any),
 });
@@ -43,9 +53,11 @@ interface Props {
 }
 
 const DollsProvider: React.FC<Props> = ({ children }) => {
-   const [customDolls, setCustomDolls] = useState<Record<string, Doll>>(
+   const [customDolls, setCustomDolls] = useState<
+      Record<string, Partial<Doll>>
+   >(
       (() => {
-         const data = localStorage.getItem('dolls');
+         const data = localStorage.getItem('customDolls');
          if (isNil(data)) {
             return {};
          }
@@ -54,7 +66,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
    );
 
    const dolls = useMemo<Record<string, Doll>>(() => {
-      return merge(dollData, customDolls);
+      return merge(cloneDeep(dollData), customDolls);
 
       // const nullKeys = toPairs(customDolls)
       //    .filter(([, value]) => isNil(value))
@@ -80,19 +92,26 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
 
          setCustomDolls(dolls => ({ ...dolls, [key]: doll }));
       },
-      [customDolls, setCustomDolls]
+      [customDolls]
    );
 
-   const removeDoll = useCallback(
-      (doll: string) => {
-         setCustomDolls(dolls => {
-            const data = { ...dolls };
-            delete data[doll];
-            return data;
-         });
-      },
-      [setCustomDolls]
-   );
+   const editDoll = useCallback((doll: string, data: Partial<Doll>) => {
+      setCustomDolls(dolls => ({
+         ...dolls,
+         [doll]: {
+            ...(dolls?.[doll] ?? {}),
+            ...data,
+         },
+      }));
+   }, []);
+
+   const removeDoll = useCallback((doll: string) => {
+      setCustomDolls(dolls => {
+         const data = { ...dolls };
+         delete data[doll];
+         return data;
+      });
+   }, []);
 
    const algorithmUsageStatistics = useCallback(
       (doll?: Array<string>) => {
@@ -113,7 +132,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -122,7 +141,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -135,7 +154,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -144,7 +163,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -157,7 +176,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -166,7 +185,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                               type,
                               {
                                  usage: [],
-                                 rate: 0,
+                                 // rate: 0,
                               },
                            ])
                         ),
@@ -180,7 +199,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
                   type,
                   {
                      usage: [] as Array<string>,
-                     rate: 0,
+                     // rate: 0,
                      ...initStatus,
                   },
                ];
@@ -189,45 +208,59 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
 
          forOwn(dollData, ({ algorithms }, doll) => {
             algorithms.forEach(([algorithm, primary, secondary]) => {
-               data[algorithm].usage.push(doll);
+               try {
+                  data[algorithm].usage.push(doll);
+               } catch (e) {
+                  console.error(algorithm, e);
+               }
 
                primary.forEach(primaryKey => {
-                  data[algorithm].primary[primaryKey].usage.push(doll);
+                  try {
+                     data[algorithm].primary[primaryKey].usage.push(doll);
+                  } catch (e) {
+                     console.error(primaryKey, e);
+                  }
                });
 
                secondary.forEach(secondaryKey => {
-                  data[algorithm].secondary[secondaryKey].usage.push(doll);
+                  try {
+                     data[algorithm].secondary[secondaryKey].usage.push(doll);
+                  } catch (e) {
+                     console.error(secondaryKey, e);
+                  }
                });
             });
          });
 
-         const dollsLength = Object.keys(dollData).length;
+         return data;
 
-         return mapValues(data, ({ usage, primary, secondary }) => {
-            const usageLength = usage.length;
-            const rate = usageLength / dollsLength;
+         // const dollsLength = Object.keys(dollData).length;
 
-            return {
-               usage,
-               rate,
-               primary: mapValues(
-                  primary,
-                  ({ usage }) =>
-                     ({
-                        usage,
-                        rate: usage.length / usageLength,
-                     } as StatisticalData)
-               ),
-               secondary: mapValues(
-                  secondary,
-                  ({ usage }) =>
-                     ({
-                        usage,
-                        rate: usage.length / usageLength,
-                     } as StatisticalData)
-               ),
-            };
-         }) as AlgorithmSetStatisticalData;
+         // return mapValues(data, ({ usage, primary, secondary }) => {
+         //    const usageLength = usage.length;
+         //    const rate = usageLength / dollsLength;
+
+         //    return {
+         //       usage,
+         //       rate,
+         //       primary: mapValues(
+         //          primary,
+         //          ({ usage }) =>
+         //             ({
+         //                usage,
+         //                rate: usage.length / usageLength,
+         //             } as StatisticalData)
+         //       ),
+         //       secondary: mapValues(
+         //          secondary,
+         //          ({ usage }) =>
+         //             ({
+         //                usage,
+         //                rate: usage.length / usageLength,
+         //             } as StatisticalData)
+         //       ),
+         //    };
+         // }) as AlgorithmSetStatisticalData;
       },
       [dolls]
    );
@@ -241,6 +274,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
          value={{
             dolls,
             addDoll,
+            editDoll,
             removeDoll,
             algorithmUsageStatistics,
          }}

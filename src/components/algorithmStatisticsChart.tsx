@@ -93,7 +93,7 @@ const AlgorithmStatisticsChart: React.FC = () => {
       if (active && payload && payload.length) {
          const algorithmData = algorithms[label as AlgorithmType];
          const statisticsData = statistics[label as AlgorithmType];
-         const rate = statisticsData.rate * 100;
+         const rate = (statisticsData.usage.length / max) * 100;
          const value = payload[0].value;
 
          return (

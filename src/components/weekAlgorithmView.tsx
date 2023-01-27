@@ -116,7 +116,7 @@ const WeekAlgorithmView: React.FC = () => {
          .flat();
 
       return days.map(day => mergeAlgorithmSet(algorithms, day));
-   }, [dollKeys]);
+   }, [dollKeys, dolls]);
 
    const initialSlide = useMemo(() => {
       const index = days.findIndex(d => d === nowDay);

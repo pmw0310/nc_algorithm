@@ -55,9 +55,9 @@ export const DialogContentStyled = styled(DialogContent)(() => ({
 export const DialogActionsStyled = styled(DialogActions)(() => ({
    backgroundColor: 'rgba(234,234,234,0.85)',
    justifyContent: 'center',
-   '.MuiButtonBase-root': {
-      backgroundColor: '#ee7a30 !important',
-   },
+   // '.MuiButtonBase-root': {
+   //    backgroundColor: '#ee7a30 !important',
+   // },
 }));
 
 const DollAlgorithmView: React.FC = () => {
@@ -89,8 +89,6 @@ const DollAlgorithmView: React.FC = () => {
                <Button
                   variant="contained"
                   onClick={() => {
-                     console.log('showDoll', showDoll);
-
                      if (!showDoll) {
                         return;
                      }
