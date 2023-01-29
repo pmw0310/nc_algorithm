@@ -4,6 +4,7 @@ import {
    indexOf,
    toPairs,
    fromPairs,
+   compact,
    // pick,
    // forOwn,
    // mapValues,
@@ -634,6 +635,7 @@ export const mergeAlgorithmSet = (
    sets: Array<AlgorithmSet>,
    dayObtained?: DayObtained
 ): Array<AlgorithmSet> => {
+   sets = compact(sets);
    let types = union(sets.map(([type]) => type));
 
    if (dayObtained) {

@@ -162,6 +162,7 @@ const DollAvatars: React.FC<DollAvatarsProps> = React.memo(({ type }) => {
    const usingDoll = useMemo(
       () =>
          selectDolls
+            .filter(doll => dolls[doll])
             .map(doll => ({
                doll,
                data: dolls[doll],

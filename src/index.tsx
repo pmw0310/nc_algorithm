@@ -12,6 +12,33 @@ import { SelectDollProvider } from './context/selectDoll';
 import { DollsProvider } from './context/dolls';
 import Container from '@mui/material/Container';
 import buildTime from './buildTime.json';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const fontFamily = ['IBM Plex Sans KR', 'sans-serif'].join(',');
+
+const theme = createTheme({
+   palette: {
+      primary: {
+         main: '#ee7a30',
+         contrastText: '#faf5f5',
+      },
+      error: {
+         main: '#8d3734',
+         contrastText: '#faf5f5',
+      },
+      secondary: {
+         main: '#d1d1d3',
+         contrastText: '#0a0a0a',
+      },
+      success: {
+         main: '#536a2d',
+         contrastText: '#a9ca40',
+      },
+   },
+   typography: {
+      fontFamily,
+   },
+});
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement
@@ -23,7 +50,7 @@ root.render(
          styles={{
             body: {
                backgroundColor: '#eaeaea',
-               fontFamily: ['IBM Plex Sans KR', 'sans-serif'].join(','),
+               fontFamily,
             },
             html: {
                WebkitTouchCallout: 'none',
@@ -31,20 +58,22 @@ root.render(
             },
          }}
       />
-      <Container
-         style={{
-            minHeight: '100vh',
-         }}
-         fixed
-      >
-         <DayProvider>
-            <DollsProvider>
-               <SelectDollProvider>
-                  <App />
-               </SelectDollProvider>
-            </DollsProvider>
-         </DayProvider>
-      </Container>
+      <ThemeProvider theme={theme}>
+         <Container
+            style={{
+               minHeight: '100vh',
+            }}
+            fixed
+         >
+            <DayProvider>
+               <DollsProvider>
+                  <SelectDollProvider>
+                     <App />
+                  </SelectDollProvider>
+               </DollsProvider>
+            </DayProvider>
+         </Container>
+      </ThemeProvider>
       <footer
          style={{
             display: 'flex',

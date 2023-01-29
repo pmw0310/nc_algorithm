@@ -40,8 +40,8 @@ const UsageStatisticsView: React.FC = () => {
                      <LazyImage
                         width={16}
                         height={16}
-                        src="https://i.ibb.co/dbSqs60/function-mark-icon-corner-12.png"
-                        webp="https://i.ibb.co/S3zd8K1/function-mark-icon-corner-12.webp"
+                        src="https://i.ibb.co/dJmSBxF/algorithm-icon.png"
+                        webp="https://i.ibb.co/HLZRXcR/algorithm-icon.webp"
                      />
                      알고리즘
                   </MenuItem>

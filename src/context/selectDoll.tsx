@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { isNil, toPairs } from 'lodash';
 
-type DialogType = 'info' | 'edit';
+type DialogType = 'info' | 'edit' | 'add' | 'remove' | 'data';
 
 interface SelectDollContextProps {
    selectDoll: Record<string, boolean>;

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import 'swiper/css';
 import { SelectDollContext } from '../context/selectDoll';
 import {
    OFFENSE_ALGORITHM_TYPE,
@@ -35,16 +34,53 @@ import Button from '@mui/material/Button';
 import { DollsContext } from '../context/dolls';
 import LazyImage from './lazyImage';
 import { fromPairs, toPairs, compact } from 'lodash';
-import Checkbox from '@mui/material/Checkbox';
 import Collapse from '@mui/material/Collapse';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Container from '@mui/material/Container';
+import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
+import { MenuItem } from './select';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 
-const DialogStyled = styled(Dialog)(() => ({}));
+export const DialogStyled = styled(Dialog)(() => ({
+   '@media (min-width: 0px)': {
+      paddingTop: 48,
+   },
+   '@media (min-width: 600px)': {
+      paddingTop: 64,
+   },
+   backgroundColor: '#e7e9e7',
+   img: {
+      filter:
+         'invert(97%) sepia(4%) saturate(200%) hue-rotate(12deg) brightness(88%) contrast(84%)',
+      objectFit: 'contain',
+   },
+   '.MuiListSubheader-root': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight: 'bold',
+      fontSize: 22,
+      zIndex: 2,
+      img: {
+         marginRight: 14,
+      },
+   },
+   '.algorithm-list-item': {
+      margin: '6px 0',
+      padding: 6,
+      backgroundColor: '#dddddb',
+      '.MuiTypography-root': {
+         fontWeight: 'bold',
+      },
+   },
+}));
+
+const SelectStyled = styled(Select<Array<StatsType>>)(() => ({}));
 
 const ALGORITHM_DATA: Array<{
    set: AlgorithmSetTypeData;
@@ -87,7 +123,7 @@ type AlgorithmDialogCheckedData = Record<AlgorithmType, boolean>;
 interface StatsSelectProps {
    label: string;
    value: Array<StatsType>;
-   onChange: (event: SelectChangeEvent<Array<string>>) => void;
+   onChange: (event: SelectChangeEvent<Array<StatsType>>) => void;
    statsTypes: ReadonlyArray<StatsType>;
 }
 
@@ -100,12 +136,30 @@ const StatsSelect: React.FC<StatsSelectProps> = ({
    return (
       <FormControl fullWidth>
          <InputLabel>{label}</InputLabel>
-         <Select
+         <SelectStyled
             multiple
             value={value}
-            renderValue={selected =>
-               selected.map(key => stats[key].name).join(', ')
-            }
+            renderValue={selected => (
+               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map(key => {
+                     const { iconPng, iconWebp, name } = stats[key];
+                     return (
+                        <Chip
+                           key={key}
+                           icon={
+                              <LazyImage
+                                 src={iconPng}
+                                 webp={iconWebp}
+                                 width={18}
+                                 height={18}
+                              />
+                           }
+                           label={name}
+                        />
+                     );
+                  })}
+               </Box>
+            )}
             onChange={onChange}
             input={<OutlinedInput label={label} />}
          >
@@ -126,7 +180,7 @@ const StatsSelect: React.FC<StatsSelectProps> = ({
                   </MenuItem>
                );
             })}
-         </Select>
+         </SelectStyled>
       </FormControl>
    );
 };
@@ -203,39 +257,36 @@ const EditAlgorithmDialog: React.FC = () => {
    }, [dolls, showDoll]);
 
    return (
-      <Dialog
+      <DialogStyled
          open={showDoll?.[0] === 'edit'}
          onClose={handleClose}
          fullScreen
-         style={{
-            paddingTop: 64,
-         }}
       >
          <AppBar sx={{ position: 'fixed' }}>
             <Toolbar>
-               <Typography
-                  sx={{ ml: 2, flex: 1, fontFamily: 'inherit' }}
-                  variant="h6"
-                  component="div"
-               >
+               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                   알고리즘 수정
                </Typography>
-               <Button
-                  autoFocus
-                  color="inherit"
-                  onClick={handleSave}
-                  startIcon={<SaveIcon />}
-               >
-                  저장
-               </Button>
-               <Button
-                  autoFocus
-                  color="secondary"
-                  onClick={handleClose}
-                  startIcon={<CloseIcon />}
-               >
-                  닫기
-               </Button>
+               <Stack direction="row" spacing={2}>
+                  <Button
+                     autoFocus
+                     color="error"
+                     variant="contained"
+                     onClick={handleClose}
+                     startIcon={<CloseIcon />}
+                  >
+                     닫기
+                  </Button>
+                  <Button
+                     autoFocus
+                     color="primary"
+                     variant="contained"
+                     onClick={handleSave}
+                     startIcon={<SaveIcon />}
+                  >
+                     저장
+                  </Button>
+               </Stack>
             </Toolbar>
          </AppBar>
          <Container fixed>
@@ -243,15 +294,12 @@ const EditAlgorithmDialog: React.FC = () => {
                <List
                   key={index}
                   subheader={
-                     <ListSubheader
-                        component="div"
-                        style={{ fontFamily: 'inherit' }}
-                     >
+                     <ListSubheader component="div">
                         <LazyImage
                            src={set.iconPng}
                            webp={set.iconWebp}
-                           width={32}
-                           height={32}
+                           width={22}
+                           height={22}
                         />
                         {set.name}
                      </ListSubheader>
@@ -261,10 +309,10 @@ const EditAlgorithmDialog: React.FC = () => {
                      const { name, iconPng, iconWebp } = algorithms[type];
 
                      return (
-                        <React.Fragment key={type}>
+                        <div className="algorithm-list-item" key={type}>
                            <ListItem
                               secondaryAction={
-                                 <Checkbox
+                                 <Switch
                                     edge="end"
                                     checked={Boolean(setsChecked[type])}
                                     onChange={handleToggle(type)}
@@ -279,10 +327,7 @@ const EditAlgorithmDialog: React.FC = () => {
                                     height={32}
                                  />
                               </ListItemIcon>
-                              <ListItemText
-                                 primary={name}
-                                 style={{ fontFamily: 'inherit' }}
-                              />
+                              <ListItemText primary={name} />
                            </ListItem>
                            <Collapse
                               in={setsChecked[type]}
@@ -324,13 +369,13 @@ const EditAlgorithmDialog: React.FC = () => {
                                  </div>
                               </List>
                            </Collapse>
-                        </React.Fragment>
+                        </div>
                      );
                   })}
                </List>
             ))}
          </Container>
-      </Dialog>
+      </DialogStyled>
    );
 };
 

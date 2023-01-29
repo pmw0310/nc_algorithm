@@ -5,16 +5,22 @@ import React, {
    useMemo,
    useEffect,
 } from 'react';
-import { dolls as dollData, Doll } from '../data/dolls';
+import { dolls as dollData, Doll, DollClasses } from '../data/dolls';
 import randomstring from 'randomstring';
 import {
    isNil,
    pick,
    fromPairs,
    forOwn,
-   mapValues,
    merge,
    cloneDeep,
+   toPairs,
+   omit,
+   isObject,
+   isNull,
+   isString,
+   has,
+   isArray,
 } from 'lodash';
 import {
    algorithms,
@@ -28,13 +34,17 @@ import {
    STABILITY_PRIMARY_STATS_TYPE,
    STABILITY_SECONDARY_STATS_TYPE,
    StatisticalData,
+   stats,
+   StatsType,
+   AlgorithmSet,
 } from '../data/algorithms';
 
 interface DollsContextProps {
    dolls: Record<string, Doll>;
-   addDoll: (doll: Doll) => void;
+   addDoll: (doll: Doll) => string;
    editDoll: (doll: string, data: Partial<Doll>) => void;
    removeDoll: (doll: string) => void;
+   setCustom: (data: Record<string, Partial<Doll> | undefined | null>) => void;
    algorithmUsageStatistics: (
       doll?: Array<string>
    ) => AlgorithmSetStatisticalData;
@@ -42,11 +52,97 @@ interface DollsContextProps {
 
 const DollsContext = createContext<DollsContextProps>({
    dolls: {},
-   addDoll: () => {},
+   addDoll: () => '',
    editDoll: () => {},
    removeDoll: () => {},
+   setCustom: () => {},
    algorithmUsageStatistics: () => ({} as any),
 });
+
+export const initDollData = (json: string | null | undefined) => {
+   if (!json) {
+      return {};
+   }
+
+   try {
+      const data = JSON.parse(json);
+
+      if (!isObject(data)) {
+         throw new TypeError('not data');
+      }
+
+      const dollData: Record<string, Partial<Doll> | null> = {};
+
+      forOwn(data, (value, key) => {
+         if (isObject(value)) {
+            const doll = value as Record<string, any>;
+            const data: Partial<Doll> = {};
+
+            if (isString(doll.name)) {
+               data.name = doll.name;
+            }
+            if (
+               doll.rarity === 0 ||
+               doll.rarity === 1 ||
+               doll.rarity === 2 ||
+               doll.rarity === 3
+            ) {
+               data.rarity = doll.rarity;
+            }
+            if (isString(doll.iconPng)) {
+               data.iconPng = doll.iconPng;
+            }
+            if (isString(doll.iconWebp)) {
+               data.iconWebp = doll.iconWebp;
+            }
+            if (has(DollClasses, doll.dollClass)) {
+               data.dollClass = doll.dollClass;
+            }
+            if (isArray(doll.algorithms)) {
+               const algo = doll.algorithms.filter(
+                  set =>
+                     isArray(set) &&
+                     set.length === 3 &&
+                     isArray(set[1]) &&
+                     isArray(set[2]) &&
+                     has(algorithms, set[0])
+               );
+
+               const algoData = algo.map(([algorithm, p, s]) => {
+                  const primary = p.filter((st: Array<string>) =>
+                     has(stats, st)
+                  ) as Array<StatsType>;
+                  const secondary = s.filter((st: Array<string>) =>
+                     has(stats, st)
+                  ) as Array<StatsType>;
+
+                  return [algorithm, primary, secondary] as AlgorithmSet;
+               });
+
+               data.algorithms = algoData;
+            }
+            if (isObject(doll.sideIcon)) {
+               const side: any = {};
+               if (isString(doll.iconPng)) {
+                  side.iconPng = doll.iconPng;
+               }
+               if (isString(doll.iconWebp)) {
+                  side.iconWebp = doll.iconWebp;
+               }
+               data.sideIcon = side;
+            }
+            dollData[key] = data;
+         } else if (isNull(value)) {
+            dollData[key] = null;
+         }
+      });
+
+      return dollData;
+   } catch (e) {
+      console.error(e);
+      return {};
+   }
+};
 
 interface Props {
    children: React.ReactNode;
@@ -54,43 +150,38 @@ interface Props {
 
 const DollsProvider: React.FC<Props> = ({ children }) => {
    const [customDolls, setCustomDolls] = useState<
-      Record<string, Partial<Doll>>
+      Record<string, Partial<Doll> | undefined | null>
    >(
       (() => {
-         const data = localStorage.getItem('customDolls');
-         if (isNil(data)) {
-            return {};
-         }
-         return JSON.parse(data);
+         const json = localStorage.getItem('customDolls');
+         return initDollData(json);
       })()
    );
 
    const dolls = useMemo<Record<string, Doll>>(() => {
-      return merge(cloneDeep(dollData), customDolls);
+      const nullKeys = toPairs(customDolls)
+         .filter(([, value]) => isNil(value))
+         .map(([key]) => key);
 
-      // const nullKeys = toPairs(customDolls)
-      //    .filter(([, value]) => isNil(value))
-      //    .map(([key]) => key);
+      const data = omit(cloneDeep(dollData), nullKeys) as Record<string, Doll>;
+      const custom = omit(cloneDeep(customDolls), nullKeys) as Record<
+         string,
+         Doll
+      >;
 
-      // return omit(
-      //    {
-      //       ...dollData,
-      //       ...customDolls,
-      //    },
-      //    nullKeys
-      // ) as Record<string, Doll>;
+      return merge(data, custom);
    }, [customDolls]);
 
    const addDoll = useCallback(
-      (doll: Doll) => {
+      (doll: Doll): string => {
          const key = randomstring.generate(12);
 
          if (customDolls[key]) {
-            addDoll(doll);
-            return;
+            return addDoll(doll);
          }
 
          setCustomDolls(dolls => ({ ...dolls, [key]: doll }));
+         return key;
       },
       [customDolls]
    );
@@ -107,9 +198,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
 
    const removeDoll = useCallback((doll: string) => {
       setCustomDolls(dolls => {
-         const data = { ...dolls };
-         delete data[doll];
-         return data;
+         return { ...dolls, [doll]: dollData[doll] ? null : undefined };
       });
    }, []);
 
@@ -277,6 +366,7 @@ const DollsProvider: React.FC<Props> = ({ children }) => {
             editDoll,
             removeDoll,
             algorithmUsageStatistics,
+            setCustom: setCustomDolls,
          }}
       >
          {children}

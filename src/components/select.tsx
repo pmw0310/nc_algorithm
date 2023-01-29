@@ -5,7 +5,6 @@ import InputLabel from '@mui/material/InputLabel';
 import { styled } from '@mui/material/styles';
 
 const SelectStyled = styled(Select)(() => ({
-   fontFamily: 'inherit',
    '&.MuiInputBase-root': {
       '& fieldset': {
          borderColor: '#fff',
@@ -13,12 +12,8 @@ const SelectStyled = styled(Select)(() => ({
       '&:hover fieldset': {
          borderColor: '#aaa',
       },
-      // '&.Mui-focused fieldset': {
-      //    borderColor: '#ed752f',
-      // },
    },
    '.MuiSelect-select': {
-      fontFamily: 'inherit',
       display: 'flex',
       alignItems: 'center',
       color: '#fff',
@@ -42,6 +37,15 @@ const MenuItemStyled = styled(MenuItem)(() => ({
       objectFit: 'contain',
       marginRight: 6,
    },
+   '&.Mui-selected': {
+      backgroundColor: 'rgba(238, 122, 48, 0.45)',
+      '&:hover': {
+         backgroundColor: 'rgba(238, 122, 48, 0.9)',
+      },
+   },
+   '&:hover': {
+      backgroundColor: 'rgba(238, 122, 48, 0.55)',
+   },
 }));
 
 const ListSubheaderStyled = styled(ListSubheader)(() => ({
@@ -56,7 +60,6 @@ const ListSubheaderStyled = styled(ListSubheader)(() => ({
 }));
 
 const InputLabelStyled = styled(InputLabel)(() => ({
-   fontFamily: 'inherit',
    color: '#fff',
    // '&.Mui-focused': {
    //    color: '#ed752f',

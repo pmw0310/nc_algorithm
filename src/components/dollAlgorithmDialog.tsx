@@ -12,6 +12,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { DollsContext } from '../context/dolls';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const DialogStyled = styled(Dialog)(() => ({
    WebkitTouchCallout: 'none',
@@ -55,9 +59,10 @@ export const DialogContentStyled = styled(DialogContent)(() => ({
 export const DialogActionsStyled = styled(DialogActions)(() => ({
    backgroundColor: 'rgba(234,234,234,0.85)',
    justifyContent: 'center',
-   // '.MuiButtonBase-root': {
-   //    backgroundColor: '#ee7a30 !important',
-   // },
+   flexWrap: 'wrap',
+   '.MuiButtonBase-root': {
+      margin: 3,
+   },
 }));
 
 const DollAlgorithmView: React.FC = () => {
@@ -86,46 +91,80 @@ const DollAlgorithmView: React.FC = () => {
          <DialogContentStyled>
             <div className="algorithm-doll-background">
                {dollData && <DollIcon doll={dollData} />}
-               <Button
-                  variant="contained"
-                  onClick={() => {
-                     if (!showDoll) {
-                        return;
-                     }
-                     setShowDoll(['edit', showDoll[1]]);
-                  }}
-               >
-                  알고리즘 수정
-               </Button>
             </div>
             <div className="algorithm-background">
                {(() => {
                   if (!dollData) {
-                     return null;
+                     return '** error **';
                   }
 
-                  return mergeAlgorithmSet(dollData.algorithms).map(
-                     algorithm => (
-                        <AlgorithmSetView
-                           key={`dialog_${showDoll?.[1] ?? '?'}_${
-                              algorithm[0]
-                           }`}
-                           algorithmSet={algorithm}
-                           showDay
-                        />
-                     )
-                  );
+                  const data = mergeAlgorithmSet(dollData.algorithms);
+
+                  if (data.length === 0) {
+                     return (
+                        <div style={{ color: '#fff' }}>
+                           알고리즘이 없습니다.
+                        </div>
+                     );
+                  }
+
+                  return data.map(algorithm => (
+                     <AlgorithmSetView
+                        key={`dialog_${showDoll?.[1] ?? '?'}_${algorithm[0]}`}
+                        algorithmSet={algorithm}
+                        showDay
+                     />
+                  ));
                })()}
             </div>
          </DialogContentStyled>
          <DialogActionsStyled>
             <Button
                variant="contained"
+               startIcon={<CloseIcon />}
+               color="info"
                onClick={() => {
                   setShowDoll(null);
                }}
             >
                확인
+            </Button>
+            <Button
+               variant="contained"
+               startIcon={<SettingsIcon />}
+               onClick={() => {
+                  if (!showDoll) {
+                     return;
+                  }
+                  setShowDoll(['edit', showDoll[1]]);
+               }}
+            >
+               알고리즘 수정
+            </Button>
+            <Button
+               variant="contained"
+               startIcon={<ManageAccountsIcon />}
+               onClick={() => {
+                  if (!showDoll) {
+                     return;
+                  }
+                  setShowDoll(['add', showDoll[1]]);
+               }}
+            >
+               인형 수정
+            </Button>
+            <Button
+               variant="contained"
+               color="error"
+               startIcon={<DeleteIcon />}
+               onClick={() => {
+                  if (!showDoll) {
+                     return;
+                  }
+                  setShowDoll(['remove', showDoll[1]]);
+               }}
+            >
+               인형 삭제
             </Button>
          </DialogActionsStyled>
       </DialogStyled>

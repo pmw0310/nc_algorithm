@@ -8,7 +8,7 @@ interface LazyImageProps
    loadingSrc?: string;
 }
 
-const EMPTY_PNG =
+export const EMPTY_PNG =
    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
 const LazyImage: React.FC<LazyImageProps> = ({

@@ -64,7 +64,7 @@ const DollClassList: React.FC = () => {
 
    const data = useMemo<Array<DollData>>(
       () => toPairs(dolls).map(([key, doll]) => ({ ...doll, key })),
-      []
+      [dolls]
    );
 
    const classDollList = useMemo<Array<[DollClass, typeof data]>>(

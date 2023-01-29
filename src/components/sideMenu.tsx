@@ -1,25 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+   useCallback,
+   useEffect,
+   useMemo,
+   useState,
+   useContext,
+} from 'react';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import {
-   DialogStyled,
-   DialogTitleStyled,
-   DialogContentStyled,
-   DialogActionsStyled,
-} from './dollAlgorithmDialog';
-import Button from '@mui/material/Button';
 import { debounce } from 'lodash';
+import Backdrop from '@mui/material/Backdrop';
+import { SelectDollContext } from '../context/selectDoll';
+import DataObjectIcon from '@mui/icons-material/DataObject';
 
 const SideMenu: React.FC = () => {
+   const { showDoll, setShowDoll } = useContext(SelectDollContext);
+
    const [open, setOpen] = React.useState<boolean>(false);
-   const [hidden, setHidden] = React.useState<boolean>(false);
-   const [showAddDollDialog, setShowAddDollDialog] = useState<boolean>(false);
    const [scrollY, setScrollY] = useState(0);
 
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
+
+   useEffect(() => {
+      if (showDoll != null) {
+         return;
+      }
+      window.setTimeout(() => {
+         handleClose();
+      }, 10);
+   }, [showDoll]);
 
    const handleFollow = useCallback(
       debounce(() => {
@@ -35,10 +46,13 @@ const SideMenu: React.FC = () => {
       };
    });
 
+   const hidden = useMemo<boolean>(() => Boolean(showDoll), [showDoll]);
+
    return (
       <>
+         <Backdrop open={open} sx={{ zIndex: 10 }} />
          <SpeedDial
-            ariaLabel="SpeedDial basic example"
+            ariaLabel="side-menu"
             sx={{
                position: 'absolute',
                bottom: 20 - scrollY,
@@ -56,41 +70,18 @@ const SideMenu: React.FC = () => {
                tooltipTitle="인형 추가"
                tooltipOpen
                onClick={() => {
-                  setHidden(true);
-                  setShowAddDollDialog(true);
+                  setShowDoll(['add', '']);
+               }}
+            />
+            <SpeedDialAction
+               icon={<DataObjectIcon />}
+               tooltipTitle="데이터"
+               tooltipOpen
+               onClick={() => {
+                  setShowDoll(['data', '']);
                }}
             />
          </SpeedDial>
-
-         <DialogStyled
-            open={showAddDollDialog}
-            onClose={() => {
-               setShowAddDollDialog(false);
-            }}
-            maxWidth={false}
-         >
-            <DialogTitleStyled id="alert-dialog-title">
-               인형 추가
-            </DialogTitleStyled>
-            <DialogContentStyled>
-               <div className="algorithm-doll-background">test</div>
-               <div className="algorithm-background">test</div>
-            </DialogContentStyled>
-            <DialogActionsStyled>
-               <Button
-                  variant="contained"
-                  onClick={() => {
-                     setShowAddDollDialog(false);
-                     setHidden(false);
-                     window.setTimeout(() => {
-                        handleClose();
-                     }, 10);
-                  }}
-               >
-                  확인
-               </Button>
-            </DialogActionsStyled>
-         </DialogStyled>
       </>
    );
 };

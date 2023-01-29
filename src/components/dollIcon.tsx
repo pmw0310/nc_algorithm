@@ -3,7 +3,7 @@ import colorMix from '../utils/blendColors';
 import { Doll, rarityColors } from '../data/dolls';
 import { styled } from '@mui/material/styles';
 import { toPairs, fromPairs } from 'lodash';
-import LazyImage from './lazyImage';
+import LazyImage, { EMPTY_PNG } from './lazyImage';
 
 interface StyledDollIconProps {
    size: number;
@@ -79,13 +79,21 @@ const StyledDollIcon = styled('div')<StyledDollIconProps>(({ size }) => {
             ])
             .flat()
       ),
-      '&.doll-icon-disabled .doll-icon-image': {
-         filter: 'grayscale(100%) opacity(0.5)',
-      },
-      '&.doll-icon-disabled .doll-icon-rarity-border, &.doll-icon-disabled .doll-icon-rarity-background':
-         {
-            filter: 'grayscale(75%)',
+      '&.doll-icon-disabled': {
+         '.doll-icon-image': {
+            filter: 'grayscale(100%) opacity(0.5)',
          },
+         '.doll-icon-rarity-border, &.doll-icon-disabled .doll-icon-rarity-background':
+            {
+               filter: 'grayscale(75%)',
+            },
+         '.doll-icon-side-background': {
+            opacity: 0.85,
+         },
+         '.doll-icon-side-icon': {
+            opacity: 0.65,
+         },
+      },
    };
 });
 
@@ -94,6 +102,14 @@ interface DollIconProps {
    doll: Doll;
    disabled?: boolean;
 }
+
+const onError: React.ReactEventHandler<HTMLImageElement> = ({ target }) => {
+   const element = target as HTMLImageElement;
+   element.src =
+      element.className === 'doll-icon-image'
+         ? 'https://i.ibb.co/MGK1Fg0/Item-Icon-Item.jpg'
+         : EMPTY_PNG;
+};
 
 const ImageIcon: React.FC<DollIconProps> = ({
    size = 48,
@@ -110,8 +126,10 @@ const ImageIcon: React.FC<DollIconProps> = ({
          <div className="doll-icon-rarity-background" />
          <LazyImage
             className="doll-icon-image"
+            alt={doll.name}
             src={doll.iconPng}
             webp={doll.iconWebp}
+            onError={onError}
          />
          <div className="doll-icon-rarity-border" />
          {doll.sideIcon && (
@@ -121,6 +139,7 @@ const ImageIcon: React.FC<DollIconProps> = ({
                   className="doll-icon-side-icon"
                   src={doll.sideIcon.iconPng}
                   webp={doll.sideIcon.iconWebp}
+                  onError={onError}
                />
             </>
          )}
