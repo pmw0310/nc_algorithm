@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useMemo, useContext, useEffect } from 'react';
 import { compact } from 'lodash';
 import { styled } from '@mui/material/styles';
 import { rarityColors } from '../data/dolls';
@@ -21,6 +21,7 @@ import {
 } from '../data/algorithms';
 import dayToString from '../utils/dayToString';
 import colorMix from '../utils/blendColors';
+import Tooltip from '@mui/material/Tooltip';
 
 interface AlgorithmViewProps {
    showOutline?: boolean;
@@ -152,6 +153,20 @@ const AlgorithmView = styled('span')<AlgorithmViewProps>(
    })
 );
 
+const SetBonusTooltip = styled('div')(({ theme }) => ({
+   '.pcs-set': {
+      backgroundColor: theme.palette.success.main,
+      fontWeight: 'bold',
+      padding: '1px 4px',
+      borderRadius: 4,
+      lineHeight: 2,
+   },
+   '.set-bonus': {
+      padding: '1px 4px 0 4px',
+      lineHeight: 1.4,
+   },
+}));
+
 interface DollAvatarsProps {
    type: AlgorithmType;
 }
@@ -185,41 +200,58 @@ interface AlgorithmTypeViewProps {
 const AlgorithmTypeView: React.FC<AlgorithmTypeViewProps> = React.memo(
    ({ type, showDay = false }) => {
       const { day: nowDay } = useContext(DayContext);
-      const { setType, iconPng, iconWebp, name, dayObtained } =
+      const { setType, iconPng, iconWebp, name, dayObtained, setBonus } =
          algorithms[type];
       const setTypeData = algorithmSetTypes[setType];
 
       return (
-         <>
-            {showDay && (
+         <Tooltip
+            title={
                <>
-                  <div className="algorithm-day" />
-                  <div
-                     className={`algorithm-day-title${
-                        nowDay === dayObtained ? ' now-day' : ''
-                     }`}
-                  >
-                     {dayToString(dayObtained)}
-                  </div>
+                  {setBonus.map(({ pcsSet, bonus }) => (
+                     <SetBonusTooltip key={pcsSet}>
+                        <span className="pcs-set">{`${pcsSet}세트 효과`}</span>
+                        <div className="set-bonus">{bonus}</div>
+                     </SetBonusTooltip>
+                  ))}
                </>
-            )}
-            <div className="algorithm-main">
-               <LazyImage
-                  className="algorithm-icon"
-                  src={iconPng}
-                  webp={iconWebp}
-               />
-               <div className="algorithm-text">{name}</div>
-               <div className="set-type-main">
+            }
+            enterTouchDelay={100}
+            leaveTouchDelay={200}
+            placement="top"
+            arrow
+         >
+            <div>
+               {showDay && (
+                  <>
+                     <div className="algorithm-day" />
+                     <div
+                        className={`algorithm-day-title${
+                           nowDay === dayObtained ? ' now-day' : ''
+                        }`}
+                     >
+                        {dayToString(dayObtained)}
+                     </div>
+                  </>
+               )}
+               <div className="algorithm-main">
                   <LazyImage
-                     className="set-type-icon"
-                     src={setTypeData.iconPng}
-                     webp={setTypeData.iconWebp}
+                     className="algorithm-icon"
+                     src={iconPng}
+                     webp={iconWebp}
                   />
-                  <span className="set-type-title">{setTypeData.name}</span>
+                  <div className="algorithm-text">{name}</div>
+                  <div className="set-type-main">
+                     <LazyImage
+                        className="set-type-icon"
+                        src={setTypeData.iconPng}
+                        webp={setTypeData.iconWebp}
+                     />
+                     <span className="set-type-title">{setTypeData.name}</span>
+                  </div>
                </div>
             </div>
-         </>
+         </Tooltip>
       );
    }
 );
