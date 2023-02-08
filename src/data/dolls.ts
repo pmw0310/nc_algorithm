@@ -878,6 +878,31 @@ export const dollData: Readonly<Record<string, Doll>> = {
          ['cluster', ['critDamage', 'critRate'], ['skillHaste', 'critRate']],
       ],
    },
+   python: {
+      name: '파이슨',
+      rarity: 3,
+      iconPng: 'https://i.ibb.co/TkP1P3M/char-head-spic-python.png',
+      iconWebp: 'https://i.ibb.co/bQC5CJ9/char-head-spic-python.webp',
+      dollClass: 'guard',
+      algorithms: [
+         [
+            'deduction',
+            ['atkPlus', 'hashratePercent'],
+            ['physicalDefPlus', 'maxHpPlus'],
+         ],
+         ['overflow', ['maxHpPercent'], ['injuryMitigation', 'maxHpPercent']],
+         [
+            'encapsulate',
+            ['maxHpPercent'],
+            ['injuryMitigation', 'maxHpPercent'],
+         ],
+         [
+            'stratagem',
+            ['physicalDefPlus', 'skillHaste'],
+            ['physicalDefPlus', 'bodgeRate'],
+         ],
+      ],
+   },
 };
 
 export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {
