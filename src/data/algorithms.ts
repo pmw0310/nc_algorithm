@@ -62,6 +62,8 @@ export const OFFENSE_ALGORITHM_TYPE = [
    'deduction',
    'feedforward',
    'progression',
+   'limitValue',
+   'stack',
 ] as const;
 
 export const STABILITY_ALGORITHM_TYPE = [
@@ -71,6 +73,8 @@ export const STABILITY_ALGORITHM_TYPE = [
    'connection',
    'perception',
    'rationality',
+   'reflection',
+   'resolve',
 ] as const;
 
 export const SPECIAL_ALGORITHM_TYPE = [
@@ -82,6 +86,7 @@ export const SPECIAL_ALGORITHM_TYPE = [
    'inspiration',
    'convolution',
    'stratagem',
+   'exploit',
 ] as const;
 
 export const ALGORITHM_TYPE = [
@@ -393,6 +398,91 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
          {
             pcsSet: 2,
             bonus: '회피 +8%',
+         },
+      ],
+   },
+   limitValue: {
+      name: '초과 반응',
+      iconPng: 'https://i.ibb.co/4SK6G6v/limit-Value.png',
+      iconWebp: 'https://i.ibb.co/BTncFgW/limit-Value.webp',
+      dayObtained: 2,
+      setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해량 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '자신보다 체력이 높은 적에게 피해를 주면 (6%+ 적 최대 체력/자신 최대 체력)의 추가 데미지',
+         },
+      ],
+   },
+   stack: {
+      name: '추적 연산',
+      iconPng: 'https://i.ibb.co/0VPWXVz/stack.png',
+      iconWebp: 'https://i.ibb.co/ccc0Qy6/stack.webp',
+      dayObtained: 1,
+      setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기본 연산력 +15%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '3회 일반 공격을 한 이후부터 일반 공격 시 자신의 연산력 10%만큼의 추가 데미지',
+         },
+      ],
+   },
+   resolve: {
+      name: '빈사 저항',
+      iconPng: 'https://i.ibb.co/gwNpCG1/resolve.png',
+      iconWebp: 'https://i.ibb.co/4Yrnzjs/resolve.webp',
+      dayObtained: 5,
+      setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해차감 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '체력이 50% 이하로 감소했을 때 받는 데미지 10% 감소, 체력 50% 미만에서는 체력이 10% 감소할 때마다 받는 데미지 5%씩 추가 감소',
+         },
+      ],
+   },
+   reflection: {
+      name: '열적 반사',
+      iconPng: 'https://i.ibb.co/WFg2NGz/reflection.png',
+      iconWebp: 'https://i.ibb.co/GQX637G/reflection.webp',
+      dayObtained: 3,
+      setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해반사 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '반사 데미지를 입힐 때, 자신의 최대 체력 1.2%만큼의 고정 피해 데미지를 추가, 스킬이 해제될 때 자신 주위 2칸 이내의 적을 3초간 도발하며 반사 데미지를 증가',
+         },
+      ],
+   },
+   exploit: {
+      name: '취약점 확장',
+      iconPng: 'https://i.ibb.co/71QQ5rX/exploit.png',
+      iconWebp: 'https://i.ibb.co/hs9n7TH/exploit.webp',
+      dayObtained: 4,
+      setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '충전속도 +10%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '디버프를 받고 있는 적에게 주는 데미지 +10%, 적이 받고 있는 디버프 종류당 데미지 2% 증가(최대 6%)',
          },
       ],
    },
