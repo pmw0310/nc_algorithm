@@ -402,7 +402,7 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       ],
    },
    limitValue: {
-      name: '초과 반응',
+      name: '역치초과 반응',
       iconPng: 'https://i.ibb.co/4SK6G6v/limit-Value.png',
       iconWebp: 'https://i.ibb.co/BTncFgW/limit-Value.webp',
       dayObtained: 2,
@@ -419,7 +419,7 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       ],
    },
    stack: {
-      name: '추적 연산',
+      name: '연산자 중첩',
       iconPng: 'https://i.ibb.co/0VPWXVz/stack.png',
       iconWebp: 'https://i.ibb.co/ccc0Qy6/stack.webp',
       dayObtained: 1,
@@ -436,7 +436,7 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       ],
    },
    resolve: {
-      name: '빈사 저항',
+      name: '낮은값 저항',
       iconPng: 'https://i.ibb.co/gwNpCG1/resolve.png',
       iconWebp: 'https://i.ibb.co/4Yrnzjs/resolve.webp',
       dayObtained: 5,
@@ -453,7 +453,7 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       ],
    },
    reflection: {
-      name: '열적 반사',
+      name: '열축적 반사',
       iconPng: 'https://i.ibb.co/WFg2NGz/reflection.png',
       iconWebp: 'https://i.ibb.co/GQX637G/reflection.webp',
       dayObtained: 3,
