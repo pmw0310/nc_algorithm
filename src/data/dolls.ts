@@ -904,6 +904,47 @@ export const dollData: Readonly<Record<string, Doll>> = {
          // ],
       ],
    },
+   nascita: {
+      name: '나시타',
+      rarity: 3,
+      iconPng: 'https://i.ibb.co/YhBzPnG/nascita.png',
+      iconWebp: 'https://i.ibb.co/FX1mW1g/nascita.webp',
+      dollClass: 'warrior',
+      algorithms: [
+         ['mlrMatrix', ['atkPercent'], ['atkPercent', 'damageBoost']],
+         ['limitValue', ['atkPercent'], ['atkPercent', 'damageBoost']],
+         ['encapsulate', ['maxHpPercent'], ['atkPlus', 'injuryMitigation']],
+         ['perception', ['maxHpPercent'], ['atkPlus', 'injuryMitigation']],
+         [
+            'paradigm',
+            ['critRate', 'critDamage'],
+            ['atkPlus', 'critDamage', 'skillHaste'],
+         ],
+      ],
+   },
+   puzzle: {
+      name: '퍼즐',
+      rarity: 3,
+      iconPng: 'https://i.ibb.co/DttCLw3/puzzle.png',
+      iconWebp: 'https://i.ibb.co/59nTpYx/puzzle.webp',
+      dollClass: 'specialist',
+      algorithms: [
+         ['stack', ['hashratePercent'], ['hashratePlus', 'hashratePercent']],
+         [
+            'progression',
+            ['hashratePercent'],
+            ['hashratePlus', 'hashratePercent'],
+         ],
+         [
+            'encapsulate',
+            ['maxHpPercent'],
+            ['hashratePlus', 'injuryMitigation'],
+         ],
+         ['resolve', ['maxHpPercent'], ['hashratePlus', 'injuryMitigation']],
+         ['exploit', ['skillHaste'], ['hashratePlus', 'skillHaste']],
+         ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
+      ],
+   },
 };
 
 export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {

@@ -277,11 +277,13 @@ interface AlgorithmProps {
    showDoll?: boolean;
    showDay?: boolean;
    algorithmSet: AlgorithmSet;
+   showSecondary?: boolean;
 }
 
 const AlgorithmSetView: React.FC<AlgorithmProps> = ({
    showDoll = false,
    showDay = false,
+   showSecondary = true,
    algorithmSet: [algorithmKey, primaryKeys, secondaryKey],
 }) => {
    const { day: nowDay } = useContext(DayContext);
@@ -319,23 +321,25 @@ const AlgorithmSetView: React.FC<AlgorithmProps> = ({
                   )
                )}
             </Stack>
-            <Stack
-               className="state-box state-secondary"
-               direction="column"
-               divider={<Divider />}
-               spacing={0}
-            >
-               {(secondary.length > 0 ? secondary : [freeStats])?.map(
-                  ({ iconPng, iconWebp, name, key }) => (
-                     <StateView
-                        key={`${algorithmKey}_${key}_secondary`}
-                        iconPng={iconPng}
-                        iconWebp={iconWebp}
-                        name={name}
-                     />
-                  )
-               )}
-            </Stack>
+            {showSecondary && (
+               <Stack
+                  className="state-box state-secondary"
+                  direction="column"
+                  divider={<Divider />}
+                  spacing={0}
+               >
+                  {(secondary.length > 0 ? secondary : [freeStats])?.map(
+                     ({ iconPng, iconWebp, name, key }) => (
+                        <StateView
+                           key={`${algorithmKey}_${key}_secondary`}
+                           iconPng={iconPng}
+                           iconWebp={iconWebp}
+                           name={name}
+                        />
+                     )
+                  )}
+               </Stack>
+            )}
             {showDoll && <DollAvatars type={algorithmKey} />}
          </div>
       </div>
