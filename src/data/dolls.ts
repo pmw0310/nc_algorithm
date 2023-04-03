@@ -945,6 +945,24 @@ export const dollData: Readonly<Record<string, Doll>> = {
          ['deltaV', ['skillHaste'], ['hashratePlus', 'skillHaste']],
       ],
    },
+   helix: {
+      name: '헬릭스',
+      rarity: 3,
+      iconPng: 'https://i.ibb.co/z5cwbk0/helix.png',
+      iconWebp: 'https://i.ibb.co/fDPRG0Z/helix.webp',
+      dollClass: 'medic',
+      algorithms: [
+         [
+            'progression',
+            ['hashratePercent'],
+            ['hashratePlus', 'hashratePercent'],
+         ],
+         ['stack', ['hashratePercent'], ['hashratePlus', 'hashratePercent']],
+         ['encapsulate', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['perception', ['maxHpPlus'], ['hashratePlus', 'injuryMitigation']],
+         ['svm', ['skillHaste'], ['hashratePlus', 'skillHaste']],
+      ],
+   },
 };
 
 export const DollClasses: Readonly<Record<DollClass, DollClassData>> = {
