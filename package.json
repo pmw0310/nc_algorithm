@@ -1,5 +1,5 @@
 {
-   "homepage": "https://algo.blackolf.dev",
+   "homepage": "https://pmw0310.github.io/nc_algorithm",
    "name": "nc_algorithm",
    "version": "1.0.0",
    "private": true,
@@ -37,7 +37,7 @@
       "build": "./buildTime.sh && react-scripts build",
       "test": "./buildTime.sh && react-scripts test",
       "eject": "react-scripts eject",
-      "predeploy": "./buildTime.sh && npm run build && cp CNAME ./build",
+      "predeploy": "./buildTime.sh && npm run build",
       "deploy": "gh-pages -d build"
    },
    "eslintConfig": {
