@@ -180,6 +180,7 @@ const WeekAlgorithmView: React.FC = () => {
                            key={`day_${day}_${set[0]}`}
                            algorithmSet={set}
                            showDoll
+                           showSecondary={false}
                         />
                      ));
                   })()}

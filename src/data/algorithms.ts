@@ -19,6 +19,10 @@ export interface AlgorithmData {
    iconWebp: string;
    dayObtained: DayObtained;
    setType: AlgorithmSetType;
+   setBonus: Array<{
+      pcsSet: number;
+      bonus: string;
+   }>;
 }
 
 export interface AlgorithmSetTypeData {
@@ -58,6 +62,8 @@ export const OFFENSE_ALGORITHM_TYPE = [
    'deduction',
    'feedforward',
    'progression',
+   'limitValue',
+   'stack',
 ] as const;
 
 export const STABILITY_ALGORITHM_TYPE = [
@@ -67,6 +73,8 @@ export const STABILITY_ALGORITHM_TYPE = [
    'connection',
    'perception',
    'rationality',
+   'reflection',
+   'resolve',
 ] as const;
 
 export const SPECIAL_ALGORITHM_TYPE = [
@@ -78,6 +86,7 @@ export const SPECIAL_ALGORITHM_TYPE = [
    'inspiration',
    'convolution',
    'stratagem',
+   'exploit',
 ] as const;
 
 export const ALGORITHM_TYPE = [
@@ -98,6 +107,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/9Wmf9mZ/algorithm-set-icon-suit-06.webp',
       dayObtained: 5,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '효과저항 +50',
+         },
+         {
+            pcsSet: 3,
+            bonus: '적에게 입힌 피해량의 10% 만큼 체력으로 전환',
+         },
+      ],
    },
    lowerLimit: {
       name: '최소 역치',
@@ -105,6 +124,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/5KCnY41/algorithm-set-icon-suit-04.webp',
       dayObtained: 2,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '체력흡수 +10%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '체력이 15% 미만일 때 10초간 공격속도 +50, 공격력 10%, 피해차감 +30%. 전투마다 1회 발동가능.',
+         },
+      ],
    },
    mlrMatrix: {
       name: '이질 회귀',
@@ -112,6 +141,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/rwm0Cxz/algorithm-set-icon-suit-10.webp',
       dayObtained: 5,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '주는 피해량 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '적 유닛을 쓰러뜨리면 해당 전투 동안 상대의 공격력, 연산력, 체력 상한의 12%를 탈취하고 그만큼 회복한다. (중복 시 최고치로 갱신)',
+         },
+      ],
    },
    deduction: {
       name: '추론',
@@ -119,6 +158,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/p1Vb3gg/algorithm-set-icon-suit-19.webp',
       dayObtained: 4,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '공격속도 +30',
+         },
+      ],
    },
    feedforward: {
       name: '예측',
@@ -126,6 +171,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/82kMRs0/algorithm-set-icon-suit-12.webp',
       dayObtained: 2,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기초 공격력 +15%',
+         },
+      ],
    },
    progression: {
       name: '점진',
@@ -133,6 +184,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/0F3CyS7/algorithm-set-icon-suit-15.webp',
       dayObtained: 3,
       setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기초 연산력 +15%',
+         },
+      ],
    },
    encapsulate: {
       name: '코드 캡슐화',
@@ -140,6 +197,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/qMRgBsQ/algorithm-set-icon-suit-07.webp',
       dayObtained: 1,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해차감 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '지원 능력을 얻어 현재 체력이 가장 낮은 아군이 받는 피해량의 30%를 대신 받는다.',
+         },
+      ],
    },
    iteration: {
       name: '머신러닝',
@@ -147,6 +214,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/1s238sR/algorithm-set-icon-suit-08.webp',
       dayObtained: 1,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해반사 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '전투 종료 시 쓰러지지 않았을 경우 최대 체력의 15%만큼 체력을 회복한다.',
+         },
+      ],
    },
    overflow: {
       name: '오버플로우',
@@ -154,6 +231,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/16PntRc/algorithm-set-icon-suit-09.webp',
       dayObtained: 2,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '5초당 회복 +2%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '전투 시작 시 자신에게 물리 방어력 500%만큼의 보호막을 생성한다.',
+         },
+      ],
    },
    connection: {
       name: '연결',
@@ -161,6 +248,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/wKgL2N0/algorithm-set-icon-suit-18.webp',
       dayObtained: 3,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '효과저항 +50',
+         },
+      ],
    },
    perception: {
       name: '감지',
@@ -168,6 +261,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/4pRRdz0/algorithm-set-icon-suit-11.webp',
       dayObtained: 1,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기초 체력 +15%',
+         },
+      ],
    },
    rationality: {
       name: '이성',
@@ -175,6 +274,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/R72Q1dh/algorithm-set-icon-suit-17.webp',
       dayObtained: 2,
       setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기초 방어력 +15%',
+         },
+      ],
    },
    deltaV: {
       name: '벡터 가속',
@@ -182,6 +287,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/QC0wx5m/algorithm-set-icon-suit-03.webp',
       dayObtained: 4,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '충전속도 +10%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '일반공격 3회마다 스킬 충전량 +1초',
+         },
+      ],
    },
    loopGain: {
       name: '양성 피드백',
@@ -189,6 +304,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/M2G57x8/algorithm-set-icon-suit-01.webp',
       dayObtained: 3,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '치료효과 +7.5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '아군을 치료할 때 4초간 대상이 받는 치료량을 20% 상승시킨다.',
+         },
+      ],
    },
    paradigm: {
       name: '행렬 구조',
@@ -196,6 +321,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/M6pR1C9/algorithm-set-icon-suit-05.webp',
       dayObtained: 4,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '공격속도 +30',
+         },
+         {
+            pcsSet: 3,
+            bonus: '치명타 4회마다 적에게 현재 체력 9%만큼의 고정피해를 준다. 단 연산력의 2배를 넘지 않음.',
+         },
+      ],
    },
    svm: {
       name: '서포트 벡터',
@@ -203,6 +338,16 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/p19Vgbk/algorithm-set-icon-suit-02.webp',
       dayObtained: 3,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '치료효과 +7.5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '치료효과 +10%, 치료 대상의 체력이 45% 미만일 경우 치료효과 +30%.',
+         },
+      ],
    },
    cluster: {
       name: '집속',
@@ -210,6 +355,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/8jPwKBh/algorithm-set-icon-suit-13.webp',
       dayObtained: 5,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '치명률 +10%',
+         },
+      ],
    },
    inspiration: {
       name: '계몽',
@@ -217,6 +368,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/VVb5MKh/algorithm-set-icon-suit-14.webp',
       dayObtained: 1,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '5초당 회복 +2%',
+         },
+      ],
    },
    convolution: {
       name: '합성곱',
@@ -224,6 +381,12 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/S3smz9S/algorithm-set-icon-suit-16.webp',
       dayObtained: 4,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '치명타 피해 +20%',
+         },
+      ],
    },
    stratagem: {
       name: '게임론',
@@ -231,6 +394,97 @@ export const algorithms: Readonly<Record<AlgorithmType, AlgorithmData>> = {
       iconWebp: 'https://i.ibb.co/HPssyLt/algorithm-set-icon-suit-20.webp',
       dayObtained: 5,
       setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '회피 +8%',
+         },
+      ],
+   },
+   limitValue: {
+      name: '역치초과 반응',
+      iconPng: 'https://i.ibb.co/4SK6G6v/limit-Value.png',
+      iconWebp: 'https://i.ibb.co/BTncFgW/limit-Value.webp',
+      dayObtained: 2,
+      setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해량 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '자신보다 체력이 높은 적에게 피해를 주면 (6%+ 적 최대 체력/자신 최대 체력)의 추가 데미지',
+         },
+      ],
+   },
+   stack: {
+      name: '연산자 중첩',
+      iconPng: 'https://i.ibb.co/0VPWXVz/stack.png',
+      iconWebp: 'https://i.ibb.co/ccc0Qy6/stack.webp',
+      dayObtained: 1,
+      setType: 'offense',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '기본 연산력 +15%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '3회 일반 공격을 한 이후부터 일반 공격 시 자신의 연산력 10%만큼의 추가 데미지',
+         },
+      ],
+   },
+   resolve: {
+      name: '낮은값 저항',
+      iconPng: 'https://i.ibb.co/gwNpCG1/resolve.png',
+      iconWebp: 'https://i.ibb.co/4Yrnzjs/resolve.webp',
+      dayObtained: 5,
+      setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해차감 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '체력이 50% 이하로 감소했을 때 받는 데미지 10% 감소, 체력 50% 미만에서는 체력이 10% 감소할 때마다 받는 데미지 5%씩 추가 감소',
+         },
+      ],
+   },
+   reflection: {
+      name: '열축적 반사',
+      iconPng: 'https://i.ibb.co/WFg2NGz/reflection.png',
+      iconWebp: 'https://i.ibb.co/GQX637G/reflection.webp',
+      dayObtained: 3,
+      setType: 'stability',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '피해반사 +5%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '반사 데미지를 입힐 때, 자신의 최대 체력 1.2%만큼의 고정 피해 데미지를 추가, 스킬이 해제될 때 자신 주위 2칸 이내의 적을 3초간 도발하며 반사 데미지를 증가',
+         },
+      ],
+   },
+   exploit: {
+      name: '취약점 확장',
+      iconPng: 'https://i.ibb.co/71QQ5rX/exploit.png',
+      iconWebp: 'https://i.ibb.co/hs9n7TH/exploit.webp',
+      dayObtained: 4,
+      setType: 'special',
+      setBonus: [
+         {
+            pcsSet: 2,
+            bonus: '충전속도 +10%',
+         },
+         {
+            pcsSet: 3,
+            bonus: '디버프를 받고 있는 적에게 주는 데미지 +10%, 적이 받고 있는 디버프 종류당 데미지 2% 증가(최대 6%)',
+         },
+      ],
    },
 };
 
